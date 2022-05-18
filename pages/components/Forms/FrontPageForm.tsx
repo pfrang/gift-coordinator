@@ -4,9 +4,7 @@ import mongoDB from '../../../sql-nodejs/cosmosdb/app'
 import { useRouter } from 'next/router';
 
 
-
-
-function FrontPageForm(props) {
+function FrontPageForm() {
 
 
   const [text, setText] = useState('')

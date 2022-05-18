@@ -3,7 +3,6 @@ import productFetcher from '../api/hello';
 
 
 function ItemTable(props) {
-
   const onSubmit = async (e) => {
     e.preventDefault()
     const query = "hi"
