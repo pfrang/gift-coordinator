@@ -10,10 +10,10 @@ function ItemTable(props) {
     console.log(response)
   }
   return (
-    <div>
+    <div className='border-2'>
       <p className='text-rose-600'><b>{props.name}</b>'s Wish List !</p>
       <form onSubmit={onSubmit}>
-        <label className='block' htmlFor="wish" >Navn</label>
+        <label className='block' htmlFor="wish" >Gjenstand</label>
         <input className='border-4 border-indigo-600' placeholder='Add wish' type="text" name="" id="wish" />
         <input className='p-1 rounded bg-black text-white' type="submit" />
       </form>

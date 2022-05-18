@@ -13,15 +13,15 @@ export default function LobbyPage(props) {
 
 
   useEffect(() => {
-  },[form])
+  },[props])
 
   const names = props.response.name
   return (
-    <div className='p-20 grid grid-cols-6 grid-rows-3 content-center'>
+    <div className='p-20 grid grid-cols-6 grid-rows-3 gap-2 content-center'>
       <button className="h-8 w-8 text-red-500" onClick={() => setForm((prevState) =>!prevState)}>
         <svg className="h-8 w-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
       </button>
-      {form && <LobbyForm val={form} onClick={setForm}/>}
+      {form && <LobbyForm names={names} val={form} onClick={setForm}/>}
       {names.map((item,idx) => {
         return <ItemTable name={item} key={idx} />
       })}

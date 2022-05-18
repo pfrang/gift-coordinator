@@ -12,14 +12,13 @@ function LobbyForm(props) {
 
   const db = new mongoDB
   const onSubmit = async (e) => {
-    e.preventDefault()
     props.onClick(false)
     const item = {
       id: lobbyid,
-      name: [name]
+      name: [name,...props.names]
     }
     const response = await db.update(item)
-    console.log(response)
+    router.reload()
   }
   return (
     <form onSubmit={onSubmit}>

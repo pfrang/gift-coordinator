@@ -22,7 +22,7 @@ class mongoDB {
   constructor() {
     const { endpoint, key, databaseId, containerId, AccountEndpoint } = config;
 
-    this.client = new CosmosClient(AccountEndpoint);
+    this.client = new CosmosClient(process.env.NEXT_PUBLIC_ACCOUNTENDPOINT);
 
     this.database = this.client.database(databaseId);
     this.container = this.database.container(containerId);
