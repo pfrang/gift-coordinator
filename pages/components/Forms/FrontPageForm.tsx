@@ -19,7 +19,6 @@ function FrontPageForm() {
     const regex = new RegExp('[0-9]{5}')
     const errorTag = document.getElementById("error")
     if (!regex.test(text)) {
-
       errorTag.innerHTML = "Please input a 5-digit lobby ID"
       return
     }
@@ -38,7 +37,7 @@ function FrontPageForm() {
         id: text
       }
       try {
-        const response = await db.insert(item);
+        const response = await db.createLobby(item);
         router.push(`/lobby/${text}`)
       } catch (err) {
         console.error(err)

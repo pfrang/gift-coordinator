@@ -8,16 +8,25 @@ function LobbyForm(props) {
 
   const [name, setName] = useState('')
   const router = useRouter()
-  const lobbyid = router.asPath.split("/").pop()
+  const lobbyid = router.asPath.split("/").pop().replace('?','')
 
   const db = new mongoDB
   const onSubmit = async (e) => {
     props.onClick(false)
-    const item = {
-      id: lobbyid,
-      name: [name,...props.names]
+    let item;
+    if (!props.names) {
+      item = {
+        id: lobbyid,
+        name: [name]
+      }
+    } else {
+      item = {
+        id: lobbyid,
+        name: [name, ...props.names]
+      }
     }
     const response = await db.update(item)
+    console.log(response)
     router.reload()
   }
   return (

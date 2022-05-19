@@ -36,7 +36,7 @@ class mongoDB {
     return response
   }
 
-  insert = async (query) => {
+  createLobby = async (query) => {
     const response = await this.container.items.create(query)
     return response
   }
