@@ -23,5 +23,6 @@ export default async function productFetcher(
 
   const response = axiosInstance.get('/c/lopesko')
 
+  // const response = fetch('https://www.prisjakt.no/c/lopesko').then((res) => res.json())
   return response
 }

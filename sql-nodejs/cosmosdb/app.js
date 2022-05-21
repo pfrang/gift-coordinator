@@ -46,6 +46,13 @@ class mongoDB {
     const response = await this.container.item(id).replace(query);
     return response
   }
+
+  updateItems = async ( query) => {
+    const { id, name } = query
+    const response = await this.container.item(id, name).replace(query);
+    return response
+
+  }
 }
 
 export default mongoDB;

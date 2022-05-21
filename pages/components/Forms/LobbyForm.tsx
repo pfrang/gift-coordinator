@@ -17,18 +17,19 @@ function LobbyForm(props) {
     if (!props.names) {
       item = {
         id: lobbyid,
-        name: [name]
+        people: [{name: name, items: {}}]
       }
     } else {
       item = {
         id: lobbyid,
-        name: [name, ...props.names]
+        people: [name, ...props.names]
       }
     }
     const response = await db.update(item)
     console.log(response)
     router.reload()
   }
+
   return (
     <form onSubmit={onSubmit}>
       <div className="mb-6">
