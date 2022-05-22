@@ -38,6 +38,7 @@ function ItemTable(props) {
     // list.insertAdjacentHTML("afterbegin", `<li>${input}</li>`)
     // const query = populateQuery(input)
     const updateCosmo = await db.updateItems()
+    console.log(updateCosmo)
     // const response = await productFetcher(query)
     // console.log(response)
   }

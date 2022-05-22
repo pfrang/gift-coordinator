@@ -7,6 +7,6 @@
         "start": "node app.js"
     },
     "dependencies": {
-        "@azure/cosmos": "3.9.1"
+        "@azure/cosmos": "^3.15.1"
     }
 }
