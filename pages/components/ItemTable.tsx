@@ -32,14 +32,14 @@ function ItemTable(props) {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    const input = e.target.children[0].value
-    e.target.children[0].value = ""
-    const list = document.getElementById(`list-${props.index}`)
-    list.insertAdjacentHTML("afterbegin", `<li>${input}</li>`)
-    const query = populateQuery(input)
-    const updateCosmo = await db.updateItems(query)
-    const response = await productFetcher(query)
-    console.log(response)
+    // const input = e.target.children[0].value
+    // e.target.children[0].value = ""
+    // const list = document.getElementById(`list-${props.index}`)
+    // list.insertAdjacentHTML("afterbegin", `<li>${input}</li>`)
+    // const query = populateQuery(input)
+    const updateCosmo = await db.updateItems()
+    // const response = await productFetcher(query)
+    // console.log(response)
   }
   return (
     <div className='border-2'>

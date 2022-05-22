@@ -48,9 +48,9 @@ class mongoDB {
   }
 
   updateItems = async ( query) => {
-    const { id, name } = query
-    const response = await this.container.item(id, name).replace(query);
-    return response
+    // const { id, name } = query
+    const { resource: updatedItem } = await this.container.item("34323", name).replace(query);
+    return updatedItem
 
   }
 }

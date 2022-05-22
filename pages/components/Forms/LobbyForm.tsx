@@ -22,7 +22,7 @@ function LobbyForm(props) {
     } else {
       item = {
         id: lobbyid,
-        people: [name, ...props.names]
+        people: [{ name: name, items: {} }, ...props.names]
       }
     }
     const response = await db.update(item)
