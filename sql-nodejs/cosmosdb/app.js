@@ -1,9 +1,9 @@
 // @ts-check
 
-import { AccountEndpoint } from "./config";
+import { AccountEndpoint, partitionKey } from "./config";
 
 //  <ImportConfiguration>
-const CosmosClient = require("@azure/cosmos").CosmosClient;
+import { CosmosClient, PatchOperation } from "@azure/cosmos";
 const config = require("./config");
 const dbContext = require("./data/databaseContext");
 //  </ImportConfiguration>
@@ -19,9 +19,9 @@ const newItem = {
 //  </DefineNewItem>
 
 class mongoDB {
-  client: any
-  container: any
-  database: any
+  // client: any
+  // container: any
+  // database: any
   constructor() {
     const { endpoint, key, databaseId, containerId, AccountEndpoint } = config;
 
@@ -53,14 +53,18 @@ class mongoDB {
   updateItems = async () => {
     // const { id, name } = query
     const { id } = { id: 34323 }
-    let add = "add" as const;
+    // let add = "add" as const;
     const operations =
       [{
-        op: add, path: "/hello", value: "turid"
+        op: "add", path: "/people/0/items/-", value: {description: "test2", price: "100"}
       }];
-    const item = await this.container.item("34323").read();
-    return item
 
+    const query = {
+      id: "23221",
+      people: [{name: "Espen", items: {}}]
+    }
+    const item = await this.container.item("23221","23221").patch(operations);
+    return item
   }
 }
 

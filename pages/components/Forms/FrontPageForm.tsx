@@ -16,7 +16,7 @@ function FrontPageForm() {
   const onSubmit = async (e) => {
     e.preventDefault()
     const type = e.target.value
-    const regex = new RegExp('[0-9]{5}')
+    const regex = new RegExp('[0-9]{5}$')
     const errorTag = document.getElementById("error")
     if (!regex.test(text)) {
       errorTag.innerHTML = "Please input a 5-digit lobby ID"

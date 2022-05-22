@@ -17,7 +17,7 @@ function LobbyForm(props) {
     if (!props.names) {
       item = {
         id: lobbyid,
-        people: [{name: name, items: {}}]
+        people: [{name: name, items: [{description: "Sykkel", price: 100}]}]
       }
     } else {
       item = {
