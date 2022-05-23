@@ -44,27 +44,28 @@ class mongoDB {
     return response
   }
 
-  update = async (query) => {
-    const { id } = query
-    const response = await this.container.item(id).replace(query);
+  updateNewName = async (query) => {
+    const { id, name } = query
+    const operations =
+      [{
+        op: "add", path: `/people/0`, value: {name: name, items: [] }
+      }];
+
+    const response = await this.container.item(id,id).patch(operations);
     return response
   }
 
-  updateItems = async () => {
+  updateItems = async (info) => {
     // const { id, name } = query
-    const { id } = { id: 34323 }
+    const { id, index, item } = info
     // let add = "add" as const;
     const operations =
       [{
-        op: "add", path: "/people/0/items/-", value: {description: "test2", price: "100"}
+        op: "add", path: `/people/${index}/items/-`, value: {description: item }
       }];
 
-    const query = {
-      id: "23221",
-      people: [{name: "Espen", items: {}}]
-    }
-    const item = await this.container.item("23221","23221").patch(operations);
-    return item
+    const response = await this.container.item(id,id).patch(operations);
+    return response
   }
 }
 

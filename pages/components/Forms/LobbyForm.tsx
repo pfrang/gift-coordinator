@@ -13,19 +13,22 @@ function LobbyForm(props) {
   const db = new mongoDB
   const onSubmit = async (e) => {
     props.onClick(false)
-    let item;
-    if (!props.names) {
-      item = {
-        id: lobbyid,
-        people: [{name: name, items: [{description: "Sykkel", price: 100}]}]
-      }
-    } else {
-      item = {
-        id: lobbyid,
-        people: [{ name: name, items: {} }, ...props.names]
-      }
+    const query = {
+      id: lobbyid,
+      name: name
     }
-    const response = await db.update(item)
+    // if (!props.names) {
+    //   item = {
+    //     id: lobbyid,
+    //     people: [{name: name, items: []}]
+    //   }
+    // } else {
+    //   item = {
+    //     id: lobbyid,
+    //     people: [{ name: name, items: [] }, ...props.names]
+    //   }
+    // }
+    const response = await db.updateNewName(query)
     console.log(response)
     router.reload()
   }

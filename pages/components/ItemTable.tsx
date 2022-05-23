@@ -3,6 +3,7 @@ import productFetcher from '../api/hello';
 import SortableJS from 'sortablejs';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
+import ListItem from './ListItem';
 
 
 
@@ -35,10 +36,17 @@ function ItemTable(props) {
     const input = e.target.children[0].value
     e.target.children[0].value = ""
     const list = document.getElementById(`list-${props.index}`)
-    list.insertAdjacentHTML("afterbegin", `<li>${input}</li>`)
+    list.insertAdjacentHTML("beforeend", `<li>${input}</li>`)
+    const info = {
+      id: lobbyid,
+      index: props.index,
+      item: input
+    }
     // const query = populateQuery(input)
-    const updateCosmo = await db.updateItems()
+    const updateCosmo = await db.updateItems(info)
     console.log(updateCosmo)
+    return updateCosmo
+
     // const response = await productFetcher(query)
     // console.log(response)
   }
@@ -46,6 +54,9 @@ function ItemTable(props) {
     <div className='border-2'>
       <p className='text-rose-600 border-b-2 border-black'><b>{props.name}</b>'s Wish List !</p>
       <ul id={`list-${props.index}`}>
+        {props.items && props.items.map((item,idx) => {
+          return <li className='border-b-2' key={idx}>{item.description}</li>
+        }) }
       </ul>
       <form className='relative' onSubmit={onSubmit}>
         <input className='border-4 border-indigo-600 max-w-full' placeholder='Add wish' type="text" name="" id="wish" />
@@ -54,18 +65,6 @@ function ItemTable(props) {
           <svg className="absolute -left-8 top-0 h-8 w-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
         </label>
       </form>
-      {/* <table className="border-collapse">
-        <thead>
-          <tr className='border-b-4'>
-            <th>{props.name}</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-          <tr className='relative border-b-4'>
-            <td><input className='maw-w-full' type="text" name="" id="" /></td>
-          </tr>
-        </tbody>
-      </table> */}
     </div>
   );
 }

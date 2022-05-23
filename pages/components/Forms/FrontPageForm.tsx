@@ -34,7 +34,8 @@ function FrontPageForm() {
     }
     else if (type === "Create") {
       const item = {
-        id: text
+        id: text,
+        people: []
       }
       try {
         const response = await db.createLobby(item);

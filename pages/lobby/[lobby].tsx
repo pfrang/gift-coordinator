@@ -10,9 +10,6 @@ import ItemTable from '../components/ItemTable';
 export default function LobbyPage(props) {
   const [form, setForm] = useState(false)
 
-  useEffect(() => {
-  },[props])
-
   const elements = props.response.people
   return (
     <div className='p-20 grid grid-cols-6 grid-rows-3 gap-12 content-center'>
