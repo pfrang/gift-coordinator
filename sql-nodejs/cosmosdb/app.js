@@ -19,9 +19,6 @@ const newItem = {
 //  </DefineNewItem>
 
 class mongoDB {
-  // client: any
-  // container: any
-  // database: any
   constructor() {
     const { endpoint, key, databaseId, containerId, AccountEndpoint } = config;
 
@@ -41,6 +38,17 @@ class mongoDB {
 
   createLobby = async (query) => {
     const response = await this.container.items.create(query)
+    return response
+  }
+
+  updateLobbyDescription = async (query) => {
+    const { id, name } = query
+    const operations =
+      [{
+        op: "set", path: `/description`, value: name
+      }];
+
+    const response = await this.container.item(id, id).patch(operations);
     return response
   }
 

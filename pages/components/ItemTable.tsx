@@ -13,24 +13,6 @@ function ItemTable(props) {
   const router = useRouter()
   const lobbyid = router.asPath.split("/").pop().replace('?', '')
 
-  const populateQuery = (item) => {
-    let query;
-    if (!props.items) {
-      query = {
-        id: lobbyid,
-        name: props.name,
-        items: [item]
-      }
-    } else {
-      query = {
-        id: lobbyid,
-        name: props.name,
-        items: [item, ...props.items]
-      }
-    }
-    return query
-  }
-
   const onSubmit = async (e) => {
     e.preventDefault()
     const input = e.target.children[0].value
@@ -42,7 +24,7 @@ function ItemTable(props) {
       index: props.index,
       item: input
     }
-    // const query = populateQuery(input)
+
     const updateCosmo = await db.updateItems(info)
     console.log(updateCosmo)
     return updateCosmo
