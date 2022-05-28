@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faE, faEdit } from '@fortawesome/free-solid-svg-icons'
-import React, { useEffect, useState } from 'react';
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import React, { useState } from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import LobbyForm from '../components/Forms/LobbyForm';
 import ItemTable from '../components/ItemTable';
