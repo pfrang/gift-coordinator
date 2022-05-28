@@ -25,13 +25,10 @@ function ItemTable(props) {
     const updateCosmo = await db.updateItems(info)
     console.log(updateCosmo)
     return updateCosmo
-
-    // const response = await productFetcher(query)
-    // console.log(response)
   }
   return (
     <div className='border-2'>
-      <p className='text-rose-600 border-b-2 border-black'><b>{props.name}</b>'s Wish List !</p>
+      <p className='text-rose-600 border-b-2 border-black'><b>{props.name}</b>{`'s Wish List !`}</p>
       <ul id={`list-${props.index}`}>
         {props.items && props.items.map((item,idx) => {
           return <li className='border-b-2' key={idx}>{item.description}</li>
