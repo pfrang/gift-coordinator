@@ -30,7 +30,7 @@ export default function LobbyPage(props) {
     try {
       const response = await db.updateLobbyDescription(query);
       console.log(response)
-    } catch(e) {
+    } catch (e) {
       console.log(e, "error")
     }
     setEdit(true)
@@ -47,20 +47,25 @@ export default function LobbyPage(props) {
   }
   return (
     <div>
-      <div className='flex h-[100px] justify-center'>
-        {/* <h2 className='text-center text-lg px-4'>{description}</h2> */}
-        <form onSubmit={onSubmit} className='h-8'>
-          <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
-          <input type="submit" value="" />
-        </form>
-        {/* <input className='border-2' type="text" name="" id="" value={description}/> */}
-        <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={onEditClick} />
+      <div className='px-5 flex h-[100px] justify-between'>
+        <div className='flex'>
+          <button className="h-10 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
+            Add Person
+          </button>
+          {form && <LobbyForm names={elements} val={form} onClick={setForm} />}
+        </div>
+        <div className={form ? 'hidden' : 'flex'}>
+          <form onSubmit={onSubmit} className='h-8'>
+            <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
+            <input type="submit" value="" />
+          </form>
+          <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={onEditClick} />
+        </div>
+        <div>
+        </div>
       </div>
-      <div className='p-10 grid grid-cols-6 grid-rows-3 gap-12 content-center'>
-        <button className="h-8 w-8 text-red-500" onClick={() => setForm((prevState) => !prevState)}>
-          <svg className="h-8 w-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
-        </button>
-        {form && <LobbyForm names={elements} val={form} onClick={setForm} />}
+
+      <div className='px-5 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
         {elements && elements.map((item, idx) => {
           return <ItemTable name={item.name} items={item.items} index={idx} key={idx} />
         })}
