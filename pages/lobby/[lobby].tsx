@@ -40,7 +40,7 @@ export default function LobbyPage(props) {
 
   const onEditClick = () => {
     setEdit(false)
-    const inputField = document.getElementById("input")
+    const inputField = document.getElementById("input") as HTMLInputElement
     // inputField.addEventListener('change', editVal)
     inputField.focus()
     inputField.select()
