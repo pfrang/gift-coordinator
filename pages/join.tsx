@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import mongoDB from '../sql-nodejs/cosmosdb'
+import mongoDB from '../sql-nodejs/cosmosdb/app'
 import { useRouter } from 'next/router';
 
 function JoinPage() {

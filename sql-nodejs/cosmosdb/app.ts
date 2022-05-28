@@ -1,24 +1,15 @@
 // @ts-check
 
-import { AccountEndpoint, partitionKey } from "./config";
-
 //  <ImportConfiguration>
 import { CosmosClient, PatchOperation } from "@azure/cosmos";
 const config = require("./config");
 const dbContext = require("./data/databaseContext");
 //  </ImportConfiguration>
 
-//  <DefineNewItem>
-const newItem = {
-  id: "3",
-  category: "fun",
-  name: "Cosmos DB",
-  description: "Complete Cosmos DB Node.js Quickstart ⚡",
-  isComplete: false
-};
-//  </DefineNewItem>
-
 class mongoDB {
+  container: any;
+  client: any;
+  database: any;
   constructor() {
     const { endpoint, key, databaseId, containerId, AccountEndpoint } = config;
 
@@ -42,10 +33,11 @@ class mongoDB {
   }
 
   updateLobbyDescription = async (query) => {
-    const { id, name } = query
+    const { id, name } = query;
+    const set = "set" as const;
     const operations =
       [{
-        op: "set", path: `/description`, value: name
+        op: set, path: `/description`, value: name
       }];
 
     const response = await this.container.item(id, id).patch(operations);
@@ -54,9 +46,10 @@ class mongoDB {
 
   updateNewName = async (query) => {
     const { id, name } = query
+    const add = "add" as const
     const operations =
       [{
-        op: "add", path: `/people/0`, value: {name: name, items: [] }
+        op: add, path: `/people/0`, value: {name: name, items: [] }
       }];
 
     const response = await this.container.item(id,id).patch(operations);
@@ -64,12 +57,11 @@ class mongoDB {
   }
 
   updateItems = async (info) => {
-    // const { id, name } = query
     const { id, index, item } = info
-    // let add = "add" as const;
+    const add = "add" as const
     const operations =
       [{
-        op: "add", path: `/people/${index}/items/-`, value: {description: item }
+        op: add, path: `/people/${index}/items/-`, value: {description: item }
       }];
 
     const response = await this.container.item(id,id).patch(operations);
