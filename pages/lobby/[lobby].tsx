@@ -47,7 +47,7 @@ export default function LobbyPage(props) {
   }
   return (
     <div>
-      <div className='px-5 flex h-[100px] justify-between'>
+      <div className='px-10 flex h-[100px] justify-between'>
         <div className='flex'>
           <button className="h-10 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
             Add Person
@@ -65,7 +65,7 @@ export default function LobbyPage(props) {
         </div>
       </div>
 
-      <div className='px-5 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
+      <div className='px-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
         {elements && elements.map((item, idx) => {
           return <ItemTable name={item.name} items={item.items} index={idx} key={idx} />
         })}
