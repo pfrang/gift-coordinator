@@ -33,11 +33,11 @@ class mongoDB {
   }
 
   updateLobbyDescription = async (query) => {
-    const { id, name } = query;
+    const { id, description } = query;
     const set = "set" as const;
     const operations =
       [{
-        op: set, path: `/description`, value: name
+        op: set, path: `/description`, value: description
       }];
 
     const response = await this.container.item(id, id).patch(operations);

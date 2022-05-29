@@ -50,7 +50,7 @@ export default function LobbyPage(props) {
           <button className="h-10 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
             Add Person
           </button>
-          {form && <LobbyForm val={form} onClick={setForm} />}
+          {form && <LobbyForm onClick={setForm} />}
         </div>
         <div className={form ? 'hidden' : 'flex'}>
           <form onSubmit={onSubmit} className='h-8'>
