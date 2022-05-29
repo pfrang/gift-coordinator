@@ -16,15 +16,11 @@ export default function CreatePage(props) {
     const type = e.target.value
     const regex = new RegExp('^[0-9]{5}$')
     const errorTag = document.getElementById("error")
-    // if (!regex.test(id)) {
-    //   errorTag.innerHTML = "Please input a 5-digit lobby ID"
-    //   return
-    // }
 
     const item = {
       id: lobbyId,
       description: text,
-      people: []
+      users: []
     }
     try {
       const response = await db.createLobby(item);

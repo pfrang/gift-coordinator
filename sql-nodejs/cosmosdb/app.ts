@@ -49,7 +49,7 @@ class mongoDB {
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/people/0`, value: {name: name, items: [] }
+        op: add, path: `/users/0`, value: {name: name, items: [] }
       }];
 
     const response = await this.container.item(id,id).patch(operations);
@@ -61,7 +61,7 @@ class mongoDB {
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/people/${index}/items/-`, value: {description: item }
+        op: add, path: `/users/${index}/items/-`, value: {description: item }
       }];
 
     const response = await this.container.item(id,id).patch(operations);

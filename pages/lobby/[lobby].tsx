@@ -15,11 +15,10 @@ export default function LobbyPage(props) {
 
   const [editVal, setEditVal] = useState(description)
 
-  const elements = props.response.people
+  const users = props.response.users
   const router = useRouter();
 
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
-  //
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -41,7 +40,6 @@ export default function LobbyPage(props) {
   const onEditClick = () => {
     setEdit(false)
     const inputField = document.getElementById("input") as HTMLInputElement
-    // inputField.addEventListener('change', editVal)
     inputField.focus()
     inputField.select()
   }
@@ -52,7 +50,7 @@ export default function LobbyPage(props) {
           <button className="h-10 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
             Add Person
           </button>
-          {form && <LobbyForm names={elements} val={form} onClick={setForm} />}
+          {form && <LobbyForm val={form} onClick={setForm} />}
         </div>
         <div className={form ? 'hidden' : 'flex'}>
           <form onSubmit={onSubmit} className='h-8'>
@@ -66,8 +64,8 @@ export default function LobbyPage(props) {
       </div>
 
       <div className='px-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
-        {elements && elements.map((item, idx) => {
-          return <ItemTable name={item.name} items={item.items} index={idx} key={idx} />
+        {users && users.map((user, idx) => {
+          return <ItemTable name={user.name} users={user.items} index={idx} key={idx} />
         })}
       </div>
     </div>
