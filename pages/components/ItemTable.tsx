@@ -22,6 +22,7 @@ function ItemTable(props) {
       item: input
     }
 
+
     const updateCosmo = await db.updateItems(info)
     console.log(updateCosmo)
     return updateCosmo
