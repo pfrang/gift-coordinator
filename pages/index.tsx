@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import FrontPage from './components/Forms/FrontPage'
+import FrontPage from './components/FrontPage'
 
 
 const Home: NextPage = (props) => {

@@ -5,13 +5,16 @@ import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import LobbyForm from '../components/Forms/LobbyForm';
 import ItemTable from '../components/ItemTable';
 import { useRouter } from 'next/router';
-
+import { useSession } from 'next-auth/react';
 
 export default function LobbyPage(props) {
   const [form, setForm] = useState(false)
   const [edit, setEdit] = useState(true)
   const description = props.response.description
   const db = new mongoDB
+
+  const { data: session, status } = useSession()
+
 
   const [editVal, setEditVal] = useState(description)
 

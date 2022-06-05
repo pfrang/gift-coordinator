@@ -1,9 +1,15 @@
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 
 function Header(props) {
+
+  const { data: session, status} = useSession()
+
+  console.log(session)
+  console.log(status)
 
   const pattern = /lobby/
   const router = useRouter();
@@ -14,6 +20,8 @@ function Header(props) {
       <Link href="/">
         <h3 className='border-b-4 rounded-sm cursor-pointer text-3xl'>gift c🎁🎁rdinator</h3>
       </Link>
+      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => signOut()}>Sign out</button>
       <h3 className='text-3xl'>{pattern.test(router.asPath) ? `Invite a friend?` : ""}</h3>
     </header>
   );

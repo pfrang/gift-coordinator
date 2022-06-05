@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import Button from '../Buttons/Button';
+import Button from './Buttons/Button';
 
 function FrontPage(props) {
 
