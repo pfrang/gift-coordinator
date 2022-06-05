@@ -9,8 +9,6 @@ function Header(props) {
   const { data: session, status} = useSession()
 
   console.log(session)
-  console.log(status)
-
   const pattern = /lobby/
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
@@ -20,8 +18,11 @@ function Header(props) {
       <Link href="/">
         <h3 className='border-b-4 rounded-sm cursor-pointer text-3xl'>gift c🎁🎁rdinator</h3>
       </Link>
-      <button onClick={() => signIn()}>Sign in</button>
-      <button onClick={() => signOut()}>Sign out</button>
+      {session ?
+      <>
+      <h1>Welcome {session.user.email}</h1> <button onClick={() => signOut()}>Sign out</button>
+      </>
+      : <button onClick={() => signIn()}>Sign in</button>}
       <h3 className='text-3xl'>{pattern.test(router.asPath) ? `Invite a friend?` : ""}</h3>
     </header>
   );
