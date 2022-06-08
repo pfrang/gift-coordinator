@@ -1,6 +1,7 @@
 import React from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 
 
@@ -9,6 +10,8 @@ function ItemTable(props) {
   const db = new mongoDB
   const router = useRouter()
   const lobbyid = router.asPath.split("/").pop().replace('?', '')
+  const { data: session, status } = useSession()
+
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -21,8 +24,6 @@ function ItemTable(props) {
       index: props.index,
       item: input
     }
-
-
     const updateCosmo = await db.updateItems(info)
     console.log(updateCosmo)
     return updateCosmo

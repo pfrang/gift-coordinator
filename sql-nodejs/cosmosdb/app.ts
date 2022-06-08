@@ -44,12 +44,17 @@ class mongoDB {
     return response
   }
 
-  updateNewName = async (query) => {
-    const { id, name } = query
+  updateEmail = async (query) => {
+    const { email } = query
+    const add = "add" as const
+  }
+
+  addNewUser = async (query) => {
+    const { id, name, email } = query
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/users/0`, value: {name: name, items: [] }
+        op: add, path: `/users/0`, value: {name: name, email:email, items: [] }
       }];
 
     const response = await this.container.item(id,id).patch(operations);

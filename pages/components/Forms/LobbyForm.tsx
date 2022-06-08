@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import mongoDB from '../../../sql-nodejs/cosmosdb/app';
@@ -8,15 +9,17 @@ function LobbyForm(props) {
   const [name, setName] = useState('')
   const router = useRouter()
   const lobbyid = router.asPath.split("/").pop().replace('?', '')
+  const { data: session, status } = useSession()
 
   const db = new mongoDB
   const onSubmit = async (e) => {
     props.onClick(false)
     const query = {
       id: lobbyid,
-      name: name
+      name: name,
+      email: session.user.email,
     }
-    const response = await db.updateNewName(query)
+    const response = await db.addNewUser(query)
     console.log(response)
     router.reload()
   }

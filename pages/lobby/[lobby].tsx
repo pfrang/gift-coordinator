@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import LobbyForm from '../components/Forms/LobbyForm';
 import ItemTable from '../components/ItemTable';
@@ -17,6 +17,13 @@ export default function LobbyPage(props) {
 
 
   const [editVal, setEditVal] = useState(description)
+  console.log(status)
+
+  useEffect(() => {
+    if(status === 'authenticated') {
+
+    }
+  },[status])
 
 
   const users = props.response.users
