@@ -5,7 +5,7 @@ import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import LobbyForm from '../components/Forms/LobbyForm';
 import ItemTable from '../components/ItemTable';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function LobbyPage(props) {
   const [form, setForm] = useState(false)
@@ -13,18 +13,14 @@ export default function LobbyPage(props) {
   const description = props.response.description
   const db = new mongoDB
 
-  const { data: session, status } = useSession()
-
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      signIn()
+    },
+  })
 
   const [editVal, setEditVal] = useState(description)
-  console.log(status)
-
-  useEffect(() => {
-    if(status === 'authenticated') {
-
-    }
-  },[status])
-
 
   const users = props.response.users
   const router = useRouter();
