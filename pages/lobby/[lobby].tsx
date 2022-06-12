@@ -12,7 +12,8 @@ export default function LobbyPage(props) {
   const [edit, setEdit] = useState(true)
   const description = props.response.description
   const db = new mongoDB
-
+  const router = useRouter();
+  const { data: session } = useSession()
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -23,7 +24,6 @@ export default function LobbyPage(props) {
   const [editVal, setEditVal] = useState(description)
 
   const users = props.response.users
-  const router = useRouter();
 
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
 
@@ -31,7 +31,7 @@ export default function LobbyPage(props) {
     e.preventDefault()
     const query = {
       id: lobbyId,
-      name: editVal
+      description: editVal
     }
     try {
       const response = await db.updateLobbyDescription(query);
@@ -52,14 +52,9 @@ export default function LobbyPage(props) {
   }
   return (
     <div>
-      <div className='px-10 flex h-[100px] justify-between'>
+      <div className='px-10 flex h-[80px] justify-between items-center align-middle'>
+          {session && <h1>Welcome {session.user.email}</h1>}
         <div className='flex'>
-          <button className="h-10 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
-            Add Person
-          </button>
-          {form && <LobbyForm onClick={setForm} />}
-        </div>
-        <div className={form ? 'hidden' : 'flex'}>
           <form onSubmit={onSubmit} className='h-8'>
             <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
             <input type="submit" value="" />
@@ -68,6 +63,9 @@ export default function LobbyPage(props) {
         </div>
         <div>
         </div>
+        <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
+          Invite friend
+        </button>
       </div>
 
       <div className='px-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
