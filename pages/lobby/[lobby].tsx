@@ -8,8 +8,9 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 
 export default function LobbyPage(props) {
-  const [form, setForm] = useState(false)
+  const [invite, setInvite] = useState(false)
   const [edit, setEdit] = useState(true)
+  const [findUser, setFindUser] = useState(false)
   const description = props.response.description
   const db = new mongoDB
   const router = useRouter();
@@ -26,6 +27,11 @@ export default function LobbyPage(props) {
   const users = props.response.users
 
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
+
+  useEffect(() => {
+    const find = users.find(item => item = session.user.email)
+    setFindUser(find)
+  },[])
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -63,11 +69,18 @@ export default function LobbyPage(props) {
         </div>
         <div>
         </div>
-        <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setForm((prevState) => !prevState)}>
+        <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setInvite((prevState) => !prevState)}>
           Invite friend
         </button>
       </div>
-
+      {!findUser &&
+      <div className='flex items-center justify-center'>
+        <h1>You havent made a wish list yet !</h1>
+        <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setInvite((prevState) => !prevState)}>
+          Click here to start creating one !
+        </button>
+      </div>
+      }
       <div className='px-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
         {users && users.map((user, idx) => {
           return <ItemTable name={user.name} items={user.items} index={idx} key={idx} />
