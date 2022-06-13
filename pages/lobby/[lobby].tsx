@@ -99,7 +99,7 @@ export default function LobbyPage(props) {
       }
       <div className='px-10 py-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
         {users && users.map((user, idx) => {
-          return <ItemTable name={user.name} items={user.items} index={idx} key={idx} />
+          return <ItemTable user={user.email} items={user.items} index={idx} key={idx} />
         })}
       </div>
     </div>
