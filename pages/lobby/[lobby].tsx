@@ -2,11 +2,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useState } from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
-import LobbyForm from '../components/Forms/LobbyForm';
 import ItemTable from '../components/ItemTable';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
-import Email from 'next-auth/providers/email';
 
 export default function LobbyPage(props) {
   const [invite, setInvite] = useState(false)
