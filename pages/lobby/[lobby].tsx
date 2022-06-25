@@ -34,7 +34,7 @@ export default function LobbyPage(props) {
       const find = users.find(item => item.email === session.user.email)
       setFindUser(find)
     }
-  })
+  }, [])
 
   const onClick = async (e) => {
     const query = {
