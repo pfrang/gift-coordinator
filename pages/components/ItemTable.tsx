@@ -7,6 +7,8 @@ import { signIn, useSession } from 'next-auth/react';
 
 function ItemTable(props) {
 
+  // Add delete button
+
   const db = new mongoDB
   const router = useRouter()
   const lobbyid = router.asPath.split("/").pop().replace('?', '')

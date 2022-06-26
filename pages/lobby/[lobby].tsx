@@ -34,7 +34,7 @@ export default function LobbyPage(props) {
       const find = users.find(item => item.email === session.user.email)
       setFindUser(find)
     }
-  }, [])
+  }, [session])
 
   const onClick = async (e) => {
     const query = {
@@ -64,7 +64,7 @@ export default function LobbyPage(props) {
     inputField.blur()
   }
 
-  const onEditClick = () => {
+  const addItem = () => {
     setEdit(false)
     const inputField = document.getElementById("input") as HTMLInputElement
     inputField.focus()
@@ -79,7 +79,7 @@ export default function LobbyPage(props) {
             <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
             <input type="submit" value="" />
           </form>
-          <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={onEditClick} />
+          <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />
         </div>
         <div>
         </div>
@@ -105,6 +105,7 @@ export default function LobbyPage(props) {
 }
 
 export async function getServerSideProps(params: any) {
+  // Fix server side authentication
   const db = new mongoDB;
   const { lobby } = params.query;
   const query = `SELECT * from c where c.id = '${lobby}'`;
