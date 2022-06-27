@@ -3,7 +3,6 @@
 //  <ImportConfiguration>
 import { CosmosClient, PatchOperation } from "@azure/cosmos";
 const config = require("./config");
-const dbContext = require("./data/databaseContext");
 //  </ImportConfiguration>
 
 class mongoDB {
@@ -71,6 +70,19 @@ class mongoDB {
 
     const response = await this.container.item(id,id).patch(operations);
     return response
+  }
+
+  deleteItem = async (info) => {
+    const { id, userIndex,itemIndex } = info
+    const remove = "remove" as const
+    const operations =
+      [{
+        op: remove, path: `/users/${userIndex}/items/${itemIndex}`
+      }];
+      // console.log(itemIndex)
+    const response = await this.container.item(id, id).patch(operations);
+    return response
+
   }
 }
 
