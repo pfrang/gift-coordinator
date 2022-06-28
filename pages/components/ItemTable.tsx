@@ -3,27 +3,23 @@ import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListITem/ListItem';
+import { toFindDuplicates } from '../utils/findDuplicates';
 
 
 
 function ItemTable(props) {
+  const { userIndex, user, items} = props
 
   // Add delete button
-
-
-  useEffect(() => {
-
-  }, [props])
-
   const db = new mongoDB
   const router = useRouter()
-  const lobbyid = router.asPath.split("/").pop().replace('?', '')
+  const lobbyId = router.asPath.split("/").pop().replace('?', '')
   const { data: session, status } = useSession()
 
   const onDelete = async (itemIndex) => {
     const info = {
-      id: lobbyid,
-      userIndex: props.index,
+      id: lobbyId,
+      userIndex: userIndex,
       itemIndex: itemIndex
     }
 
@@ -34,34 +30,53 @@ function ItemTable(props) {
     return updateCosmo
   }
 
+  const checkifItemAlreadyExists = (input) => {
+    const item = document.getElementById(`list-${userIndex}`)
+    const li = Array.from(item.getElementsByTagName("li"))
+    const liValues = li.map((item) => {
+      return item.innerText
+    })
+    const response = toFindDuplicates(liValues, input)
+    console.log(response)
+    return response
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault()
     const input = e.target.children[0].value
+    const list = document.getElementById(`list-${userIndex}`)
+    if(checkifItemAlreadyExists(input)) {
+      alert('You already have that item on your list')
+      e.target.children[0].value = ""
+      return
+    }
+
+    // const getEl = document.getElementById()
+
     e.target.children[0].value = ""
-    const list = document.getElementById(`list-${props.index}`)
+
     list.insertAdjacentHTML("beforeend", `<li>${input}</li>`)
     const info = {
-      id: lobbyid,
-      index: props.index,
+      lobbyId: lobbyId,
+      userIndex: userIndex,
       item: input
     }
-    console.log(e.target.parent)
+
     const updateCosmo = await db.updateItems(info)
-    console.log(updateCosmo)
     return updateCosmo
   }
   return (
     <div className='border-2'>
-      <p className='text-rose-600 border-b-2 border-black'><b>{props.user}</b>{`'s Wish List !`}</p>
-      <ul id={`list-${props.index}`}>
-        {props.items && props.items.map((item, idx) => {
+      <p className='text-rose-600 border-b-2 border-black'><b>{user}</b>{`'s Wish List !`}</p>
+      <ul id={`list-${userIndex}`}>
+        {items && items.map((item, idx) => {
           return (
             <ListItem key={idx} item={item} idx={idx} onDelete={onDelete} />
           )
         })}
       </ul>
       {
-        session && session.user.email === props.user &&
+        session && session.user.email === user &&
         <form className='relative' onSubmit={onSubmit}>
           <input className='border-4 border-indigo-600 max-w-full' placeholder='Add wish' type="text" name="" id="wish" />
           <label>
