@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListITem/ListItem';
-import { toFindDuplicates } from '../utils/findDuplicates';
+import { toFindDuplicates } from '../../utils/findDuplicates';
 
 
 
