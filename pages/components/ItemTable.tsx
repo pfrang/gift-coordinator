@@ -4,13 +4,15 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListITem/ListItem';
 import { toFindDuplicates } from '../utils/findDuplicates';
+import { filterNthElement } from '../utils/removeNthElement';
 
 
 
 function ItemTable(props) {
   const { userIndex, user, items} = props
 
-  // Add delete button
+  const [startItems, setStartItems] = useState(items)
+
   const db = new mongoDB
   const router = useRouter()
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
@@ -22,11 +24,11 @@ function ItemTable(props) {
       userIndex: userIndex,
       itemIndex: itemIndex
     }
+    const arr = filterNthElement(startItems, itemIndex)
 
-    const item = document.getElementById(`item-${itemIndex}`)
-    item.remove()
+    setStartItems(arr)
+
     const updateCosmo = await db.deleteItem(info)
-    console.log(updateCosmo)
     return updateCosmo
   }
 
@@ -37,13 +39,15 @@ function ItemTable(props) {
       return item.innerText
     })
     const response = toFindDuplicates(liValues, input)
-    console.log(response)
     return response
   }
 
   const onSubmit = async (e) => {
     e.preventDefault()
     const input = e.target.children[0].value
+    if(!input) {
+      return
+    }
     const list = document.getElementById(`list-${userIndex}`)
     if(checkifItemAlreadyExists(input)) {
       alert('You already have that item on your list')
@@ -51,11 +55,12 @@ function ItemTable(props) {
       return
     }
 
-    // const getEl = document.getElementById()
+    setStartItems((prev) => [...prev, {description: input}])
 
     e.target.children[0].value = ""
 
-    list.insertAdjacentHTML("beforeend", `<li>${input}</li>`)
+
+
     const info = {
       lobbyId: lobbyId,
       userIndex: userIndex,
@@ -69,7 +74,7 @@ function ItemTable(props) {
     <div className='border-2'>
       <p className='text-rose-600 border-b-2 border-black'><b>{user}</b>{`'s Wish List !`}</p>
       <ul id={`list-${userIndex}`}>
-        {items && items.map((item, idx) => {
+        {startItems && startItems.map((item, idx) => {
           return (
             <ListItem key={idx} item={item} idx={idx} onDelete={onDelete} />
           )

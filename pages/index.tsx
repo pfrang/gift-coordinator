@@ -21,7 +21,6 @@ const Home: NextPage = (props) => {
         // const query = `SELECT c.id from c IN Items.children where c.email = '${session.user.email}'`
         const query = `SELECT * from c IN c.users where c.email = '${session.user.email}'`
         const response = await db.read(query).then((data) => data.resources)
-        console.log(response)
         return response
       }
       dbResponse()

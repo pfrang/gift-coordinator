@@ -19,8 +19,6 @@ class mongoDB {
 
   }
 
-  // <CreateClientObjectDatabaseContainer>
-
   read = async (query) => {
     const response = await this.container.items.query(query).fetchAll()
     return response
@@ -49,14 +47,15 @@ class mongoDB {
   }
 
   addNewUser = async (query) => {
-    const { id, name, email } = query
+    const { lobbyId, name, email } = query
+
     const add = "add" as const
     const operations =
       [{
         op: add, path: `/users/0`, value: {name: name, email:email, items: [] }
       }];
 
-    const response = await this.container.item(id,id).patch(operations);
+    const response = await this.container.item(lobbyId,lobbyId).patch(operations);
     return response
   }
 
@@ -81,6 +80,7 @@ class mongoDB {
       }];
       // console.log(itemIndex)
     const response = await this.container.item(id, id).patch(operations);
+    console.log(response)
     return response
 
   }

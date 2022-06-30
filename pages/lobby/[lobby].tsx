@@ -10,12 +10,14 @@ export default function LobbyPage(props) {
   const [invite, setInvite] = useState(false)
   const [edit, setEdit] = useState(true)
   const [boolState, setBoolState] = useState(true)
-  const [findUser, setFindUser] = useState(false)
-  const description = props.response.description
+  const [showClickStartbtn, setShowClickStartbtn] = useState(false)
+  const [isAdmin, setisAdmin] = useState(false)
+  const [users, setUsers] = useState(props.response.users)
+  const [editVal, setEditVal] = useState(props.response.description)
 
   const db = new mongoDB
   const router = useRouter();
-  const lobbyid = router.asPath.split("/").pop().replace('?', '')
+  const lobbyId = router.asPath.split("/").pop().replace('?', '')
   const { data: session } = useSession()
   const { status } = useSession({
     required: true,
@@ -24,28 +26,26 @@ export default function LobbyPage(props) {
     },
   })
 
-  const [editVal, setEditVal] = useState(description)
-
-  const users = props.response.users
-
-  const lobbyId = router.asPath.split("/").pop().replace('?', '')
-
   useEffect(() => {
-    if (status === 'authenticated') {
-      const find = users.find(item => item.email === session.user.email)
-      setFindUser(find)
+    if(status === 'authenticated') {
+      const foundUser = users.find((user) => user.email === session?.user.email)
+      if (!foundUser) {
+        setShowClickStartbtn(true)
+      } else {
+        setShowClickStartbtn(false)
+      }
     }
-  }, [session])
+  },[session, users])
 
   const onClick = async (e) => {
     const query = {
-      id: lobbyid,
+      lobbyId: lobbyId,
       email: session.user.email,
       name: (session.user.email.split(".")[0])
     }
     const response = await db.addNewUser(query)
-    console.log(response)
-    router.reload()
+    const newUser = response.resource.users[response.resource.users.length - 1]
+    setUsers([newUser, ...users])
   }
 
   const onSubmit = async (e) => {
@@ -71,6 +71,7 @@ export default function LobbyPage(props) {
     inputField.focus()
     inputField.select()
   }
+
   return (
     <div>
       <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
@@ -88,7 +89,7 @@ export default function LobbyPage(props) {
           Invite friend
         </button>
       </div>
-      {findUser ? "" :
+      {showClickStartbtn &&
         <div className='flex items-center justify-center'>
           <h1>You havent made a wish list yet !</h1>
           <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>

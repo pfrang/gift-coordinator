@@ -21,7 +21,11 @@ export default function CreatePage(props) {
       errorTag.innerHTML = '<h2 class="text: red"> You need to sign in before creating a lobby</h2>'
       return
     }
-    const type = e.target.value
+
+    if(!text) {
+      errorTag.innerHTML = '<h2 class="text: red"> Please give the lobby a description</h2>'
+      return
+    }
 
     const item = {
       id: lobbyId,
