@@ -59,8 +59,6 @@ function ItemTable(props) {
 
     e.target.children[0].value = ""
 
-
-
     const info = {
       lobbyId: lobbyId,
       userIndex: userIndex,
@@ -76,7 +74,7 @@ function ItemTable(props) {
       <ul id={`list-${userIndex}`}>
         {startItems && startItems.map((item, idx) => {
           return (
-            <ListItem key={idx} item={item} idx={idx} onDelete={onDelete} />
+            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} />
           )
         })}
       </ul>

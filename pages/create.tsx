@@ -61,7 +61,6 @@ export async function getServerSideProps(params: any) {
   const query = `SELECT * from c`;
   const response = await db.read(query).then((data) => data.resources)
   const lobbyId = response[response.length - 1].id
-  // console.log(lastIndex)
   return {
     props: { lobbyId }
   }

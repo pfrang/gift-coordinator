@@ -6,7 +6,24 @@ import ItemTable from '../components/ItemTable';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 
-export default function LobbyPage(props) {
+interface Items {
+  description: string
+}
+interface Users {
+  name: string,
+  email: string,
+  items: Array<Items>
+}
+interface LobbyProps {
+  response: {
+    id: string,
+    description: string,
+    creator: string,
+    users: Array<Users>
+  }
+}
+
+export default function LobbyPage(props: LobbyProps) {
   const [invite, setInvite] = useState(false)
   const [edit, setEdit] = useState(true)
   const [boolState, setBoolState] = useState(true)
@@ -16,6 +33,7 @@ export default function LobbyPage(props) {
   const [editVal, setEditVal] = useState(props.response.description)
 
   const db = new mongoDB
+  const creator = props.response.creator
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
   const { data: session } = useSession()
@@ -29,10 +47,10 @@ export default function LobbyPage(props) {
   useEffect(() => {
     if(status === 'authenticated') {
       const foundUser = users.find((user) => user.email === session?.user.email)
-      if (!foundUser) {
-        setShowClickStartbtn(true)
-      } else {
+      if (foundUser) {
         setShowClickStartbtn(false)
+      } else {
+        setShowClickStartbtn(true)
       }
     }
   },[session, users])
@@ -44,7 +62,7 @@ export default function LobbyPage(props) {
       name: (session.user.email.split(".")[0])
     }
     const response = await db.addNewUser(query)
-    const newUser = response.resource.users[response.resource.users.length - 1]
+    const newUser = response.resource.users[0]
     setUsers([newUser, ...users])
   }
 
@@ -81,7 +99,7 @@ export default function LobbyPage(props) {
             <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
             <input type="submit" value="" />
           </form>
-          <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />
+         {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
         </div>
         <div>
         </div>

@@ -5,10 +5,7 @@ import React from 'react';
 
 
 function Header(props) {
-
   const { data: session, status} = useSession()
-
-  // console.log(session)
 
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
