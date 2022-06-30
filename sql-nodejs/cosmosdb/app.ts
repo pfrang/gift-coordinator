@@ -21,7 +21,6 @@ class mongoDB {
 
   read = async (query) => {
     const response = await this.container.items.query(query).fetchAll()
-    console.log(response)
     return response
   }
 

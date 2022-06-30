@@ -9,7 +9,7 @@ function ListItem(props) {
   return (
     <div id={`item-${props.idx}`} className='relative flex'>
       <li className='border-b-2' key={props.idx}>
-        {props.item.description}
+        {props.item?.description}
       </li>
       {session?.user.email === props.user &&
         <svg id={props.idx} onClick={() => props.onDelete(props.idx)} className='cursor-pointer absolute -right-6 top-0' version="1.1" x="0px" y="0px" width="27.332px" height="27.332px" viewBox="0 0 27.332 27.332" xmlSpace="preserve">

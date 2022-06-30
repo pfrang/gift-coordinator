@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListITem/ListItem';
-import { toFindDuplicates } from '../utils/findDuplicates';
-import { filterNthElement } from '../utils/removeNthElement';
+import { filterNthElement } from '../../utils/removeNthElement';
+import { toFindDuplicates } from '../../utils/findDuplicates';
 
 
 
