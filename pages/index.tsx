@@ -31,7 +31,7 @@ const Home: NextPage = (props) => {
       }
       dbResponse()
     }
-  },[])
+  },[status])
 
   const onClick = (e) => {
     const val = e.currentTarget.innerHTML
