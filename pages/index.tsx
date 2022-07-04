@@ -16,10 +16,10 @@ const Home: NextPage = (props) => {
   const [belongingLobbies, setBelongingLobbies] = useState([])
   const router = useRouter();
   const db = new mongoDB
-  const { data: session, status} = useSession()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    if(status === 'authenticated') {
+    if (status === 'authenticated') {
       const dbResponse = async () => {
         const query = `SELECT * from c where c.creator = '${session.user.email}'`;
         const response = await db.read(query).then((data) => data.resources);
@@ -31,7 +31,7 @@ const Home: NextPage = (props) => {
       }
       dbResponse()
     }
-  },[status])
+  }, [status])
 
   const onClick = (e) => {
     const val = e.currentTarget.innerHTML
@@ -52,22 +52,13 @@ const Home: NextPage = (props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className='flex relative justify-center items-center h-full'>
-        <div className='flex flex-col items-center  absolute top-0 right-8'>
-          <h2>Lobbies you are part of</h2>
-          <ul>
-            {belongingLobbies.map((item, idx) => <li className='underline' key={idx}><Link key={idx} href={`lobby/${item.id}`}>{item.id}</Link></li> )}
-          </ul>
+      <div>
+        <h2 className='text-center'>Join or create a lobby !</h2>
+        <div className='border-2'>
+          <Button onClick={onClick} text={'Join'} />
+          <Button onClick={onClick} text={'Create'} />
         </div>
-        <div>
-
-        </div>
-        <div>
-          <h2 className='text-center'>Join or create a lobby !</h2>
-          <div className='border-2'>
-            <Button onClick={onClick} text={'Join'} />
-            <Button onClick={onClick} text={'Create'} />
-          </div>
-        </div>
+      </div>
       </div>
     </>
   )
