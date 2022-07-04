@@ -1,4 +1,5 @@
 import { useSession, signIn } from 'next-auth/react';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import mongoDB from '../sql-nodejs/cosmosdb/app';
 import { removeDuplicateObjectsInArray } from '../utils/removeDuplicateObjectInArray';
@@ -31,15 +32,18 @@ function Profile(props) {
     }
   }, [status])
 
-  console.log(belongingLobbies);
-
-
   return (
-    <div className='flex flex-col flex-end items-center'>
-      <div>
-        <h2>Lobbies you are part of</h2>
+    <div className='flex justify-between'>
+      <div className='flex flex-col items-center'>
+        <h2>Lobbies you created</h2>
         <ul>
-          {belongingLobbies.map((item, idx) => <li className='underline' key={idx}><Link key={idx} href={`lobby/${item.id}`}>{item.id}</Link></li>)}
+          {createdLobbies && createdLobbies.map((item, idx) => <li className='underline' key={idx}><Link key={idx} href={`lobby/${item.id}`}><a>{item.id}</a></Link></li>)}
+        </ul>
+      </div>
+      <div className='flex flex-col items-center'>
+        <h2>Lobbies you have started making a list in</h2>
+        <ul>
+          {belongingLobbies && belongingLobbies.map((item, idx) => <li className='underline' key={idx}><Link key={idx} href={`lobby/${item.id}`}><a>{item.id}</a></Link></li>)}
         </ul>
       </div>
     </div>

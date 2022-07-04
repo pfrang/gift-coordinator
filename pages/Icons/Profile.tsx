@@ -1,6 +1,6 @@
 
 const Profile =
-<svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 402.161 402.161" xmlSpace="preserve">
+<svg viewBox="0 0 402.161 402.161" xmlSpace="preserve">
     <g>
       <g>
         <g>
