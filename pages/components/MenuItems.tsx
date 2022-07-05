@@ -4,8 +4,13 @@ import React from 'react';
 function MenuItems(props) {
 
   const router = useRouter()
+
+
+
   return (
-      <li onClick={() => router.push(props.items)} className='border-2 cursor-pointer'>{props.items}</li>
+    <li>
+      <a href={router.basePath + props.items} className='border-2 cursor-pointer'>{props.items}</a>
+    </li>
   );
 }
 
