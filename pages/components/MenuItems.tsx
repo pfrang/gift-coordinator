@@ -9,7 +9,7 @@ function MenuItems(props) {
 
   return (
     <li>
-      <a href={router.basePath + props.items} className='border-2 cursor-pointer'>{props.items}</a>
+      <a href={router.basePath + props.items} className='border-2 cursor-pointer hover:border-b-2 p-2 hover:border-b-indigo-500'>{props.items}</a>
     </li>
   );
 }
