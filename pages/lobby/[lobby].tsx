@@ -5,6 +5,8 @@ import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import ItemTable from '../components/ItemTable';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
+import unstable_getServerSession from "next-auth/next"
+import NextAuth from 'next-auth/next';
 
 interface Items {
   description: string
@@ -14,7 +16,8 @@ interface Users {
   email: string,
   items: Array<Items>
 }
-interface LobbyProps {
+
+interface Response {
   response: {
     id: string,
     description: string,
@@ -22,8 +25,13 @@ interface LobbyProps {
     users: Array<Users>
   }
 }
+interface LobbyProps {
+  props: Response;
+}
 
-export default function LobbyPage(props: LobbyProps) {
+export default function LobbyPage({ props, pageProps }) {
+
+
   const [invite, setInvite] = useState(false)
   const [edit, setEdit] = useState(true)
   const [boolState, setBoolState] = useState(true)
@@ -45,7 +53,7 @@ export default function LobbyPage(props: LobbyProps) {
   })
 
   useEffect(() => {
-    if(status === 'authenticated') {
+    if (status === 'authenticated') {
       const foundUser = users.find((user) => user.email === session?.user.email)
       if (foundUser) {
         setShowClickStartbtn(false)
@@ -53,7 +61,7 @@ export default function LobbyPage(props: LobbyProps) {
         setShowClickStartbtn(true)
       }
     }
-  },[session, users])
+  }, [session, users])
 
   const onClick = async (e) => {
     const query = {
@@ -99,7 +107,7 @@ export default function LobbyPage(props: LobbyProps) {
             <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
             <input type="submit" value="" />
           </form>
-         {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
+          {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
         </div>
         <div>
         </div>
@@ -121,16 +129,18 @@ export default function LobbyPage(props: LobbyProps) {
         })}
       </div>
     </div>
-  );
+    );
 }
 
-export async function getServerSideProps(params: any) {
+export async function getServerSideProps(context) {
+  const { req, res }= context
   // Fix server side authentication
   const db = new mongoDB;
-  const { lobby } = params.query;
+  const { lobby } = context.query;
   const query = `SELECT * from c where c.id = '${lobby}'`;
   const response = await db.read(query).then((data) => data.resources[0])
   return {
-    props: { response }
+    props: { response,}
+    // sesison: await unstable_getServerSession(req, res) }
   }
 }

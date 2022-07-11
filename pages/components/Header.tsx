@@ -25,7 +25,6 @@ function Header(props) {
             return <MenuItems dropdown={dropdown} items={menu} key={index} />
           })}
         </ul>
-
       </nav>
     </header>
   );

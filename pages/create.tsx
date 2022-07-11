@@ -4,9 +4,14 @@ import mongoDB from '../sql-nodejs/cosmosdb/app'
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
-export default function CreatePage(props) {
 
+interface CreatePageData {
+  lobbyId: string;
+}
+
+export default function CreatePage({ ...props }: CreatePageData) {
   const lobbyId = (parseInt(props.lobbyId,10) + 1).toString()
+
   const [text, setText] = useState('');
   const router = useRouter()
   const db = new mongoDB
@@ -56,12 +61,15 @@ export default function CreatePage(props) {
   );
 }
 
-export async function getServerSideProps(params: any) {
+export async function getServerSideProps(props) {
   const db = new mongoDB;
   const query = `SELECT * from c`;
   const response = await db.read(query).then((data) => data.resources)
   const lobbyId = response[response.length - 1].id
+
   return {
-    props: { lobbyId }
+    props: {
+      lobbyId
+    }
   }
 }

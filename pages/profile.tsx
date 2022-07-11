@@ -50,7 +50,7 @@ function Profile(props) {
           </ul>
         </div>
       </div>
-      <Button onClick={signOut({callbackUrl: "/"})} text={"Logg ut"}></Button>
+      <Button onClick={() => signOut({callbackUrl: "/"})} text={"Logg ut"}></Button>
     </Wrapper>
   );
 }
