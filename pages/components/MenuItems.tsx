@@ -1,4 +1,5 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import Email from 'next-auth/providers/email';
+import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 

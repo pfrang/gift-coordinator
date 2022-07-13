@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useState } from 'react';
 import mongoDB from '../../sql-nodejs/cosmosdb/app';
-import ItemTable from '../components/ItemTable';
+import ItemTable from './components/ItemTable';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import unstable_getServerSession from "next-auth/next"
@@ -129,18 +129,20 @@ export default function LobbyPage({ props, pageProps }) {
         })}
       </div>
     </div>
-    );
+  );
 }
 
 export async function getServerSideProps(context) {
-  const { req, res }= context
+  const { req, res } = context
   // Fix server side authentication
   const db = new mongoDB;
   const { lobby } = context.query;
   const query = `SELECT * from c where c.id = '${lobby}'`;
   const response = await db.read(query).then((data) => data.resources[0])
   return {
-    props: { response,}
-    // sesison: await unstable_getServerSession(req, res) }
+    props: {
+      response,
+      requireAuthentication: true
+    }
   }
 }
