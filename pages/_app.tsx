@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Layout from './components/Layout'
+import Layout from './components/StylingDivs/Layout'
 import { SessionProvider } from 'next-auth/react'
 // import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 // import { config } from "@fortawesome/fontawesome-svg-core";

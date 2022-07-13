@@ -4,20 +4,20 @@ import React, { useState } from 'react';
 
 function MenuItems(props) {
 
-  const [invalidProfileDirect, setInvalidProfileDirect ] = useState(false)
+  const [invalidProfileDirect, setInvalidProfileDirect] = useState(false)
   const router = useRouter()
   const { data: session } = useSession()
 
   const redirect = (e) => {
     switch (props.items) {
-      case 'profile':
+      case 'Profile':
         !session ?
           setInvalidProfileDirect(true)
-        : router.push('/profile')
+          : router.push('/profile')
         return
-      case "login":
+      case "Login":
         return signIn()
-      case "logout":
+      case "Logout":
         return signOut()
       default:
         return ""
@@ -26,8 +26,10 @@ function MenuItems(props) {
 
   return (
     <li id={props.items}>
-      <button onClick={redirect}className='border-2 cursor-pointer hover:border-b-2 p-2 hover:border-b-indigo-500'>{props.items}</button>
-      {invalidProfileDirect && <h2 className='absolute top-12 right-16 text-red-500'>Please log in</h2>}
+      <div>
+        <button onClick={redirect} className='border-2 cursor-pointer hover:border-b-2 p-2 hover:border-b-indigo-500'>{props.items}</button>
+        {invalidProfileDirect && <p className='my-2 whitespace-nowrap absolute w-10 top-8 right-18 text-sm flex text-red-500'>Please log in</p>}
+      </div>
     </li>
   );
 }
