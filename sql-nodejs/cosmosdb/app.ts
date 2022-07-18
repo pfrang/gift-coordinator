@@ -5,6 +5,12 @@ import { CosmosClient, PatchOperation } from "@azure/cosmos";
 const config = require("./config");
 //  </ImportConfiguration>
 
+interface CreateQuery {
+  id: string;
+  description: string;
+  creator: string;
+}
+
 class mongoDB {
   container: any;
   client: any;
@@ -24,7 +30,14 @@ class mongoDB {
     return response
   }
 
-  createLobby = async (query) => {
+  createLobby = async ({id, description, creator}: CreateQuery) => {
+    const query = {
+      id: id,
+      description: description,
+      creator: creator,
+      users: [],
+      invited_users: []
+    }
     const response = await this.container.items.create(query)
     return response
   }
@@ -58,6 +71,17 @@ class mongoDB {
     const response = await this.container.item(lobbyId,lobbyId).patch(operations);
     return response
   }
+
+  // inviteUser = async (query) => {
+  //   const query = {
+
+  //   }
+  //   const add = "add" as const
+  //   const operations =
+  //   [{
+  //     op: add, path: 'invited_users/-', value: { by: user, to: userInvited}
+  //   }]
+  // }
 
   updateItems = async (info) => {
     const { lobbyId, userIndex, item, list_index } = info

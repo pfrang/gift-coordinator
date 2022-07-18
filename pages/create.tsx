@@ -32,20 +32,16 @@ export default function CreatePage({ ...props }: CreatePageData) {
       return
     }
 
-    const item = {
-      id: lobbyId,
-      description: text,
-      creator: session.user.email,
-      users: []
-    }
     try {
-      const response = await db.createLobby(item);
+      const response = await db.createLobby({id: lobbyId,
+        description: text,
+        creator: session.user.email});
+
       router.push(`/lobby/${lobbyId}`)
     } catch (err) {
       console.error(err)
     }
   }
-
 
   return (
     <div className='flex justify-center items-center h-full'>

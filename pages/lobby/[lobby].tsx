@@ -7,6 +7,20 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import unstable_getServerSession from "next-auth/next"
 import NextAuth from 'next-auth/next';
+import InviteModal from './components/InviteModal';
+import InviteModalButton from './components/InviteModalButton';
+import styled from 'styled-components';
+
+const darkBG = styled.div`
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+`
 
 interface Items {
   description: string
@@ -17,7 +31,7 @@ interface Users {
   items: Array<Items>
 }
 
-interface Response {
+interface LobbyProps {
   response: {
     id: string,
     description: string,
@@ -25,23 +39,19 @@ interface Response {
     users: Array<Users>
   }
 }
-interface LobbyProps {
-  props: Response;
-}
 
-export default function LobbyPage({ props, pageProps }) {
+export default function LobbyPage({ response }: LobbyProps) {
 
-
-  const [invite, setInvite] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [edit, setEdit] = useState(true)
   const [boolState, setBoolState] = useState(true)
   const [showClickStartbtn, setShowClickStartbtn] = useState(false)
   const [isAdmin, setisAdmin] = useState(false)
-  const [users, setUsers] = useState(props.response.users)
-  const [editVal, setEditVal] = useState(props.response.description)
+  const [users, setUsers] = useState([])
+  const [editVal, setEditVal] = useState(response.description)
 
   const db = new mongoDB
-  const creator = props.response.creator
+  const creator = response.creator
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
   const { data: session } = useSession()
@@ -53,7 +63,7 @@ export default function LobbyPage({ props, pageProps }) {
   })
 
   useEffect(() => {
-    if (status === 'authenticated') {
+    if (status === 'authenticated' && users) {
       const foundUser = users.find((user) => user.email === session?.user.email)
       if (foundUser) {
         setShowClickStartbtn(false)
@@ -99,46 +109,55 @@ export default function LobbyPage({ props, pageProps }) {
   }
 
   return (
-    <div>
-      <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
-        {session && <h1>Welcome {session.user.email}</h1>}
-        <div className='flex'>
-          <form onSubmit={onSubmit} className='h-8'>
-            <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
-            <input type="submit" value="" />
-          </form>
-          {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
+    <>
+      {showModal && <InviteModal setShowModal={setShowModal}/>}
+      <div className={showModal ? 'opacity-5': null}>
+        <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
+          {session && <h1>Welcome {session.user.email}</h1>}
+          <div className='flex'>
+            <form onSubmit={onSubmit} className='h-8'>
+              <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
+              <input type="submit" value="" />
+            </form>
+            {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
+          </div>
+          <div>
+          </div>
+          <InviteModalButton showModal={showModal} setShowModal={setShowModal}>
+            Invite friend
+          </InviteModalButton>
         </div>
-        <div>
+        {showClickStartbtn &&
+          <div className='flex items-center justify-center'>
+            <h1>You havent made a wish list yet !</h1>
+            <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>
+              Click here to start creating one !
+            </button>
+          </div>
+        }
+        <div className='px-10 py-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
+          {users && users.map((user, idx) => {
+            return <ItemTable user={user.email} items={user.items} userIndex={idx} key={idx} />
+          })}
         </div>
-        <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={() => setInvite((prevState) => !prevState)}>
-          Invite friend
-        </button>
       </div>
-      {showClickStartbtn &&
-        <div className='flex items-center justify-center'>
-          <h1>You havent made a wish list yet !</h1>
-          <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>
-            Click here to start creating one !
-          </button>
-        </div>
-      }
-      <div className='px-10 py-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
-        {users && users.map((user, idx) => {
-          return <ItemTable user={user.email} items={user.items} userIndex={idx} key={idx} />
-        })}
-      </div>
-    </div>
+    </>
   );
 }
 
 export async function getServerSideProps(context) {
   const { req, res } = context
-  // Fix server side authentication
   const db = new mongoDB;
   const { lobby } = context.query;
   const query = `SELECT * from c where c.id = '${lobby}'`;
-  const response = await db.read(query).then((data) => data.resources[0])
+  const response = await db.read(query).then((data) => data.resources[0]);
+
+  if (!response) {
+    return {
+      notFound: true
+    }
+  }
+
   return {
     props: {
       response,

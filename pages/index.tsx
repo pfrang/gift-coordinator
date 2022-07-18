@@ -33,15 +33,7 @@ export const Home = (props) => {
   }, [status])
 
   const onClick = (e) => {
-    const val = e.currentTarget.innerHTML
-    if (val === 'Join') {
-      router.push('/join')
-    } else if (val === 'Create') {
-      router.push('/create')
-    } else {
-      console.error("dont mess with the DOM values bro")
-    }
-
+    router.push("/create")
   }
   return (
     <>
@@ -57,9 +49,9 @@ export const Home = (props) => {
           <HowItWorks />
         </div>
         <div className='my-20'>
-          <div className='border-2 flex items-center gap-10'>
+          <div className='border-2 shadow-md flex items-center gap-10'>
             <h2 className='text-2xl'>Opprett lobby her</h2>
-            <Button onClick={onClick} text={'Create'} />
+            <Button onClick={onClick} text={'Create ->'} />
           </div>
         </div>
       </div>

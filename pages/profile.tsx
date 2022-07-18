@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import mongoDB from '../sql-nodejs/cosmosdb/app';
 import { removeDuplicateObjectsInArray } from '../utils/removeDuplicateObjectInArray';
 import Button from './components/Buttons/Button';
-import Wrapper from './components/StylingDivs/Wrapper';
+import Marginx20Div from './components/StylingDivs/Divs/MarginX20Div';
 
 function Profile(props) {
 
@@ -35,7 +35,7 @@ function Profile(props) {
   }, [status])
 
   return (
-    <Wrapper>
+    <Marginx20Div>
       <div className='flex justify-between'>
         <div className='flex flex-col items-center'>
           <h2>Lobbies you created</h2>
@@ -51,7 +51,7 @@ function Profile(props) {
         </div>
       </div>
       <Button onClick={() => signOut({callbackUrl: "/"})} text={"Logg ut"}></Button>
-    </Wrapper>
+    </Marginx20Div>
   );
 }
 

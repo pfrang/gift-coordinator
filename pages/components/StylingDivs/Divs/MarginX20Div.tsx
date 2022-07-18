@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 
-function Wrapper(props) {
+function MarginX20Div(props) {
   return (
     <div className='mx-20'>
       {props.children}
@@ -8,4 +8,4 @@ function Wrapper(props) {
   );
 }
 
-export default Wrapper;
+export default MarginX20Div;
