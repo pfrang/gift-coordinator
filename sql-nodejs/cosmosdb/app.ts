@@ -84,11 +84,11 @@ class mongoDB {
   // }
 
   updateItems = async (info) => {
-    const { lobbyId, userIndex, item, list_index } = info
+    const { lobbyId, userIndex, item, itemIndex } = info
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/users/${userIndex}/items/-`, value: {description: item, id: list_index }
+        op: add, path: `/users/${userIndex}/items/-`, value: {description: item, id: itemIndex }
       }];
 
     const response = await this.container.item(lobbyId,lobbyId).patch(operations);
@@ -102,7 +102,6 @@ class mongoDB {
       [{
         op: remove, path: `/users/${userIndex}/items/${itemIndex}`
       }];
-      // console.log(itemIndex)
     const response = await this.container.item(id, id).patch(operations);
     console.log(response)
     return response

@@ -64,9 +64,10 @@ function InviteModal({ setShowModal }) {
         <CloseBtn onClick={() => console.log("hei")}>
           <RiCloseLine style={{ marginBottom: "-3px" }}/>
         </CloseBtn>
-        <div>
-          Hei
-        </div>
+        <form>
+          <input type="text" name="" id="" />
+          <input type="submit" value="Invite friend!" />
+        </form>
         </ModalDiv>
       </InnerDiv>
       </DarkBG>

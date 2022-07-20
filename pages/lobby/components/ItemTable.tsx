@@ -8,10 +8,11 @@ import { toFindDuplicates } from '../../../utils/findDuplicates';
 
 
 
-function ItemTable(props) {
-  const { userIndex, user, items} = props
+function ItemTable({userIndex, user, items }) {
 
   const [startItems, setStartItems] = useState(items)
+
+
 
   const db = new mongoDB
   const router = useRouter()
@@ -42,7 +43,7 @@ function ItemTable(props) {
     return response
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e): Promise<void> => {
     e.preventDefault()
     const input = e.target.children[0].value
     if(!input) {
@@ -62,6 +63,7 @@ function ItemTable(props) {
     const info = {
       lobbyId: lobbyId,
       userIndex: userIndex,
+      itemIndex: startItems.length,
       item: input
     }
 

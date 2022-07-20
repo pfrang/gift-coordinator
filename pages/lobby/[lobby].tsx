@@ -47,7 +47,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [boolState, setBoolState] = useState(true)
   const [showClickStartbtn, setShowClickStartbtn] = useState(false)
   const [isAdmin, setisAdmin] = useState(false)
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState(response.users)
   const [editVal, setEditVal] = useState(response.description)
 
   const db = new mongoDB
@@ -81,6 +81,7 @@ export default function LobbyPage({ response }: LobbyProps) {
     }
     const response = await db.addNewUser(query)
     const newUser = response.resource.users[0]
+
     setUsers([newUser, ...users])
   }
 

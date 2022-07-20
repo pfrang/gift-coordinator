@@ -44,7 +44,7 @@ export const Home = (props) => {
       </Head>
       <div className='flex flex-col relative items-center text-center h-full'>
         <div className='my-20'>
-          <h2 className='text-3xl'>Opprett ønskelister på en felles platform og kooridner innkjøp!</h2>
+          <h2 className='text-3xl'>Opprett ønskelister på en felles platform og koordiner innkjøp!</h2>
           <h2 className='text-2xl my-4'>Hvordan fungerer det?</h2>
           <HowItWorks />
         </div>
