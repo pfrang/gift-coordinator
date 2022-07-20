@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import mongoDB from '../../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
@@ -8,11 +8,14 @@ import { toFindDuplicates } from '../../../utils/findDuplicates';
 
 
 
-function ItemTable({userIndex, user, items }) {
+function ItemTable({ userIndex, user, items }) {
 
   const [startItems, setStartItems] = useState(items)
 
 
+  useEffect(() => {
+    setStartItems(items)
+  },[user])
 
   const db = new mongoDB
   const router = useRouter()
@@ -25,9 +28,9 @@ function ItemTable({userIndex, user, items }) {
       userIndex: userIndex,
       itemIndex: itemIndex
     }
-    const arr = filterNthElement(startItems, itemIndex)
+    const filteredArr = filterNthElement(startItems, itemIndex)
 
-    setStartItems(arr)
+    setStartItems(filteredArr)
 
     const updateCosmo = await db.deleteItem(info)
     return updateCosmo
@@ -49,7 +52,7 @@ function ItemTable({userIndex, user, items }) {
     if(!input) {
       return
     }
-    const list = document.getElementById(`list-${userIndex}`)
+
     if(checkifItemAlreadyExists(input)) {
       alert('You already have that item on your list')
       e.target.children[0].value = ""

@@ -44,7 +44,6 @@ export default function LobbyPage({ response }: LobbyProps) {
 
   const [showModal, setShowModal] = useState(false)
   const [edit, setEdit] = useState(true)
-  const [boolState, setBoolState] = useState(true)
   const [showClickStartbtn, setShowClickStartbtn] = useState(false)
   const [isAdmin, setisAdmin] = useState(false)
   const [users, setUsers] = useState(response.users)
@@ -62,6 +61,7 @@ export default function LobbyPage({ response }: LobbyProps) {
     },
   })
 
+
   useEffect(() => {
     if (status === 'authenticated' && users) {
       const foundUser = users.find((user) => user.email === session?.user.email)
@@ -77,7 +77,7 @@ export default function LobbyPage({ response }: LobbyProps) {
     const query = {
       lobbyId: lobbyId,
       email: session.user.email,
-      name: (session.user.email.split(".")[0])
+      name: (session.user.email.split("@")[0])
     }
     const response = await db.addNewUser(query)
     const newUser = response.resource.users[0]
@@ -132,7 +132,7 @@ export default function LobbyPage({ response }: LobbyProps) {
           <div className='flex items-center justify-center'>
             <h1>You havent made a wish list yet !</h1>
             <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>
-              Click here to start creating one !
+              Click here to start !
             </button>
           </div>
         }
