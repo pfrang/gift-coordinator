@@ -2279,6 +2279,11 @@ react-is@^16.13.1, react-is@^16.7.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
+react-is@^18.3.0-next-3ddbedd05-20220719:
+  version "18.3.0-next-3ddbedd05-20220719"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.0-next-3ddbedd05-20220719.tgz#0fb768aa9b2e7855040786028ce61a7a2dde40f3"
+  integrity sha512-WYNhMjgtJe6Ge0RkCgnk1ZBXoqGdz4BE2DjoQlQ8aTYQrprUd2rgJceYiaqb/N7qWor62Ym8xIBD3AGvS7J3lA==
+
 react@18.1.0:
   version "18.1.0"
   resolved "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
