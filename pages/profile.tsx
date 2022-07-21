@@ -32,7 +32,7 @@ function Profile(props) {
       }
       dbResponse()
     }
-  }, [status, db, session])
+  }, [status])
 
   return (
     <Marginx20Div>

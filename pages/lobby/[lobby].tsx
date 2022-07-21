@@ -71,7 +71,7 @@ export default function LobbyPage({ response }: LobbyProps) {
         setShowClickStartbtn(true)
       }
     }
-  }, [session, users, status])
+  }, [session, users])
 
   const onClick = async (e) => {
     const query = {
