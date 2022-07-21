@@ -15,7 +15,7 @@ function ItemTable({ userIndex, user, items }) {
 
   useEffect(() => {
     setStartItems(items)
-  },[user])
+  },[user, items])
 
   const db = new mongoDB
   const router = useRouter()

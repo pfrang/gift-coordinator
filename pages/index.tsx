@@ -30,7 +30,7 @@ export const Home = (props) => {
       }
       dbResponse()
     }
-  }, [status])
+  }, [status, db, session])
 
   const onClick = (e) => {
     router.push("/create")
