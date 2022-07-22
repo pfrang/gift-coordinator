@@ -1,12 +1,11 @@
-import { useSession } from 'next-auth/react'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import mongoDB from '../sql-nodejs/cosmosdb/app'
-import { removeDuplicateObjectsInArray } from '../utils/removeDuplicateObjectInArray'
-import Button from './components/Buttons/Button'
-import HowItWorks from './components/HowItWorks'
-
+import { useSession } from 'next-auth/react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import mongoDB from '../sql-nodejs/cosmosdb/app';
+import { removeDuplicateObjectsInArray } from '../utils/removeDuplicateObjectInArray';
+import Button from './components/Buttons/Button';
+import HowItWorks from './components/HowItWorks';
 
 export const Home = (props) => {
 

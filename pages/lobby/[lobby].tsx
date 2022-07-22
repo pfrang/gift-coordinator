@@ -5,11 +5,12 @@ import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import ItemTable from './components/ItemTable';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
-import unstable_getServerSession from "next-auth/next"
-import NextAuth from 'next-auth/next';
 import InviteModal from './components/InviteModal';
 import InviteModalButton from './components/InviteModalButton';
 import styled from 'styled-components';
+import Modal from 'react-modal';
+import MyModal from './components/Modal';
+
 
 const darkBG = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
@@ -48,6 +49,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [isAdmin, setisAdmin] = useState(false)
   const [users, setUsers] = useState(response.users)
   const [editVal, setEditVal] = useState(response.description)
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const db = new mongoDB
   const creator = response.creator
@@ -60,7 +62,6 @@ export default function LobbyPage({ response }: LobbyProps) {
       signIn()
     },
   })
-
 
   useEffect(() => {
     if (status === 'authenticated' && users) {
@@ -109,40 +110,42 @@ export default function LobbyPage({ response }: LobbyProps) {
     inputField.select()
   }
 
+  function openModal() {
+    setIsOpen(true);
+  }
+
   return (
-    <>
-      {showModal && <InviteModal setShowModal={setShowModal}/>}
-      <div className={showModal ? 'opacity-5': null}>
-        <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
-          {session && <h1>Welcome {session.user.email}</h1>}
-          <div className='flex'>
-            <form onSubmit={onSubmit} className='h-8'>
-              <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
-              <input type="submit" value="" />
-            </form>
-            {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
-          </div>
-          <div>
-          </div>
-          <InviteModalButton showModal={showModal} setShowModal={setShowModal}>
-            Invite friend
-          </InviteModalButton>
+    <div id="root">
+      <MyModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+      <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
+        {session && <h1>Welcome {session.user.email}</h1>}
+        <div className='flex'>
+          <form onSubmit={onSubmit} className='h-8'>
+            <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
+            <input type="submit" value="" />
+          </form>
+          {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
         </div>
-        {showClickStartbtn &&
-          <div className='flex items-center justify-center'>
-            <h1>You havent made a wish list yet !</h1>
-            <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>
-              Click here to start !
-            </button>
-          </div>
-        }
-        <div className='px-10 py-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
-          {users && users.map((user, idx) => {
-            return <ItemTable user={user.email} items={user.items} userIndex={idx} key={idx} />
-          })}
+        <div>
         </div>
+        <InviteModalButton showModal={showModal} setShowModal={openModal}>
+          Invite friend
+        </InviteModalButton>
       </div>
-    </>
+      {showClickStartbtn &&
+        <div className='flex items-center justify-center'>
+          <h1>You havent made a wish list yet !</h1>
+          <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>
+            Click here to start !
+          </button>
+        </div>
+      }
+      <div className='px-10 py-10 grid grid-cols-6 grid-rows-2 gap-12 content-center'>
+        {users && users.map((user, idx) => {
+          return <ItemTable user={user.email} items={user.items} userIndex={idx} key={idx} />
+        })}
+      </div>
+    </div>
   );
 }
 

@@ -2,10 +2,11 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Layout from './components/StylingDivs/Layout'
 import { SessionProvider, useSession } from 'next-auth/react'
+import { useState } from 'react'
+import Modal from 'react-modal'
 // import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 // import { config } from "@fortawesome/fontawesome-svg-core";
 // config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
-
 
 function MyApp({
   Component,
@@ -13,19 +14,22 @@ function MyApp({
 }: AppProps) {
 
   const requireAuthentication = pageProps.requireAuthentication
+  Modal.setAppElement('#root');
 
   return (
     <SessionProvider session={session}>
-      <Layout>
-        {requireAuthentication ? (
+      <div id="root">
+        <Layout>
+          {requireAuthentication ? (
 
-          <Auth>
+            <Auth>
+              <Component {...pageProps} />
+            </Auth>
+          ) : (
             <Component {...pageProps} />
-          </Auth>
-        ) : (
-        <Component {...pageProps} />
-        )}
-      </Layout>
+          )}
+        </Layout>
+      </div>
     </SessionProvider>
   )
 }
