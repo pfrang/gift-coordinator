@@ -41,22 +41,39 @@ function ItemTable({ userIndex, user, items }) {
     const info = {
       id: lobbyId,
       userIndex: userIndex,
+      reservedBy: session.user.email,
       itemIndex: itemIndex
     }
-    // const filteredArr = startItems.filter((item, idx) => {
-    //   if(idx === itemIndex) {
-    //     item.reserve === true
-    //   }
-    // })
 
     setStartItems((prev) => {
 
       let prevData = [...prev]
       prevData[itemIndex].reserved = true
+      prevData[itemIndex].reserved_by = session.user.email
       return prevData
     } )
 
     const updateCosmo = await db.reserveItem(info)
+    return updateCosmo
+  }
+
+  const onRemoveReservation = async(itemIndex) => {
+    const info = {
+      id: lobbyId,
+      userIndex: userIndex,
+      reservedBy: session.user.email,
+      itemIndex: itemIndex
+    }
+
+    setStartItems((prev) => {
+
+      let prevData = [...prev]
+      prevData[itemIndex].reserved = false
+      prevData[itemIndex].reserved_by = ""
+      return prevData
+    })
+
+    const updateCosmo = await db.removeReservationItem(info)
     return updateCosmo
   }
 
@@ -92,7 +109,8 @@ function ItemTable({ userIndex, user, items }) {
       userIndex: userIndex,
       itemIndex: startItems.length,
       item: input,
-      reserved: false
+      reserved: false,
+      reservedBy: ""
     }
 
     const updateCosmo = await db.updateItems(info)
@@ -104,7 +122,7 @@ function ItemTable({ userIndex, user, items }) {
       <ul id={`list-${userIndex}`}>
         {startItems && startItems.map((item, idx) => {
           return (
-            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} />
+            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation}/>
           )
         })}
       </ul>

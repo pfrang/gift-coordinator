@@ -84,11 +84,11 @@ class mongoDB {
   // }
 
   updateItems = async (info) => {
-    const { lobbyId, userIndex, item, itemIndex, reserved } = info
+    const { lobbyId, userIndex, item, itemIndex, reserved, reservedBy } = info
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/users/${userIndex}/items/-`, value: {description: item, id: itemIndex, reserved: reserved }
+        op: add, path: `/users/${userIndex}/items/-`, value: {description: item, id: itemIndex, reserved: reserved, reserved_by: reservedBy }
       }];
 
     const response = await this.container.item(lobbyId,lobbyId).patch(operations);
@@ -110,17 +110,35 @@ class mongoDB {
 
 
   reserveItem = async (info) => {
-    const { id, userIndex, itemIndex } = info
+    const { id, userIndex, itemIndex, reservedBy } = info
     const set = "set" as const
     const operations =
       [{
-        op: set, path: `/users/${userIndex}/items/${itemIndex}/reserved`, value: true
-      }];
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/reserved`, value: true,
+      },
+    {
+      op: set, path: `/users/${userIndex}/items/${itemIndex}/reserved_by`, value: reservedBy,
+    }];
     const response = await this.container.item(id, id).patch(operations);
     console.log(response)
     return response
   }
 
+  removeReservationItem = async (info) => {
+    const { id, userIndex, itemIndex } = info
+    const set = "set" as const
+    const operations =
+      [{
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/reserved`, value: false,
+      },
+      {
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/reserved_by`, value: "",
+      }];
+    const response = await this.container.item(id, id).patch(operations);
+    console.log(response)
+    return response
+
+  }
 
 }
 

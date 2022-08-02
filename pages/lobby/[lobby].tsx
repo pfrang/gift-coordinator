@@ -72,7 +72,7 @@ export default function LobbyPage({ response }: LobbyProps) {
     }
   }, [session, users])
 
-  const onClick = async (e) => {
+  const addUser = async (e) => {
     const query = {
       lobbyId: lobbyId,
       email: session.user.email,
@@ -117,11 +117,16 @@ export default function LobbyPage({ response }: LobbyProps) {
       <MyModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
         {session && <h1>Welcome {session.user.email}</h1>}
-        <div className='flex'>
-          <form onSubmit={onSubmit} className='h-8'>
-            <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
-            <input type="submit" value="" />
-          </form>
+        <div className='flex h-8'>
+          {creator === session.user.email ?
+            <form onSubmit={onSubmit}>
+              <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
+              <input type="submit" value="" />
+            </form>
+            :
+            <div className='w-full flex border-b-2 items-center'>
+              <p>{editVal}</p>
+            </div>}
           {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
         </div>
         <div>
@@ -133,7 +138,7 @@ export default function LobbyPage({ response }: LobbyProps) {
       {showClickStartbtn &&
         <div className='flex items-center justify-center'>
           <h1>You havent made a wish list yet !</h1>
-          <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={onClick}>
+          <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={addUser}>
             Click here to start !
           </button>
         </div>
