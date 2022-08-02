@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/checkmark-btn.scss'
 import type { AppProps } from 'next/app'
 import Layout from './components/StylingDivs/Layout'
 import { SessionProvider, useSession } from 'next-auth/react'

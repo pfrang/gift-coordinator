@@ -1,6 +1,6 @@
 import React from 'react';
 
-function InviteModalButton({showModal, setShowModal, children}) {
+function InviteModalButton({setShowModal, children}) {
 
   const handleClick = () => {
     setShowModal(true)

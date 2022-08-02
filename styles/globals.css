@@ -19,9 +19,9 @@ h3 {
   grid-template-rows: auto 1fr auto;
 }
 
-#grid3RowWrapper {
+#grid2RowWrapper {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: auto auto;
 }
 
 html,

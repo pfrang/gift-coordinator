@@ -5,7 +5,6 @@ import mongoDB from '../../sql-nodejs/cosmosdb/app';
 import ItemTable from './components/ItemTable';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
-import InviteModal from './components/InviteModal';
 import InviteModalButton from './components/InviteModalButton';
 import styled from 'styled-components';
 import Modal from 'react-modal';
@@ -43,7 +42,6 @@ interface LobbyProps {
 
 export default function LobbyPage({ response }: LobbyProps) {
 
-  const [showModal, setShowModal] = useState(false)
   const [edit, setEdit] = useState(true)
   const [showClickStartbtn, setShowClickStartbtn] = useState(false)
   const [isAdmin, setisAdmin] = useState(false)
@@ -128,7 +126,7 @@ export default function LobbyPage({ response }: LobbyProps) {
         </div>
         <div>
         </div>
-        <InviteModalButton showModal={showModal} setShowModal={openModal}>
+        <InviteModalButton setShowModal={openModal}>
           Invite friend
         </InviteModalButton>
       </div>

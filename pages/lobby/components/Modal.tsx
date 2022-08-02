@@ -1,6 +1,6 @@
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 import mongoDB from '../../../sql-nodejs/cosmosdb/app';
 
@@ -11,6 +11,14 @@ function MyModal({ modalIsOpen, setIsOpen }) {
   const router = useRouter();
   let subtitle;
   const db = new mongoDB
+
+  useEffect(() => {
+    if(invitationLinkSent) {
+      setTimeout(() => {
+        setIsOpen(false)
+      }, 2000);
+    }
+  }, [invitationLinkSent])
 
   const modalStyles = {
     content: {
@@ -38,14 +46,14 @@ function MyModal({ modalIsOpen, setIsOpen }) {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    signIn(
-      "email",
-      {
-        email: email,
-        callbackUrl: router.asPath,
-        redirect: false
-      }
-    )
+    // signIn(
+    //   "email",
+    //   {
+    //     email: email,
+    //     callbackUrl: router.asPath,
+    //     redirect: false
+    //   }
+    // )
     setInvitationLinkSent(true)
   }
 
@@ -54,37 +62,35 @@ function MyModal({ modalIsOpen, setIsOpen }) {
     <>
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
+        // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={modalStyles}
         contentLabel="Example Modal"
       >
 
-        <div id='grid3RowWrapper' className='h-full'>
-          <div className='flex'>
-            <div className='flex justify-between w-full mb-5'>
-              <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hi</h2>
-              <button onClick={closeModal}>X</button>
-            </div>
+        <div id='grid2RowWrapper' className='bg-slate-100 h-full overflow-hidden'>
+          <div>
+            <button className='absolute right-0 border-2 p-1 border-green-400 bg-green-400 text-white' onClick={closeModal}>X</button>
           </div>
           {!invitationLinkSent ?
-            <>
-              <div>
-              </div>
-              <form onSubmit={onSubmit}>
-                <input onChange={(e) => setEmail(e.target.value)} className='border-t-2 p-3 w-full text-center' placeholder='Enter e-mail address' name="" id="emailInput" required />
-                <input className='w-full bg-slate-100 hover:bg-slate-200' type="submit" value="Send invitation link" />
-              </form>
-            </>
+            <form id='grid2RowWrapper' className='h-full' onSubmit={onSubmit}>
+              <input onChange={(e) => setEmail(e.target.value)} className='border-t-2 border-b-2 bg-slate-100 w-full text-center' placeholder='Enter e-mail address' name="" id="emailInput" required />
+              <input className='w-full bg-slate-200 hover:bg-slate-400 cursor-pointer' type="submit" value="Send invitation link" />
+            </form>
             :
-            <>
-              <div className='flex justify-center text-center border-t-2'>
+            <div id='grid2RowWrapper'>
+              <div class='success-checkmark'>
+                <div class="check-icon">
+                  <span class="icon-line line-tip"></span>
+                  <span class="icon-line line-long"></span>
+                  <div class="icon-circle"></div>
+                  <div class="icon-fix"></div>
+                </div>
+              </div>
+              <div className='flex justify-center text-center'>
                 <p>{`An email has beent snet to ${email}`}</p>
               </div>
-              <div className='bg-slate-100 flex justify-center hover:bg-slate-200'>
-                <button className='w-full ' onClick={closeModal}>Close</button>
-              </div>
-            </>
+            </div>
           }
         </div>
       </Modal>
