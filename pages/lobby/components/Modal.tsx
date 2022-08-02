@@ -46,14 +46,14 @@ function MyModal({ modalIsOpen, setIsOpen }) {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    // signIn(
-    //   "email",
-    //   {
-    //     email: email,
-    //     callbackUrl: router.asPath,
-    //     redirect: false
-    //   }
-    // )
+    signIn(
+      "email",
+      {
+        email: email,
+        callbackUrl: router.asPath,
+        redirect: false
+      }
+    )
     setInvitationLinkSent(true)
   }
 

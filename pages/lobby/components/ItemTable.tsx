@@ -3,7 +3,7 @@ import mongoDB from '../../../sql-nodejs/cosmosdb/app';
 import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListItem';
-import { filterNthElement } from '../../../utils/removeNthElement';
+import { removeNthElement } from '../../../utils/removeNthElement';
 import { toFindDuplicates } from '../../../utils/findDuplicates';
 
 
@@ -11,6 +11,7 @@ import { toFindDuplicates } from '../../../utils/findDuplicates';
 function ItemTable({ userIndex, user, items }) {
 
   const [startItems, setStartItems] = useState(items)
+  console.log(startItems);
 
 
   useEffect(() => {
@@ -28,11 +29,34 @@ function ItemTable({ userIndex, user, items }) {
       userIndex: userIndex,
       itemIndex: itemIndex
     }
-    const filteredArr = filterNthElement(startItems, itemIndex)
+    const filteredArr = removeNthElement(startItems, itemIndex)
 
     setStartItems(filteredArr)
 
     const updateCosmo = await db.deleteItem(info)
+    return updateCosmo
+  }
+
+  const onReserve = async (itemIndex) => {
+    const info = {
+      id: lobbyId,
+      userIndex: userIndex,
+      itemIndex: itemIndex
+    }
+    // const filteredArr = startItems.filter((item, idx) => {
+    //   if(idx === itemIndex) {
+    //     item.reserve === true
+    //   }
+    // })
+
+    setStartItems((prev) => {
+
+      let prevData = [...prev]
+      prevData[itemIndex].reserved = true
+      return prevData
+    } )
+
+    const updateCosmo = await db.reserveItem(info)
     return updateCosmo
   }
 
@@ -67,7 +91,8 @@ function ItemTable({ userIndex, user, items }) {
       lobbyId: lobbyId,
       userIndex: userIndex,
       itemIndex: startItems.length,
-      item: input
+      item: input,
+      reserved: false
     }
 
     const updateCosmo = await db.updateItems(info)
@@ -79,7 +104,7 @@ function ItemTable({ userIndex, user, items }) {
       <ul id={`list-${userIndex}`}>
         {startItems && startItems.map((item, idx) => {
           return (
-            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} />
+            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} />
           )
         })}
       </ul>
