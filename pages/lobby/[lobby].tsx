@@ -9,6 +9,7 @@ import InviteModalButton from './components/InviteModalButton';
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import MyModal from './components/Modal';
+import blobStorage from '../../sql-nodejs/blobstorage/app';
 
 
 const darkBG = styled.div`
@@ -50,6 +51,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const db = new mongoDB
+  const blob = new blobStorage
   const creator = response.creator
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace('?', '')

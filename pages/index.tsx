@@ -7,7 +7,9 @@ import { removeDuplicateObjectsInArray } from '../utils/removeDuplicateObjectInA
 import Button from './components/Buttons/Button';
 import HowItWorks from './components/HowItWorks';
 
+
 export const Home = (props) => {
+
 
   const [userData, setUserData] = useState()
   const [createdLobbies, setCreatedLobbies] = useState([])

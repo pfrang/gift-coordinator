@@ -88,7 +88,7 @@ function MyModal({ modalIsOpen, setIsOpen }) {
                 </div>
               </div>
               <div className='flex justify-center text-center'>
-                <p>{`An email has beent snet to ${email}`}</p>
+                <p>{`An email has beent sent to ${email}`}</p>
               </div>
             </div>
           }

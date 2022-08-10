@@ -10,8 +10,8 @@ function ListItem({ user, item, onDelete, idx, onReserve, onRemoveReservation })
   const db = new mongoDB
 
   return (
-    <div id={`item-${idx}`} className='relative'>
-      <li className='border-b-2' key={idx}>
+    <div id={`item-${idx}`} className='relative flex'>
+      <li className='border-b-2 h-10 w-full' key={idx}>
         {item?.description}
       </li>
       {session?.user.email === user ?

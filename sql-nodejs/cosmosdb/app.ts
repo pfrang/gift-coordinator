@@ -1,9 +1,7 @@
 // @ts-check
 
-//  <ImportConfiguration>
-import { CosmosClient, PatchOperation } from "@azure/cosmos";
+import { Container, CosmosClient, Database, PatchOperation } from "@azure/cosmos";
 const config = require("./config");
-//  </ImportConfiguration>
 
 interface CreateQuery {
   id: string;
@@ -12,9 +10,9 @@ interface CreateQuery {
 }
 
 class mongoDB {
-  container: any;
-  client: any;
-  database: any;
+  container: Container;
+  client: CosmosClient;
+  database: Database;
   constructor() {
     const { endpoint, key, databaseId, containerId, AccountEndpoint } = config;
 
