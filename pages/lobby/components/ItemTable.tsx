@@ -5,23 +5,24 @@ import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListItem';
 import { removeNthElement } from '../../../utils/removeNthElement';
 import { toFindDuplicates } from '../../../utils/findDuplicates';
-
-
+import { useCurrentUserItems, useCurrentUser } from '../../context/context';
 
 function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
-
-  const [startItems, setStartItems] = useState(items);
-
-  useEffect(() => {
-    setStartItems(items)
-  }, [users]);
 
   const db = new mongoDB
   const router = useRouter()
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
   const { data: session, status } = useSession()
 
+  const { currentUser, setCurrentUser } = useCurrentUser();
+
+  const [startItems, setStartItems] = useState(items);
+
   const name = session.user.email.split("@")[0];
+
+  useEffect(() => {
+    setStartItems(items);
+  }, [users]);
 
   const onDelete = async (itemIndex) => {
     const info = {
@@ -29,10 +30,13 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
       userIndex: userIndex,
       itemIndex: itemIndex
     }
-    const filteredArr = removeNthElement(startItems, itemIndex)
+    const filteredArr = removeNthElement(startItems, itemIndex);
 
-    setStartItems(filteredArr)
-
+    setUsers((prev) => {
+      let users = [...prev];
+      users[userIndex].items = filteredArr;
+      return users;
+    })
     const updateCosmo = await db.deleteItem(info)
     return updateCosmo
   }

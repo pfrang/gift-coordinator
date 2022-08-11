@@ -4,13 +4,16 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 import mongoDB from '../../../sql-nodejs/cosmosdb/app';
 import { toFindDuplicates } from '../../../utils/findDuplicates';
+import { useCurrentUser } from '../../context/context';
 
 
-function AddItemModal({ currentUser, addModalIsOpen, setAddModalIsOpen, userIndex, setUsers }) {
+function AddItemModal({ addModalIsOpen, setAddModalIsOpen, userIndex, setUsers }) {
 
   const db = new mongoDB
 
   const router = useRouter();
+
+  const { currentUser, setCurrentUser } = useCurrentUser();
 
   const lobbyId = router.asPath.split("/").pop().replace('?', '');
 

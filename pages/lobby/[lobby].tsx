@@ -11,6 +11,7 @@ import Modal from 'react-modal';
 import InviteModal from './components/inviteModal';
 import blobStorage from '../../sql-nodejs/blobstorage/app';
 import AddItemModal from './components/addItemModal';
+import { useCurrentUserItems, useCurrentUser } from '../context/context';
 
 const darkBG = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
@@ -51,10 +52,9 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [addModalIsOpen, setAddModalIsOpen] = useState(false);
   const [userIndex, setUserIndex] = useState(0);
-  const [currentUser, setCurrentUser] = useState({})
 
-  console.log(users);
-
+  const { currentUser, setCurrentUser } = useCurrentUser();
+  const { currentItems, setCurrentItems } = useCurrentUserItems();
 
   const db = new mongoDB
   const blob = new blobStorage
@@ -128,7 +128,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   return (
     <div id="root">
       <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
-      <AddItemModal currentUser={currentUser} setUsers={setUsers} userIndex={userIndex} addModalIsOpen={addModalIsOpen} setAddModalIsOpen={setAddModalIsOpen} />
+      <AddItemModal setUsers={setUsers} userIndex={userIndex} addModalIsOpen={addModalIsOpen} setAddModalIsOpen={setAddModalIsOpen} />
       <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
         {session && <h1>Welcome {session.user.email}</h1>}
         <div className='flex h-8'>
@@ -159,7 +159,7 @@ export default function LobbyPage({ response }: LobbyProps) {
       }
       <div className='px-10 py-10 grid grid-cols-3 grid-rows-10 gap-12 content-center'>
         {users && users.map((user, idx) => {
-          return <ItemTable setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers } user={user.email} items={user.items} userIndex={idx} key={idx} />
+          return <ItemTable setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers} user={user.email} items={user.items} userIndex={idx} key={idx} />
         })}
       </div>
     </div>
