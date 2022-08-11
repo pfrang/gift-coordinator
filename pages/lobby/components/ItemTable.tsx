@@ -8,20 +8,20 @@ import { toFindDuplicates } from '../../../utils/findDuplicates';
 
 
 
-function ItemTable({ userIndex, user, items }) {
+function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
 
-  const [startItems, setStartItems] = useState(items)
-  console.log(startItems);
-
+  const [startItems, setStartItems] = useState(items);
 
   useEffect(() => {
     setStartItems(items)
-  },[user])
+  }, [users]);
 
   const db = new mongoDB
   const router = useRouter()
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
   const { data: session, status } = useSession()
+
+  const name = session.user.email.split("@")[0];
 
   const onDelete = async (itemIndex) => {
     const info = {
@@ -51,13 +51,13 @@ function ItemTable({ userIndex, user, items }) {
       prevData[itemIndex].reserved = true
       prevData[itemIndex].reserved_by = session.user.email
       return prevData
-    } )
+    })
 
     const updateCosmo = await db.reserveItem(info)
     return updateCosmo
   }
 
-  const onRemoveReservation = async(itemIndex) => {
+  const onRemoveReservation = async (itemIndex) => {
     const info = {
       id: lobbyId,
       userIndex: userIndex,
@@ -77,65 +77,25 @@ function ItemTable({ userIndex, user, items }) {
     return updateCosmo
   }
 
-  const checkifItemAlreadyExists = (input) => {
-    const item = document.getElementById(`list-${userIndex}`)
-    const li = Array.from(item.getElementsByTagName("li"))
-    const liValues = li.map((item) => {
-      return item.innerText
-    })
-    const response = toFindDuplicates(liValues, input)
-    return response
-  }
-
-  const onSubmit = async (e): Promise<void> => {
-    e.preventDefault()
-    const input = e.target.children[0].value
-    if(!input) {
-      return
-    }
-
-    if(checkifItemAlreadyExists(input)) {
-      alert('You already have that item on your list')
-      e.target.children[0].value = ""
-      return
-    }
-
-    setStartItems((prev) => [...prev, {description: input}])
-
-    e.target.children[0].value = ""
-
-    const info = {
-      lobbyId: lobbyId,
-      userIndex: userIndex,
-      itemIndex: startItems.length,
-      item: input,
-      reserved: false,
-      reservedBy: ""
-    }
-
-    const updateCosmo = await db.updateItems(info)
-    return updateCosmo
+  const onAddItem = () => {
+    setAddModalIsOpen(true)
   }
   return (
-    <div className='border-2'>
-      <p className='text-rose-600 border-b-2 border-black'><b>{user}</b>{`'s Wish List !`}</p>
+    <div className='border-2 shadow-xl'>
+      <div className='flex border-b-2 border-black items-center p-2 gap-10 justify-between'>
+        <p className='align-middle text-rose-600 text-sm'><b>{name}</b>{`'s Wish List !`}</p>
+        {
+          session && session.user.email === user &&
+          <button className='rounded-md shadow-md bg-green-500 hover:bg-green-700 border-2 p-2 text-xs' onClick={onAddItem}>Legg til item</button>
+        }
+      </div>
       <ul id={`list-${userIndex}`}>
         {startItems && startItems.map((item, idx) => {
           return (
-            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation}/>
+            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
           )
         })}
       </ul>
-      {
-        session && session.user.email === user &&
-        <form className='relative' onSubmit={onSubmit}>
-          <input className='border-4 border-indigo-600 max-w-full' placeholder='Add wish' type="text" name="" id="wish" />
-          <label>
-            <input type="submit" className='hidden' />
-            <svg className="absolute -left-8 top-0 h-8 w-8 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
-          </label>
-        </form>
-      }
     </div >
   );
 }

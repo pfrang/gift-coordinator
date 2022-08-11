@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 import mongoDB from '../../../sql-nodejs/cosmosdb/app';
 
-function MyModal({ modalIsOpen, setIsOpen }) {
+function InviteModal({ modalIsOpen, setIsOpen }) {
 
   const [email, setEmail] = useState('');
   const [invitationLinkSent, setInvitationLinkSent] = useState(false)
@@ -98,4 +98,4 @@ function MyModal({ modalIsOpen, setIsOpen }) {
   );
 }
 
-export default MyModal;
+export default InviteModal;
