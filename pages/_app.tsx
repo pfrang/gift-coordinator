@@ -3,8 +3,9 @@ import '../styles/checkmark-btn.scss'
 import type { AppProps } from 'next/app'
 import Layout from './components/StylingDivs/Layout'
 import { SessionProvider, useSession } from 'next-auth/react'
-import { useState } from 'react'
 import Modal from 'react-modal'
+import styled from 'styled-components'
+
 // import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 // import { config } from "@fortawesome/fontawesome-svg-core";
 // config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
@@ -16,6 +17,7 @@ function MyApp({
 
   const requireAuthentication = pageProps.requireAuthentication
   Modal.setAppElement('#root');
+
 
   return (
     <SessionProvider session={session}>

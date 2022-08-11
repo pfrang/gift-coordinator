@@ -89,7 +89,7 @@ function AddItemModal({ addModalIsOpen, setAddModalIsOpen, userIndex, setUsers }
       reserved: false,
       reservedBy: ""
     }
-
+    closeModal();
     const updateCosmo = await db.updateItems(info)
     return updateCosmo
   }
@@ -104,7 +104,7 @@ function AddItemModal({ addModalIsOpen, setAddModalIsOpen, userIndex, setUsers }
         style={modalStyles}
         contentLabel="Example Modal"
       >
-        <form className='flex flex-col ' onSubmit={onSubmit}>
+        <form className='flex flex-col' onSubmit={onSubmit}>
             <input className='border-b-2 p-1' type="text" name="" id="" />
             <div>
               <label htmlFor="avatar">Choose a profile picture:</label>

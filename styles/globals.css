@@ -7,16 +7,64 @@
   src: url('./webfonts/outward/outward-block-webfont.woff') format('woff');
 }
 
+@font-face {
+  font-family: 'Silkscreen';
+  src: url('./webfonts/silkscreen/Silkscreen-Regular.ttf') format('woff');
+}
+
+@font-face {
+  font-family: 'Silkscreen Bold';
+  src: url('./webfonts/silkscreen/Silkscreen-Bold.ttf') format('woff');
+}
+
+@font-face {
+  font-family: 'Anton';
+  src: url('./webfonts/anton/Anton-Regular.ttf') format('woff');
+}
+
+
+h2 {
+  font-family: 'Silkscreen Bold';
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+li {
+  font-family: 'Anton';
+  --tw-text-opacity: 1;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
+}
+
+li:hover {
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+p {
+  font-family: 'Anton';
+  --tw-text-opacity: 2;
+  color: rgb(203 213 225 / var(--tw-text-opacity));
+}
+
 
 h3 {
   margin: 0;
-  font-family: 'Outward';
+  font-family: 'Silkscreen';
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
-#wrapper {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+h4 {
+  margin: 0;
+  font-family: 'Silkscreen';
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+h5 {
+  font-family: 'Anton';
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 #grid2RowWrapper {
