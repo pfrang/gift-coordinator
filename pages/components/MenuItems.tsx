@@ -30,7 +30,7 @@ function MenuItems(props) {
   return (
     <li className='p-2 cursor-pointer' id={props.items}>
       <div>
-        <button onClick={redirect} className=' text-sm'>{props.items}</button>
+        <button onClick={redirect} className='text-sm'>{props.items}</button>
         {invalidProfileDirect && <p className='my-2 whitespace-nowrap absolute w-10 top-8 right-18 text-sm flex text-red-500'>Please log in</p>}
       </div>
     </li>

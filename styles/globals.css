@@ -23,28 +23,29 @@
 }
 
 
-h2 {
-  font-family: 'Silkscreen Bold';
-  --tw-bg-opacity: 1;
-  color: rgb(226 232 240 / var(--tw-bg-opacity));
-}
 
-li {
+
+li, button {
   font-family: 'Anton';
   --tw-text-opacity: 1;
   color: rgb(203 213 225 / var(--tw-text-opacity));
 }
 
-li:hover {
+button:hover, li:hover {
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 p {
   font-family: 'Anton';
-  color: #b8b4b0;
+  color: #929291;
 }
 
+h2 {
+  font-family: 'Silkscreen Bold';
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
 
 h3 {
   margin: 0;
@@ -54,13 +55,13 @@ h3 {
 }
 
 h4 {
-  margin: 0;
-  font-family: 'Silkscreen';
+  font-family: 'Anton';
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 h5 {
+  margin: 0;
   font-family: 'Anton';
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));

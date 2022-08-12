@@ -6,6 +6,7 @@ import ListItem from './ListItem';
 import { removeNthElement } from '../../../utils/removeNthElement';
 import { toFindDuplicates } from '../../../utils/findDuplicates';
 import { useCurrentUserItems, useCurrentUser } from '../../context/context';
+import { Icons } from '../../../Icons/Icons';
 
 function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
 
@@ -85,12 +86,12 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
     setAddModalIsOpen(true)
   }
   return (
-    <div className='border-2 shadow-xl'>
-      <div className='flex border-b-2 border-black items-center p-2 gap-10 justify-between'>
-        <p className='align-middle text-rose-600 text-sm'><b>{name}</b>{`'s Wish List !`}</p>
+    <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl'>
+      <div className='flex border-b-2 border-black items-center p-2 justify-between'>
+        <h5 className='align-middle text-sm'><b>{name}</b>{`'s Wish List !`}</h5>
         {
           session && session.user.email === user &&
-          <button className='rounded-md shadow-md bg-green-500 hover:bg-green-700 border-2 p-2 text-xs' onClick={onAddItem}>Legg til item</button>
+          <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={onAddItem}><h5>Legg til ønske</h5></button>
         }
       </div>
       <ul id={`list-${userIndex}`}>

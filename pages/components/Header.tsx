@@ -16,7 +16,6 @@ const HeaderComp = styled.header`
 
 function Header(props) {
 
-
   const { data: session, status } = useSession()
 
   const arr = ["Home", "Profile", session ? "Logout" : "Login"]

@@ -82,11 +82,11 @@ class mongoDB {
   // }
 
   updateItems = async (info) => {
-    const { lobbyId, userIndex, item, itemIndex, reserved, reservedBy } = info
+    const { lobbyId, userIndex, item, quantity, link, itemIndex, reserved, price, reservedBy } = info
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/users/${userIndex}/items/-`, value: {description: item, id: itemIndex, reserved: reserved, reserved_by: reservedBy }
+        op: add, path: `/users/${userIndex}/items/-`, value: { description: item, id: itemIndex, price:price, quantity: quantity, link: link, reserved: reserved, reserved_by: reservedBy }
       }];
 
     const response = await this.container.item(lobbyId,lobbyId).patch(operations);

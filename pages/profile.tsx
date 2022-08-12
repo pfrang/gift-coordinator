@@ -38,13 +38,13 @@ function Profile(props) {
     <Marginx20Div>
       <div className='flex justify-between'>
         <div className='flex flex-col items-center'>
-          <h2>Lobbies you created</h2>
+          <h4>Lobbies you created</h4>
           <ul>
             {createdLobbies && createdLobbies.map((item, idx) => <li className='underline' key={idx}><Link key={idx} href={`lobby/${item.id}`}><a>{item.id}</a></Link></li>)}
           </ul>
         </div>
         <div className='flex flex-col items-center'>
-          <h2>Lobbies you have started making a list in</h2>
+          <h4>Lobbies you have started making a list in</h4>
           <ul>
             {belongingLobbies && belongingLobbies.map((item, idx) => <li className='underline' key={idx}><Link key={idx} href={`lobby/${item.id}`}><a>{item.id}</a></Link></li>)}
           </ul>

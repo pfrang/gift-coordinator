@@ -42,6 +42,22 @@ interface LobbyProps {
   }
 }
 
+const PageWrapper = styled.div`
+  margin: 0px 8rem;
+  `
+
+const ExtendedHeaderDiv = styled.div`
+    margin-left: -8rem;
+    margin-right: -8rem;
+    background-color: #0d1e45ef;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 0px 8rem;
+  `
+
 export default function LobbyPage({ response }: LobbyProps) {
 
   const [edit, setEdit] = useState(true)
@@ -124,44 +140,43 @@ export default function LobbyPage({ response }: LobbyProps) {
     setIsOpen(true);
   }
 
-
   return (
     <div id="root">
-      <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
-      <AddItemModal setUsers={setUsers} userIndex={userIndex} addModalIsOpen={addModalIsOpen} setAddModalIsOpen={setAddModalIsOpen} />
-      <div className='px-10 flex border-2 h-[80px] justify-between items-center align-middle'>
-        {session && <h1>Welcome {session.user.email}</h1>}
-        <div className='flex h-8'>
-          {creator === session.user.email ?
-            <form onSubmit={onSubmit}>
-              <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
-              <input type="submit" value="" />
-            </form>
-            :
-            <div className='w-full flex border-b-2 items-center'>
-              <p>{editVal}</p>
-            </div>}
-          {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
+      <PageWrapper>
+        <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+        <AddItemModal setUsers={setUsers} userIndex={userIndex} addModalIsOpen={addModalIsOpen} setAddModalIsOpen={setAddModalIsOpen} />
+        <ExtendedHeaderDiv>
+          {session && <h4>Welcome {session.user.email}</h4>}
+          <div className='flex h-8'>
+            {creator === session.user.email ?
+              <form onSubmit={onSubmit}>
+                <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
+                <input type="submit" value="" />
+              </form>
+              :
+              <div className='w-full flex border-b-2 items-center'>
+                <p>{editVal}</p>
+              </div>}
+            {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
+          </div>
+          <InviteModalButton setShowModal={openModal}>
+            Invite friend
+          </InviteModalButton>
+        </ExtendedHeaderDiv>
+        {showClickStartbtn &&
+          <div className='flex items-center justify-center'>
+            <h1>You havent made a wish list yet !</h1>
+            <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={addUser}>
+              Click here to start !
+            </button>
+          </div>
+        }
+        <div className='py-10 grid grid-cols-3 grid-rows-10 gap-12 content-center'>
+          {users && users.map((user, idx) => {
+            return <ItemTable setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers} user={user.email} items={user.items} userIndex={idx} key={idx} />
+          })}
         </div>
-        <div>
-        </div>
-        <InviteModalButton setShowModal={openModal}>
-          Invite friend
-        </InviteModalButton>
-      </div>
-      {showClickStartbtn &&
-        <div className='flex items-center justify-center'>
-          <h1>You havent made a wish list yet !</h1>
-          <button className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs" onClick={addUser}>
-            Click here to start !
-          </button>
-        </div>
-      }
-      <div className='px-10 py-10 grid grid-cols-3 grid-rows-10 gap-12 content-center'>
-        {users && users.map((user, idx) => {
-          return <ItemTable setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers} user={user.email} items={user.items} userIndex={idx} key={idx} />
-        })}
-      </div>
+      </PageWrapper>
     </div>
   );
 }

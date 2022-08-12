@@ -32,6 +32,9 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
       width: 350,
       height: 200,
     },
+    overlay: {
+      background: "#091738b3"
+    }
   };
 
   function afterOpenModal() {
