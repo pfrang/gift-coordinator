@@ -9,16 +9,15 @@ import Button from './components/Buttons/Button';
 import LeftSide from './components/FrontPage/LeftSide';
 import RightSide from './components/FrontPage/RightSide';
 
-
-export const Home = (props) => {
-
-  const ContentWrapper = styled.div`
-  margin: 0px 5rem;
+const ContentWrapper = styled.div`
+  margin: 0px 8rem;
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 50px;
   `
+
+export const Home = (props) => {
 
   const [userData, setUserData] = useState()
   const [createdLobbies, setCreatedLobbies] = useState([])

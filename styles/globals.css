@@ -42,8 +42,7 @@ li:hover {
 
 p {
   font-family: 'Anton';
-  --tw-text-opacity: 2;
-  color: rgb(203 213 225 / var(--tw-text-opacity));
+  color: #b8b4b0;
 }
 
 
@@ -66,6 +65,7 @@ h5 {
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
+
 
 #grid2RowWrapper {
   display: grid;

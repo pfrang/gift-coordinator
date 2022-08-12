@@ -20,6 +20,8 @@ function MenuItems(props) {
         return signIn()
       case "Logout":
         return signOut()
+      case "Home":
+        router.push('/');
       default:
         return ""
     }
