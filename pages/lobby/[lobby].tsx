@@ -156,8 +156,8 @@ export default function LobbyPage({ response }: LobbyProps) {
                 <input type="submit" value="" />
               </form>
               :
-              <div className='w-full flex border-b-2 items-center'>
-                <p>{editVal}</p>
+              <div className='w-full flex items-center'>
+                <h5>{editVal}</h5>
               </div>}
             {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
           </div>

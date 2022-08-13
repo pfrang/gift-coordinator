@@ -82,21 +82,21 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
   }
 
   return (
-    <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl'>
-      <div className='flex border-b-2 border-black items-center p-2 justify-between'>
-        <h5 className='align-middle text-sm'><b>{name}</b>{`'s Wish List !`}</h5>
+    <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-2'>
+      <div className='flex items-center py-2 justify-between'>
+        <h5 className='align-middle text-xs'><b>{name}</b>{`'s Wish List !`}</h5>
         {
           session && session.user.email === user &&
           <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={onAddItem}><h5>Legg til ønske</h5></button>
         }
       </div>
-      <ul id={`list-${userIndex}`}>
+      <div id={`list-${userIndex}`}>
         {startItems && startItems.map((item, idx) => {
           return (
             <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
           )
         })}
-      </ul>
+      </div>
     </div >
   );
 }
