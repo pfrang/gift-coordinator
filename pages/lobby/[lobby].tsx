@@ -84,6 +84,9 @@ export default function LobbyPage({ response }: LobbyProps) {
     },
   })
 
+  console.log(users);
+
+
   useEffect(() => {
     if (status === 'authenticated' && users) {
       const foundUser = users.find((user) => user.email === session?.user.email);

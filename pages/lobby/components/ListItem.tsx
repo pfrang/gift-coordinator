@@ -1,8 +1,6 @@
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { Icons } from '../../../Icons/Icons';
-import mongoDB from '../../../sql-nodejs/cosmosdb/app';
-import addItemModal from './addItemModal';
 
 function ListItem({ user, item, onDelete, idx, onReserve, onRemoveReservation }) {
 

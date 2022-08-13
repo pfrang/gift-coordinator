@@ -14,7 +14,7 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
 
   const [startItems, setStartItems] = useState(items);
 
-  const name = session.user.email.split("@")[0];
+  const name = session?.user.email.split("@")[0];
 
   useEffect(() => {
     setStartItems(items);
@@ -49,7 +49,7 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
 
       let prevData = [...prev]
       prevData[itemIndex].reserved = true
-      prevData[itemIndex].reserved_by = session.user.email
+      prevData[itemIndex].reserved_by = session?.user.email
       return prevData
     })
 
@@ -61,7 +61,7 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
     const info = {
       id: lobbyId,
       userIndex: userIndex,
-      reservedBy: session.user.email,
+      reservedBy: session?.user.email,
       itemIndex: itemIndex
     }
 
@@ -80,6 +80,7 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
   const onAddItem = () => {
     setAddModalIsOpen(true)
   }
+
   return (
     <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl'>
       <div className='flex border-b-2 border-black items-center p-2 justify-between'>
