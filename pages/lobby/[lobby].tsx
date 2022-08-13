@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 import InviteModal from './components/inviteModal';
 import blobStorage from '../../sql-nodejs/blobstorage/app';
 import AddItemModal from './components/addItemModal';
-import { useCurrentUser } from '../context/context';
+import { useCurrentUser } from '../../context/context';
 
 const darkBG = styled.div`
   background-color: rgba(0, 0, 0, 0.2);

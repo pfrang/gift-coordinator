@@ -5,7 +5,7 @@ import Modal from 'react-modal'
 import styled from 'styled-components';
 import mongoDB from '../../../sql-nodejs/cosmosdb/app';
 import { toFindDuplicates } from '../../../utils/findDuplicates';
-import { useCurrentUser } from '../../context/context';
+import { useCurrentUser } from '../../../context/context';
 
 const ModalWrapper = styled.div`
   background-color: #f9fafb;

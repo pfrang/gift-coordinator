@@ -8,10 +8,6 @@ function ListItem({ user, item, onDelete, idx, onReserve, onRemoveReservation })
 
   const { data: session, status } = useSession();
 
-  const name = user.split("@");
-
-  const db = new mongoDB
-
   return (
     <div id={`item-${idx}`} className='table border-b-2 border-black'>
       <li className='pl-2 table-cell align-middle h-10 w-full' key={idx}>
