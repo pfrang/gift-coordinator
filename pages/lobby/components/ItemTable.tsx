@@ -4,18 +4,13 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListItem';
 import { removeNthElement } from '../../../utils/removeNthElement';
-import { toFindDuplicates } from '../../../utils/findDuplicates';
-import { useCurrentUserItems, useCurrentUser } from '../../context/context';
-import { Icons } from '../../../Icons/Icons';
 
 function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
 
   const db = new mongoDB
   const router = useRouter()
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
-  const { data: session, status } = useSession()
-
-  const { currentUser, setCurrentUser } = useCurrentUser();
+  const { data: session, status } = useSession();
 
   const [startItems, setStartItems] = useState(items);
 

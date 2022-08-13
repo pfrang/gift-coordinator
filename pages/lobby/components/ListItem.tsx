@@ -6,8 +6,7 @@ import addItemModal from './addItemModal';
 
 function ListItem({ user, item, onDelete, idx, onReserve, onRemoveReservation }) {
 
-  const { data: session, status } = useSession()
-  const [addModalIsOpen, setAddModalIsOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   const name = user.split("@");
 

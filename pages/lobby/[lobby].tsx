@@ -11,7 +11,7 @@ import Modal from 'react-modal';
 import InviteModal from './components/inviteModal';
 import blobStorage from '../../sql-nodejs/blobstorage/app';
 import AddItemModal from './components/addItemModal';
-import { useCurrentUserItems, useCurrentUser } from '../context/context';
+import { useCurrentUser } from '../context/context';
 
 const darkBG = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
@@ -70,7 +70,6 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [userIndex, setUserIndex] = useState(0);
 
   const { currentUser, setCurrentUser } = useCurrentUser();
-  const { currentItems, setCurrentItems } = useCurrentUserItems();
 
   const db = new mongoDB
   const blob = new blobStorage
