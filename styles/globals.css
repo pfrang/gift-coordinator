@@ -54,7 +54,7 @@ h3 {
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
-h4 {
+h4, th {
   font-family: 'Anton';
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));

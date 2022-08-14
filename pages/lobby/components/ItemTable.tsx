@@ -77,6 +77,7 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
     return updateCosmo
   }
 
+
   return (
     <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-2'>
       <div className='flex items-center py-2 justify-between'>
@@ -86,13 +87,33 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
           <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={() => setAddModalIsOpen(true)}><h5>Legg til ønske</h5></button>
         }
       </div>
-      <div id={`list-${userIndex}`}>
+      <table className='w-full' id={`list-${userIndex}`}>
+        {session && session.user.email === user ?
+          <tr>
+            <th className='w-1/3'><h5>Tittel</h5></th>
+            <th className='w-1/3'>Rediger</th>
+            <th className='w-1/3'>Slett</th>
+          </tr>
+          :
+          <tr>
+            <th className='w-1/3'>
+              <h5>Tittel</h5>
+            </th>
+            <th className='w-1/3'>
+              <h5>Reservert av</h5>
+            </th>
+            <th className='w-1/3'>
+              <h5>Reserver</h5>
+            </th>
+          </tr>
+        }
+
         {startItems && startItems.map((item, idx) => {
           return (
             <ListItem setAddModalIsOpen={setAddModalIsOpen} setEditItemIndex={setEditItemIndex} key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
           )
         })}
-      </div>
+      </table>
     </div >
   );
 }
