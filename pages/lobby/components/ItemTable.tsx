@@ -5,7 +5,7 @@ import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListItem';
 import { removeNthElement } from '../../../utils/removeNthElement';
 
-function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
+function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
 
   const db = new mongoDB
   const router = useRouter()
@@ -77,23 +77,19 @@ function ItemTable({ userIndex, items, user, users, setUsers, setAddModalIsOpen 
     return updateCosmo
   }
 
-  const onAddItem = () => {
-    setAddModalIsOpen(true)
-  }
-
   return (
     <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-2'>
       <div className='flex items-center py-2 justify-between'>
         <h5 className='align-middle text-xs'><b>{name}</b>{`'s Wish List !`}</h5>
         {
           session && session.user.email === user &&
-          <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={onAddItem}><h5>Legg til ønske</h5></button>
+          <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={() => setAddModalIsOpen(true)}><h5>Legg til ønske</h5></button>
         }
       </div>
       <div id={`list-${userIndex}`}>
         {startItems && startItems.map((item, idx) => {
           return (
-            <ListItem key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
+            <ListItem setAddModalIsOpen={setAddModalIsOpen} setEditItemIndex={setEditItemIndex} key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
           )
         })}
       </div>

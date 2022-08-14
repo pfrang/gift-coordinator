@@ -68,6 +68,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [addModalIsOpen, setAddModalIsOpen] = useState(false);
   const [userIndex, setUserIndex] = useState(0);
+  const [editItemIndex, setEditItemIndex] = useState({});
 
   const { currentUser, setCurrentUser } = useCurrentUser();
 
@@ -84,9 +85,6 @@ export default function LobbyPage({ response }: LobbyProps) {
     },
   })
 
-  console.log(users);
-
-
   useEffect(() => {
     if (status === 'authenticated' && users) {
       const foundUser = users.find((user) => user.email === session?.user.email);
@@ -100,7 +98,11 @@ export default function LobbyPage({ response }: LobbyProps) {
         setShowClickStartbtn(true);
       }
     }
-  }, [session, users])
+
+    if (!addModalIsOpen) {
+      setEditItemIndex({});
+    }
+  }, [session, users, addModalIsOpen])
 
   const addUser = async (e) => {
     const query = {
@@ -131,7 +133,7 @@ export default function LobbyPage({ response }: LobbyProps) {
     inputField.blur()
   }
 
-  const addItem = () => {
+  const changeLobbyName = () => {
     setEdit(false)
     const inputField = document.getElementById("input") as HTMLInputElement
     inputField.focus()
@@ -146,21 +148,26 @@ export default function LobbyPage({ response }: LobbyProps) {
     <div id="root">
       <PageWrapper>
         <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
-        <AddItemModal setUsers={setUsers} userIndex={userIndex} addModalIsOpen={addModalIsOpen} setAddModalIsOpen={setAddModalIsOpen} />
+        <AddItemModal editItemIndex={editItemIndex} setEditItemIndex={setEditItemIndex} setUsers={setUsers} userIndex={userIndex} addModalIsOpen={addModalIsOpen} setAddModalIsOpen={setAddModalIsOpen} />
         <ExtendedHeaderDiv>
-          {session && <h4>Welcome {session.user.email}</h4>}
-          <div className='flex h-8'>
+          <div className='flex h-8 gap-1'>
             {creator === session.user.email ?
-              <form onSubmit={onSubmit}>
-                <input className='cursor-default border-b-2' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
-                <input type="submit" value="" />
-              </form>
+              <>
+                <form onSubmit={onSubmit} className=''>
+                  <input className='cursor-default text-slate-200 bg-[#0d1e45ef]' onChange={(e) => { setEditVal(e.target.value) }} value={editVal} type="text" name="input2" id="input" maxLength={20} />
+                  <input type="submit" value="" />
+                </form>
+                <div className='align-middle'>
+                  <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, verticalAlign: 'middle', marginTop: 5, height: 30, color: 'white' }} onClick={changeLobbyName} />
+                </div>
+              </>
               :
-              <div className='w-full flex items-center'>
-                <h5>{editVal}</h5>
-              </div>}
-            {session && session.user.email === creator && <FontAwesomeIcon icon={faEdit} style={{ fontSize: 5, height: 30, marginTop: 4 }} onClick={addItem} />}
+              <div>
+                <h5>Opprettet av <br /> {creator}</h5>
+              </div>
+            }
           </div>
+          {session && <h4>{editVal}</h4>}
           <InviteModalButton setShowModal={openModal}>
             Invite friend
           </InviteModalButton>
@@ -175,7 +182,7 @@ export default function LobbyPage({ response }: LobbyProps) {
         }
         <div className='py-10 grid grid-cols-3 grid-rows-10 gap-12 content-center'>
           {users && users.map((user, idx) => {
-            return <ItemTable setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers} user={user.email} items={user.items} userIndex={idx} key={idx} />
+            return <ItemTable setEditItemIndex={setEditItemIndex} setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers} user={user.email} items={user.items} userIndex={idx} key={idx} />
           })}
         </div>
       </PageWrapper>

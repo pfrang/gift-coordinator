@@ -52,11 +52,6 @@ class mongoDB {
     return response
   }
 
-  updateEmail = async (query) => {
-    const { email } = query
-    const add = "add" as const
-  }
-
   addNewUser = async (query) => {
     const { lobbyId, name, email } = query
 
@@ -81,15 +76,39 @@ class mongoDB {
   //   }]
   // }
 
-  updateItems = async (info) => {
-    const { lobbyId, userIndex, item, quantity, link, itemIndex, reserved, price, reservedBy } = info
+  addNewItem = async (info) => {
+    const { lobbyId, userIndex, description, quantity, link, itemIndex, reserved, price, reservedBy } = info
     const add = "add" as const
     const operations =
       [{
-        op: add, path: `/users/${userIndex}/items/-`, value: { description: item, id: itemIndex, price:price, quantity: quantity, link: link, reserved: reserved, reserved_by: reservedBy }
+        op: add, path: `/users/${userIndex}/items/-`, value: { description: description, id: itemIndex, price:price, quantity: quantity, link: link, reserved: reserved, reserved_by: reservedBy }
       }];
 
     const response = await this.container.item(lobbyId,lobbyId).patch(operations);
+    console.log(response);
+    return response
+  }
+
+
+  updateItem = async (info) => {
+    const { lobbyId, userIndex, description, quantity, link, itemIndex, price, } = info
+    const set = "set" as const
+    const operations =
+      [{
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/description`, value: description,
+      },
+      {
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/quantity`, value: quantity ? quantity: "",
+      },
+      {
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/price`, value: price ? price : "",
+      },
+      {
+        op: set, path: `/users/${userIndex}/items/${itemIndex}/link`, value: link ? link : "",
+      }]
+
+    const response = await this.container.item(lobbyId, lobbyId).patch(operations);
+    console.log(response)
     return response
   }
 
@@ -135,7 +154,6 @@ class mongoDB {
     const response = await this.container.item(id, id).patch(operations);
     console.log(response)
     return response
-
   }
 
 }
