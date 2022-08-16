@@ -13,17 +13,6 @@ import blobStorage from '../../sql-nodejs/blobstorage/app';
 import AddItemModal from './components/addItemModal';
 import { useCurrentUser } from '../../context/context';
 
-const darkBG = styled.div`
-  background-color: rgba(0, 0, 0, 0.2);
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-`
-
 interface Items {
   description: string
 }

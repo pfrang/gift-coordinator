@@ -4,6 +4,14 @@ import { useRouter } from 'next/router';
 import { signIn, useSession } from 'next-auth/react';
 import ListItem from './ListItem';
 import { removeNthElement } from '../../../utils/removeNthElement';
+import styled from 'styled-components';
+
+const TableStyle = styled.table`
+  display: table;
+  margin-right: -1rem;
+  margin-left: -1rem;
+  width: calc(100% + 2rem);
+  `
 
 function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, setAddModalIsOpen }) {
 
@@ -79,7 +87,7 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
 
 
   return (
-    <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-2'>
+    <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1'>
       <div className='flex items-center py-2 justify-between'>
         <h5 className='align-middle text-xs'><b>{name}</b>{`'s Wish List !`}</h5>
         {
@@ -87,34 +95,29 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
           <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={() => setAddModalIsOpen(true)}><h5>Legg til ønske</h5></button>
         }
       </div>
-      <table className='w-full' id={`list-${userIndex}`}>
-        {session && session.user.email === user ?
-          <tr>
-            <th className='w-1/3'><h5>Tittel</h5></th>
-            <th className='w-1/3'>Rediger</th>
-            <th className='w-1/3'>Slett</th>
-          </tr>
-          :
-          <tr>
-            <th className='w-1/3'>
-              <h5>Tittel</h5>
-            </th>
-            <th className='w-1/3'>
-              <h5>Reservert av</h5>
-            </th>
-            <th className='w-1/3'>
-              <h5>Reserver</h5>
-            </th>
-          </tr>
-        }
-
-        {startItems && startItems.map((item, idx) => {
-          return (
-            <ListItem setAddModalIsOpen={setAddModalIsOpen} setEditItemIndex={setEditItemIndex} key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
-          )
-        })}
-      </table>
-    </div >
+      <TableStyle id={`list-${userIndex}`}>
+        <tbody className='table-row-group text-center'>
+          {session && session.user.email === user ?
+            <tr className='table-row border-t-2 border-slate-400'>
+              <th className='w-1/3'>Tittel</th>
+              <th className='w-1/3'>Rediger</th>
+              <th className='w-1/3'>Slett</th>
+            </tr>
+            :
+            <tr>
+              <th className='w-1/3'>Tittel</th>
+              <th className='w-1/3'>Reservert av</th>
+              <th className='w-1/3'>Reserver</th>
+            </tr>
+          }
+          {startItems && startItems.map((item, idx) => {
+            return (
+              <ListItem setAddModalIsOpen={setAddModalIsOpen} setEditItemIndex={setEditItemIndex} key={idx} user={user} item={item} idx={idx} onDelete={onDelete} onReserve={onReserve} onRemoveReservation={onRemoveReservation} />
+            )
+          })}
+        </tbody>
+      </TableStyle>
+    </div>
   );
 }
 
