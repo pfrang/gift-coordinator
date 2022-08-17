@@ -47,6 +47,18 @@ const ExtendedHeaderDiv = styled.div`
     padding: 0px 8rem;
   `
 
+  const TwoColumnLayout = styled.div`
+  display: grid;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  gap: 3rem;
+  align-content: center;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  @media(max-width: 768px) {
+    grid-template-columns: repeat(1, minmax(0,1fr));
+  }
+  `
+
 export default function LobbyPage({ response }: LobbyProps) {
 
   const [edit, setEdit] = useState(true)
@@ -169,11 +181,11 @@ export default function LobbyPage({ response }: LobbyProps) {
             </button>
           </div>
         }
-        <div className='py-10 grid grid-cols-3 grid-rows-10 gap-12 content-center'>
+        <TwoColumnLayout>
           {users && users.map((user, idx) => {
             return <ItemTable setEditItemIndex={setEditItemIndex} setAddModalIsOpen={setAddModalIsOpen} users={users} setUsers={setUsers} user={user.email} items={user.items} userIndex={idx} key={idx} />
           })}
-        </div>
+        </TwoColumnLayout>
       </PageWrapper>
     </div>
   );

@@ -12,14 +12,11 @@ function ListItem({ user, item, onDelete, idx, onReserve, onRemoveReservation, s
   }
 
   return (
-    <tr className='border-t-2 border-slate-400'>
+    <tr className='border-t-2 border-slate-400 h-12'>
       <td className='1-3'>
-        {/* <div id={`item-${idx}`} className='px-2 flex justify-between -mx-4 border-t-2 border-black'> */}
-        <div className='align-middle'>
-          <h5 className='pl-2'>
-            {item?.description}
-          </h5>
-        </div>
+        <h5 className='pl-2'>
+          {item?.description}
+        </h5>
       </td>
       {session?.user.email === user ?
         <>
@@ -35,20 +32,27 @@ function ListItem({ user, item, onDelete, idx, onReserve, onRemoveReservation, s
             </button>
           </td>
         </>
-        // </div>
         : item.reserved ?
-          <div className='align-middle flex'>
-            <p className='text-xs px-5'>{`Reserved by ${item.reserved_by}`}</p>
-            {item.reserved_by === session.user.email &&
-              <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-1 text-xs' onClick={() => onRemoveReservation(idx)}><h5>Fjern reservasjon?</h5></button>
-            }
-          </div>
+          <>
+            <td className='w-1/3'>
+              <p className='text-xs px-5 break-words'>{`Reserved by ${item.reserved_by.split("@")[0]}`}</p>
+            </td>
+            <td className='w-1/3'>
+              {item.reserved_by === session.user.email &&
+                <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={() => onRemoveReservation(idx)}><h5>Fjern reservasjon?</h5></button>
+              }
+            </td>
+          </>
           :
-          <div className='align-middle'>
-            <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 py-1 px-2 text-xs' onClick={() => onReserve(idx)}><h5>Reserver?</h5></button>
-          </div>
+          <>
+            <td className='w-1/3'>
+              <p className='text-xs px-5'>Ingen</p>
+            </td>
+            <td className='w-1/3'>
+              <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={() => onReserve(idx)}><h5>Reserver?</h5></button>
+            </td>
+          </>
       }
-      {/* </div> */}
     </tr >
   );
 }

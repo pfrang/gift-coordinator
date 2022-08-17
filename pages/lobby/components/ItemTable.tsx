@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 const TableStyle = styled.table`
   display: table;
+  table-layout: fixed;
   margin-right: -1rem;
   margin-left: -1rem;
   width: calc(100% + 2rem);
@@ -22,7 +23,7 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
 
   const [startItems, setStartItems] = useState(items);
 
-  const name = session?.user.email.split("@")[0];
+  const name = user.split("@")[0];
 
   useEffect(() => {
     setStartItems(items);
@@ -87,9 +88,10 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
 
 
   return (
-    <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1'>
-      <div className='flex items-center py-2 justify-between'>
-        <h5 className='align-middle text-xs'><b>{name}</b>{`'s Wish List !`}</h5>
+    <div>
+      <div className='border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1'>
+      <div className='flex items-center py-4 justify-between h-12'>
+        <h5 className='align-middle text-xs'>{name}{`'s Wish List !`}</h5>
         {
           session && session.user.email === user &&
           <button className='rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs' onClick={() => setAddModalIsOpen(true)}><h5>Legg til ønske</h5></button>
@@ -104,7 +106,7 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
               <th className='w-1/3'>Slett</th>
             </tr>
             :
-            <tr>
+            <tr className='table-row border-t-2 border-slate-400'>
               <th className='w-1/3'>Tittel</th>
               <th className='w-1/3'>Reservert av</th>
               <th className='w-1/3'>Reserver</th>
@@ -117,6 +119,7 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
           })}
         </tbody>
       </TableStyle>
+      </div>
     </div>
   );
 }
