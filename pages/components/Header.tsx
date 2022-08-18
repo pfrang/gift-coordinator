@@ -7,24 +7,41 @@ import MenuItems from './MenuItems';
 
 const HeaderComp = styled.header`
   display: flex;
-  height: 5rem;
-  width: 100%;
   align-items: center;
   border-bottom: 2px solid black;
   border-style: dashed double;
+  `
+
+  const AdjustableDiv = styled.div`
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  vertical-align: bottom;
+  width: 100%;
+  @media(max-width: 1460px) {
+      margin: 0px 3rem;
+  }
+
+  @media(max-width: 1280px) {
+      margin: 0px 1rem;
+  }
+
+  @media(max-width: 768px) {
+      margin: 0px 2rem;
+  }
   `
 
 function Header(props) {
 
   const { data: session, status } = useSession()
 
-  const arr = ["Home", "Profile", session ? "Logout" : "Login"]
+  const arr = ["Home", "About", "Profile", session ? "Logout" : "Login"]
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace('?', '')
 
   return (
     <HeaderComp>
-      <div className='flex h-full justify-between align-bottom w-full mx-32'>
+      <AdjustableDiv>
         <div className='mt-auto'>
           <Link href="/">
             <h2 className='rounded-sm cursor-pointer text-xl py-2'>GiftMe!</h2>
@@ -37,7 +54,7 @@ function Header(props) {
             })}
           </ul>
         </nav>
-      </div>
+      </AdjustableDiv>
     </HeaderComp>
   );
 }

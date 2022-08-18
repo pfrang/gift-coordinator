@@ -25,13 +25,22 @@
 
 
 
-li, button {
+li,
+button {
   font-family: 'Anton';
   --tw-text-opacity: 1;
   color: rgb(203 213 225 / var(--tw-text-opacity));
+  transition: all .5s ease-out;
 }
 
-button:hover, li:hover {
+li:hover {
+  --tw-bg-opacity: 1;
+  color: rgb(226 232 240 / var(--tw-bg-opacity));
+  background-color: rgb(150, 169, 169);
+  border-radius:8%;
+}
+
+button:hover {
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
@@ -54,7 +63,8 @@ h3 {
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
-h4, th {
+h4,
+th {
   font-family: 'Anton';
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
@@ -75,7 +85,6 @@ h5 {
 
 html,
 body {
-  height: 100%;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,

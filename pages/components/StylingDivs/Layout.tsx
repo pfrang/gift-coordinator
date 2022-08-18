@@ -4,11 +4,12 @@ import Footer from '../Footer';
 import Header from '../Header';
 
 const Wrapper = styled.div`
-  display: flex;
+  min-width: 100vh;
   min-height: 100vh;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   background-color: #0d1e45ef;
+  overflow: hidden;
   `
 
 function Layout({ children }) {

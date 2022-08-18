@@ -8,6 +8,19 @@ type Props = {}
 const Wrapper = styled.div`
     display: grid;
     grid-template-rows: 1fr 1fr;
+    width: 100%;
+  `
+
+const ImageContainer = styled.div`
+  padding-top: 2rem;
+  position: relative;
+  height: 400px;
+  width: 400px;
+  margin: 0px auto;
+  @media(max-width: 1280px) {
+    height: 300px;
+    width: 300px;
+  }
   `
 
 
@@ -15,9 +28,9 @@ export default function RightSide({ }: Props) {
 
   return (
     <Wrapper>
-      <div className='text-center py-2'>
-      <Image src={'/Gifts.png'} alt="gifts" width="500" height="500" />
-      </div>
+      <ImageContainer>
+        <Image src={'/Gifts.png'} alt="gifts" objectFit='cover' layout='fill' />
+      </ImageContainer>
       <Wrapper>
         <Wrapper>
           <div>

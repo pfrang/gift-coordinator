@@ -73,6 +73,7 @@ export default function LobbyPage({ response }: LobbyProps) {
 
   const { currentUser, setCurrentUser } = useCurrentUser();
 
+
   const db = new mongoDB
   const blob = new blobStorage
   const creator = response.creator

@@ -23,7 +23,7 @@ function ItemTable({ setEditItemIndex, userIndex, items, user, users, setUsers, 
 
   const [startItems, setStartItems] = useState(items);
 
-  const name = user.split("@")[0];
+  const name = user?.split("@")[0];
 
   useEffect(() => {
     setStartItems(items);
