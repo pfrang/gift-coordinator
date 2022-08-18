@@ -18,6 +18,7 @@ const HeaderComp = styled.header`
   justify-content: space-between;
   vertical-align: bottom;
   width: 100%;
+  margin: 0px 8rem;
   @media(max-width: 1460px) {
       margin: 0px 3rem;
   }
