@@ -193,7 +193,6 @@ export default function LobbyPage({ response }: LobbyProps) {
 }
 
 export async function getServerSideProps(context) {
-  const { req, res } = context
   const db = new mongoDB;
   const { lobby } = context.query;
   const query = `SELECT * from c where c.id = '${lobby}'`;

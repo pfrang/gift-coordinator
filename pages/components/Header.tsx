@@ -12,7 +12,7 @@ const HeaderComp = styled.header`
   border-style: dashed double;
   `
 
-  const AdjustableDiv = styled.div`
+  const MediaDiv = styled.div`
   display: flex;
   height: 100%;
   justify-content: space-between;
@@ -42,7 +42,7 @@ function Header(props) {
 
   return (
     <HeaderComp>
-      <AdjustableDiv>
+      <MediaDiv>
         <div className='mt-auto'>
           <Link href="/">
             <h2 className='rounded-sm cursor-pointer text-xl py-2'>GiftMe!</h2>
@@ -55,7 +55,7 @@ function Header(props) {
             })}
           </ul>
         </nav>
-      </AdjustableDiv>
+      </MediaDiv>
     </HeaderComp>
   );
 }
