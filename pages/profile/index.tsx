@@ -11,8 +11,7 @@ import LobbyList from './components/LobbyList';
 import ToggleButton from './components/ToggleButton';
 
 const ItemsTable = styled.div`
-background-color: #6e87b3
-
+background-color: #6e87b3;
  `
 
 interface ResponseProps {
