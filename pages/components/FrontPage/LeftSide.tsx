@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
+import { Icons } from '../../../Icons/Icons';
 import Button from '../Buttons/Button';
 
 const GridRow2 = styled.div`
@@ -62,7 +63,7 @@ function LeftSide(props) {
                   <button className='border-r-2 border-slate-400 font-medium text-sm w-full py-1.5 text-center'>
                     Se video her
                   </button>
-                  <svg className='fill-slate-300 mx-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 12l-20 12 7.289-12-7.289-12z" /></svg>
+                  {Icons.ARROW}
                 </ButtonTextAndArrowWrapper>
               </div>
             </div>

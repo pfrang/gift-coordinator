@@ -65,16 +65,18 @@ class mongoDB {
     return response
   }
 
-  // inviteUser = async (query) => {
-  //   const query = {
+  inviteUser = async (info) => {
+    const { lobbyId, user, userInvited } = info
+    const add = "add" as const
+    const operations =
+    [{
+      op: add, path: '/invited_users/-', value: { by: user, to: userInvited }
+    }]
 
-  //   }
-  //   const add = "add" as const
-  //   const operations =
-  //   [{
-  //     op: add, path: 'invited_users/-', value: { by: user, to: userInvited}
-  //   }]
-  // }
+    const response = await this.container.item(lobbyId, lobbyId).patch(operations);
+    console.log(response);
+    return response
+  }
 
   addNewItem = async (info) => {
     const { lobbyId, userIndex, description, quantity, link, itemIndex, reserved, price, reservedBy } = info

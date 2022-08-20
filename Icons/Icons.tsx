@@ -1,6 +1,6 @@
 
 const Profile =
-<svg viewBox="0 0 402.161 402.161" xmlSpace="preserve">
+  <svg viewBox="0 0 402.161 402.161" xmlSpace="preserve">
     <g>
       <g>
         <g>
@@ -23,8 +23,12 @@ const EditPen =
     <path d="M14.1667 2.5009C14.3856 2.28203 14.6455 2.10842 14.9314 1.98996C15.2174 1.87151 15.5239 1.81055 15.8334 1.81055C16.1429 1.81055 16.4494 1.87151 16.7354 1.98996C17.0214 2.10842 17.2812 2.28203 17.5001 2.5009C17.719 2.71977 17.8926 2.97961 18.011 3.26558C18.1295 3.55154 18.1904 3.85804 18.1904 4.16757C18.1904 4.4771 18.1295 4.7836 18.011 5.06956C17.8926 5.35553 17.719 5.61537 17.5001 5.83424L6.25008 17.0842L1.66675 18.3342L2.91675 13.7509L14.1667 2.5009Z" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"></path>
   </svg>
 
+const Arrow =
+  <svg className='fill-slate-300 mx-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M22 12l-20 12 7.289-12-7.289-12z" /></svg>
+
 export const Icons = {
   "PROFILE": Profile,
   "GARBAGE": GarbageCan,
-  "EDITPEN": EditPen
+  "EDITPEN": EditPen,
+  "ARROW": Arrow,
 }

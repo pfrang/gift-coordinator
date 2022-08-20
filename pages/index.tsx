@@ -35,22 +35,6 @@ export const Home = (props) => {
   const db = new mongoDB
   const { data: session, status } = useSession()
 
-  useEffect(() => {
-    if (status === 'authenticated') {
-      const dbResponse = async () => {
-        const query = `SELECT * from c where c.creator = '${session.user.email}'`;
-        const response = await db.read(query).then((data) => data.resources);
-        setCreatedLobbies(response);
-        const query2 = `SELECT c.id FROM c JOIN t in c.users WHERE t.email = '${session.user.email}'`;
-        const response2 = await db.read(query2).then((data) => removeDuplicateObjectsInArray(data.resources));
-        setBelongingLobbies(response2);
-
-      }
-      dbResponse()
-    }
-  }, [status])
-
-
   return (
     <ContentWrapper>
       <LeftSide />

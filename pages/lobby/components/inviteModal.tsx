@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
@@ -11,14 +11,8 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
   const router = useRouter();
   let subtitle;
   const db = new mongoDB
-
-  useEffect(() => {
-    if(invitationLinkSent) {
-      setTimeout(() => {
-        setIsOpen(false)
-      }, 2000);
-    }
-  }, [invitationLinkSent])
+  const lobbyId = router.asPath.split("/").pop().replace('?', '')
+  const { data: session } = useSession();
 
   const modalStyles = {
     content: {
@@ -42,12 +36,21 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
     subtitle.style.color = '#f00';
   }
 
+  useEffect(() => {
+    if (invitationLinkSent) {
+      setTimeout(() => {
+        closeModal()
+      }, 2000);
+    }
+  }, [invitationLinkSent])
+
+
   function closeModal() {
     setInvitationLinkSent(false)
     setIsOpen(false);
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     signIn(
       "email",
@@ -58,8 +61,15 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
       }
     )
     setInvitationLinkSent(true)
-  }
 
+    const info = {
+      lobbyId: lobbyId,
+      user: session?.user.email,
+      userInvited: email
+    }
+    const updateCosmo = await db.inviteUser(info)
+    return updateCosmo;
+  }
 
   return (
     <>

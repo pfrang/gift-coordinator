@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import mongoDB from '../sql-nodejs/cosmosdb/app'
+import mongoDB from '../../sql-nodejs/cosmosdb/app'
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
