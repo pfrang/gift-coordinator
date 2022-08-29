@@ -1,5 +1,4 @@
 // @ts-check
-
 import { Container, CosmosClient, Database, PatchOperation } from "@azure/cosmos";
 const config = require("./config");
 
