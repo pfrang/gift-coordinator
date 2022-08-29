@@ -11,7 +11,8 @@ import LobbyList from './components/LobbyList';
 import ToggleButton from './components/ToggleButton';
 
 const ItemsTable = styled.div`
-background-color: #6e87b3;
+  height: 200px;
+  overflow: hidden;
  `
 
 interface ResponseProps {
@@ -39,24 +40,26 @@ function Profile({ response }: ProfileProps) {
           {`Logget inn som ${session.user?.email}`}
         </h5>
       </div>
-      <div className='flex flex-col gap-6 justify-center items-center h-full'>
-        <h5>Lobbyer du har...</h5>
-        <div className='flex justify-center items-center border-2 rounded-md bg-[#20325aed]'>
-          <ToggleButton chosenLobbyType={chosenLobbyType} text='En liste i' choice='contain' onClick={setChosenLobbyType} />
-          <ToggleButton chosenLobbyType={chosenLobbyType} text='Blitt invitert til' choice='invited' onClick={setChosenLobbyType} />
-          <ToggleButton chosenLobbyType={chosenLobbyType} text='Laget' choice='created' onClick={setChosenLobbyType} />
-        </div>
-        <ItemsTable>
-          {chosenLobbyType === 'created' ?
-            <LobbyList lobbies={createdLobbies} />
-            : chosenLobbyType === 'contain' ?
-              < LobbyList lobbies={startedMakingAListLobbies} />
-              :
-              <LobbyList lobbies={lobbiesInvitedTo} />
-          }
-        </ItemsTable>
-        <div className='block'>
-          <Button onClick={() => signOut({ callbackUrl: "/" })} text={"Logg ut"}></Button>
+      <div className='flex h-full justify-center items-center'>
+        <div className='flex flex-col gap-6 justify-center items-center h-full'>
+          <h5>Lobbyer du har...</h5>
+          <div className='flex justify-center items-center border-2 rounded-md bg-[#20325aed]'>
+            <ToggleButton chosenLobbyType={chosenLobbyType} text='En liste i' choice='contain' onClick={setChosenLobbyType} />
+            <ToggleButton chosenLobbyType={chosenLobbyType} text='Blitt invitert til' choice='invited' onClick={setChosenLobbyType} />
+            <ToggleButton chosenLobbyType={chosenLobbyType} text='Laget' choice='created' onClick={setChosenLobbyType} />
+          </div>
+          <ItemsTable>
+            {chosenLobbyType === 'created' ?
+              <LobbyList lobbies={createdLobbies} />
+              : chosenLobbyType === 'contain' ?
+                < LobbyList lobbies={startedMakingAListLobbies} />
+                :
+                <LobbyList lobbies={lobbiesInvitedTo} />
+            }
+          </ItemsTable>
+          <div className='block'>
+            <Button onClick={() => signOut({ callbackUrl: "/" })} text={"Logg ut"}></Button>
+          </div>
         </div>
       </div>
     </Marginx20Div>

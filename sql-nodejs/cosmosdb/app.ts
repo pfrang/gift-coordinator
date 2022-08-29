@@ -9,6 +9,13 @@ interface CreateQuery {
   creator: string;
 }
 
+interface ReadResponse {
+  id: string;
+  description: string;
+  creator: string;
+  invited_users: Array<string>;
+}
+
 class mongoDB {
   container: Container;
   client: CosmosClient;

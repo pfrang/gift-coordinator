@@ -192,9 +192,26 @@ export default function LobbyPage({ response }: LobbyProps) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
   const db = new mongoDB;
-  const { lobby } = context.query;
+  const query = `SELECT * from c`;
+  const items = await db.read(query).then((data) => data.resources);
+
+  const paths = items.map((item) => ({
+    params: { lobby: item.id }
+  }));
+
+  return {
+    paths,
+    fallback: false, // can also be true or 'blocking'
+  }
+}
+
+export async function getStaticProps(context) {
+
+  const lobby = context.params.lobby
+
+  const db = new mongoDB;
   const query = `SELECT * from c where c.id = '${lobby}'`;
   const response = await db.read(query).then((data) => data.resources[0]);
 

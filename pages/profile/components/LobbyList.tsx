@@ -13,6 +13,8 @@ function LobbyList({lobbies}) {
   border-left: 2px solid black;
   border-right: 2px solid black;
   width: 800px;
+  background-color: #6e87b3;
+
   max-height: 200px;
   overflow: scroll;
   overflow-x: hidden;
@@ -22,7 +24,7 @@ function LobbyList({lobbies}) {
   background-color: #ada4a4;
   }
 ::-webkit-scrollbar-thumb {
-  background: #1c1b1b;
+  background: #4a4848;
 }
  `
 
