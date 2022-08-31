@@ -4,9 +4,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import mongoDB from '../sql-nodejs/cosmosdb/app';
+import { Loader } from '../ui-kit/loader/loader';
 import { removeDuplicateObjectsInArray } from '../utils/removeDuplicateObjectInArray';
 import LeftSide from './components/FrontPage/LeftSide';
 import RightSide from './components/FrontPage/RightSide';
+
 
 const ContentWrapper = styled.div`
   margin: 0px 8rem;
