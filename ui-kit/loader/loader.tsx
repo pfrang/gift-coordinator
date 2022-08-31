@@ -20,7 +20,6 @@ const rotate = keyframes`
   }
 `;
 
-
 const Svg = styled(Logo)`
   g {
     stroke-linecap: round;
