@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import { Icons } from '../../../Icons/Icons';
-import Button from '../Buttons/Button';
 
 const GridRow2 = styled.div`
   display: grid;

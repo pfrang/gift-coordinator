@@ -29,7 +29,7 @@ export default function RightSide({ }: Props) {
   return (
     <Wrapper>
       <ImageContainer>
-        <Image src={'/Gifts.png'} alt="gifts" objectFit='cover' layout='fill' />
+        <Image src={'/images/Gifts.png'} alt="gifts" objectFit='cover' layout='fill' />
       </ImageContainer>
       <Wrapper>
         <Wrapper>

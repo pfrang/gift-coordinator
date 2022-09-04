@@ -2,6 +2,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  pageExtensions: ["page.tsx", "endpoint.ts"],
 
   async headers() {
     return [

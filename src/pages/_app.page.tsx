@@ -5,7 +5,6 @@ import Layout from './components/StylingDivs/Layout'
 import { SessionProvider, useSession } from 'next-auth/react'
 import Modal from 'react-modal'
 import Head from 'next/head';
-import styled from 'styled-components'
 
 // import "@fortawesome/fontawesome-svg-core/styles.css"; // import Font Awesome CSS
 // import { config } from "@fortawesome/fontawesome-svg-core";
