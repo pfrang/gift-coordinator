@@ -78,11 +78,6 @@ h5 {
 }
 
 
-#grid2RowWrapper {
-  display: grid;
-  grid-template-rows: auto auto;
-}
-
 html,
 body {
   padding: 0;

@@ -8,13 +8,7 @@ import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { toFindDuplicates } from "../../../utils/findDuplicates";
 import { useCurrentUser } from "../../../context/context";
 
-const ModalWrapper = styled.div`
-  background-color: #f9fafb;
-  height: 100%;
-  padding: 1rem;
-  display: grid;
-  grid-template-rows: 1fr auto;
-`;
+import { ModalWrapper } from "./modal.styles";
 
 function AddItemModal({
   addModalIsOpen,

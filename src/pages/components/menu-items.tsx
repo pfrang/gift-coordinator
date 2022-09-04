@@ -6,17 +6,21 @@ import React, { useState } from "react";
 function MenuItems(props) {
   const [invalidProfileDirect, setInvalidProfileDirect] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const redirect = (e) => {
     switch (props.items) {
       case "Profile":
-        !session ? setInvalidProfileDirect(true) : router.push("/profile");
+        status !== "authenticated"
+          ? setInvalidProfileDirect(true)
+          : router.push("/profile");
         return;
       case "Login":
         return signIn();
       case "Logout":
-        return signOut();
+        return signOut({
+          callbackUrl: "/",
+        });
       case "Home":
         router.push("/");
       default:

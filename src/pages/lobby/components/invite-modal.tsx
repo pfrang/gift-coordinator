@@ -2,12 +2,16 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import validator from "validator";
 
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
+
+import { ModalWrapper } from "./modal.styles";
 
 function InviteModal({ modalIsOpen, setIsOpen }) {
   const [email, setEmail] = useState("");
   const [invitationLinkSent, setInvitationLinkSent] = useState(false);
+  const [badEmail, setBadEmail] = useState(false);
   const router = useRouter();
   let subtitle;
   const db = new MongoDB();
@@ -24,7 +28,6 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
       transform: "translate(-50%, -50%)",
       padding: 0,
       width: 350,
-      height: 200,
     },
     overlay: {
       background: "#091738b3",
@@ -46,23 +49,30 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
 
   function closeModal() {
     setInvitationLinkSent(false);
+    setBadEmail(false);
     setIsOpen(false);
   }
 
-  const onSubmit = async (e) => {
+  const onSendInvite = async (e) => {
     e.preventDefault();
+    let res = validator.isEmail(email);
+    if (!res) {
+      setBadEmail(true);
+      return;
+    }
+
     signIn("email", {
       email: email,
       callbackUrl: router.asPath,
       redirect: false,
     });
-    setInvitationLinkSent(true);
-
     const info = {
       lobbyId: lobbyId,
       user: session?.user.email,
       userInvited: email,
     };
+    setInvitationLinkSent(true);
+    setBadEmail(false);
     const updateCosmo = await db.inviteUser(info);
     return updateCosmo;
   };
@@ -76,50 +86,53 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
         style={modalStyles}
         contentLabel="Example Modal"
       >
-        <div
-          id="grid2RowWrapper"
-          className="bg-slate-100 h-full overflow-hidden"
-        >
-          <div>
-            <button
-              className="absolute right-0 border-2 p-1 border-green-400 bg-green-400 text-white"
-              onClick={closeModal}
-            >
-              X
-            </button>
+        <form className="relative">
+          <div
+            onClick={closeModal}
+            className="cursor-pointer absolute top-0 right-2"
+          >
+            X
           </div>
-          {!invitationLinkSent ? (
-            <form id="grid2RowWrapper" className="h-full" onSubmit={onSubmit}>
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                className="border-t-2 border-b-2 bg-slate-100 w-full text-center"
-                placeholder="Enter e-mail address"
-                name=""
-                id="emailInput"
-                required
-              />
-              <input
-                className="w-full bg-slate-200 hover:bg-slate-400 cursor-pointer"
-                type="submit"
-                value="Send invitation link"
-              />
-            </form>
-          ) : (
-            <div id="grid2RowWrapper">
-              <div className="success-checkmark">
-                <div className="check-icon">
-                  <span className="icon-line line-tip"></span>
-                  <span className="icon-line line-long"></span>
-                  <div className="icon-circle"></div>
-                  <div className="icon-fix"></div>
+          <ModalWrapper>
+            {!invitationLinkSent ? (
+              <div className="pt-4 flex flex-col">
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="border-t-2 p-2 border-b-2 bg-slate-100 w-full text-center"
+                  placeholder="Enter e-mail address"
+                  name=""
+                  id="emailInput"
+                  required
+                />
+                {badEmail && (
+                  <p className="text-sm text-red-500 text-center">
+                    That is not a valid email adress
+                  </p>
+                )}
+                <button
+                  onClick={onSendInvite}
+                  className="w-full p-1 text-grey bg-pink-700 hover:bg-pink-800 text-slate-200"
+                >
+                  Send invitation link
+                </button>
+              </div>
+            ) : (
+              <div>
+                <div className="success-checkmark">
+                  <div className="check-icon">
+                    <span className="icon-line line-tip"></span>
+                    <span className="icon-line line-long"></span>
+                    <div className="icon-circle"></div>
+                    <div className="icon-fix"></div>
+                  </div>
+                </div>
+                <div className="flex justify-center text-center">
+                  <p>{`An email has beent sent to ${email}`}</p>
                 </div>
               </div>
-              <div className="flex justify-center text-center">
-                <p>{`An email has beent sent to ${email}`}</p>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </ModalWrapper>
+        </form>
       </Modal>
     </>
   );
