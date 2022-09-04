@@ -2,11 +2,17 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import styled from "styled-components";
 import validator from "validator";
 
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 
 import { ModalWrapper } from "./modal.styles";
+
+const FormLayOut = styled.form`
+  position: relative;
+  height: 200px;
+`;
 
 function InviteModal({ modalIsOpen, setIsOpen }) {
   const [email, setEmail] = useState("");
@@ -33,11 +39,6 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
       background: "#091738b3",
     },
   };
-
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = "#f00";
-  }
 
   useEffect(() => {
     if (invitationLinkSent) {
@@ -86,7 +87,7 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
         style={modalStyles}
         contentLabel="Example Modal"
       >
-        <form className="relative">
+        <FormLayOut>
           <div
             onClick={closeModal}
             className="cursor-pointer absolute top-0 right-2"
@@ -111,13 +112,13 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
                 )}
                 <button
                   onClick={onSendInvite}
-                  className="w-full p-1 text-grey bg-pink-700 hover:bg-pink-800 text-slate-200"
+                  className="mt-auto w-full rounded-md p-2 text-grey bg-pink-700 hover:bg-pink-800 text-slate-200"
                 >
                   Send invitation link
                 </button>
               </div>
             ) : (
-              <div>
+              <div className="flex flex-col gap-2">
                 <div className="success-checkmark">
                   <div className="check-icon">
                     <span className="icon-line line-tip"></span>
@@ -132,7 +133,7 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
               </div>
             )}
           </ModalWrapper>
-        </form>
+        </FormLayOut>
       </Modal>
     </>
   );
