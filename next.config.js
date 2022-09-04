@@ -3,6 +3,9 @@
 module.exports = {
   reactStrictMode: true,
   pageExtensions: ["page.tsx", "endpoint.ts"],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 
   async headers() {
     return [

@@ -1,15 +1,16 @@
-import Link from 'next/link';
-import React from 'react';
-import MarginX20Div from './components/StylingDivs/Divs/MarginX20Div';
+import Link from "next/link";
+import React from "react";
+
+import MarginX20Div from "./components/styling-divs/divs/margin-x20-div";
 
 function FourOhFour(props) {
   return (
     <MarginX20Div>
-      <div className='flex flex-col h-full justify-center items-center'>
+      <div className="flex flex-col h-full justify-center items-center">
         <p>Denne siden eksisterer ikke</p>
-        <br/>
+        <br />
         <Link href="/">
-          <p className='underline cursor-pointer'>Returner til hjemmesiden?</p>
+          <p className="underline cursor-pointer">Returner til hjemmesiden?</p>
         </Link>
       </div>
     </MarginX20Div>

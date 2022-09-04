@@ -1,6 +1,6 @@
-import create from 'zustand'
+import create from "zustand";
 
 export const useCurrentUser: any = create((set) => ({
   currentUser: {},
-  setCurrentUser: (e) => set(() => ({currentUser: e})),
-}))
+  setCurrentUser: (e) => set(() => ({ currentUser: e })),
+}));

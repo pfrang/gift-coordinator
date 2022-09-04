@@ -1,14 +1,16 @@
-import { Session } from 'next-auth';
-import { useSession, signIn, signOut, getSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Button from '../components/Buttons/Button';
-import Marginx20Div from '../components/StylingDivs/Divs/MarginX20Div';
-import ToggleButton from './components/ToggleButton';
-import { useMongoDB } from './hooks/use-profile-mongodb';
-import { UserLobbyData } from '../api/mongodb/mongo-db-sl-api-client/mongo-db-api-client';
-import LobbyList from './components/LobbyList';
-import { Spinner } from '../../ui-kit/loader/loader2';
+import { Session } from "next-auth";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
+import Button from "../components/buttons/button";
+import Marginx20Div from "../components/styling-divs/divs/margin-x20-div";
+import { UserLobbyData } from "../api/mongodb/mongo-db-sl-api-client/mongo-db-api-client";
+import { Spinner } from "../../ui-kit/loader/loader2";
+
+import ToggleButton from "./components/toggle-button";
+import { useMongoDB } from "./hooks/use-profile-mongodb";
+import LobbyList from "./components/lobby-list";
 
 const ItemsTable = styled.div`
   height: 200px;
@@ -16,12 +18,12 @@ const ItemsTable = styled.div`
   border: 2px solid #aeabab;
   width: 800px;
   position: relative;
- `
+`;
 
 interface ResponseProps {
   ownerResponse: Record<string, string>[];
   startedMakingAListResponse: Record<string, string>[];
-  lobbiesInvitedToResponse: Record<string, string>[]
+  lobbiesInvitedToResponse: Record<string, string>[];
 }
 interface ProfileProps {
   response: ResponseProps;
@@ -32,7 +34,7 @@ interface UserProps {
     email: string;
     image: string;
     name: string;
-  }
+  };
 }
 interface User {
   user: UserProps;
@@ -43,68 +45,81 @@ interface UserHookResponse {
   response: UserLobbyData;
 }
 
-
 interface UserHookData {
   data: UserHookResponse;
   isLoading: boolean;
   error: any;
 }
 
-
 function Profile({ user }: User) {
+  const [createdLobbies, setCreatedLobbies] = useState(undefined);
+  const [startedMakingAListLobbies, setStartedMakingAListLobbies] =
+    useState(undefined);
+  const [lobbiesInvitedTo, setLobbiesInvitedTo] = useState(undefined);
+  const [chosenLobbyType, setChosenLobbyType] = useState("contain");
 
-  const [createdLobbies, setCreatedLobbies] = useState(undefined)
-  const [startedMakingAListLobbies, setStartedMakingAListLobbies] = useState(undefined)
-  const [lobbiesInvitedTo, setLobbiesInvitedTo] = useState(undefined)
-  const [chosenLobbyType, setChosenLobbyType] = useState('contain')
-
-
-  const { data, isLoading, error }: UserHookData = useMongoDB(user)
+  const { data, isLoading, error }: UserHookData = useMongoDB(user);
 
   const { status } = useSession();
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (status === 'authenticated') {
-      setCreatedLobbies(data.response.userResponse)
-      setStartedMakingAListLobbies(data.response.userStartedToMakeAList)
-      setLobbiesInvitedTo(data.response.userLobbiesInvitedTo)
+    if (status === "authenticated") {
+      setCreatedLobbies(data.response.userResponse);
+      setStartedMakingAListLobbies(data.response.userStartedToMakeAList);
+      setLobbiesInvitedTo(data.response.userLobbiesInvitedTo);
     }
-
-  }, [isLoading, data, status])
+  }, [isLoading, data, status]);
 
   return (
     <Marginx20Div>
       <div>
-        <h5>
-          {`Logget inn som ${user.user.email}`}
-        </h5>
+        <h5>{`Logget inn som ${user.user.email}`}</h5>
       </div>
-      <div className='flex h-full justify-center items-center'>
-        <div className='flex flex-col gap-6 justify-center items-center h-full'>
+      <div className="flex h-full justify-center items-center">
+        <div className="flex flex-col gap-6 justify-center items-center h-full">
           <h5>Lobbyer du har...</h5>
-          <div className='flex justify-center items-center border-2 rounded-md bg-[#20325aed]'>
-            <ToggleButton chosenLobbyType={chosenLobbyType} text='En liste i' choice='contain' onClick={setChosenLobbyType} />
-            <ToggleButton chosenLobbyType={chosenLobbyType} text='Blitt invitert til' choice='invited' onClick={setChosenLobbyType} />
-            <ToggleButton chosenLobbyType={chosenLobbyType} text='Laget' choice='created' onClick={setChosenLobbyType} />
+          <div className="flex justify-center items-center border-2 rounded-md bg-[#20325aed]">
+            <ToggleButton
+              chosenLobbyType={chosenLobbyType}
+              text="En liste i"
+              choice="contain"
+              onClick={setChosenLobbyType}
+            />
+            <ToggleButton
+              chosenLobbyType={chosenLobbyType}
+              text="Blitt invitert til"
+              choice="invited"
+              onClick={setChosenLobbyType}
+            />
+            <ToggleButton
+              chosenLobbyType={chosenLobbyType}
+              text="Laget"
+              choice="created"
+              onClick={setChosenLobbyType}
+            />
           </div>
-          {!isLoading ?
+          {!isLoading ? (
             <ItemsTable>
-              {chosenLobbyType === 'created' ?
+              {chosenLobbyType === "created" ? (
                 <LobbyList lobbies={createdLobbies} />
-                : chosenLobbyType === 'contain' ?
-                  < LobbyList lobbies={startedMakingAListLobbies} />
-                  :
-                  <LobbyList lobbies={lobbiesInvitedTo} />
-              }
+              ) : chosenLobbyType === "contain" ? (
+                <LobbyList lobbies={startedMakingAListLobbies} />
+              ) : (
+                <LobbyList lobbies={lobbiesInvitedTo} />
+              )}
             </ItemsTable>
-            :
+          ) : (
             <ItemsTable>
               <Spinner />
-            </ItemsTable>}
-          <div className='block'>
-            <Button onClick={() => signOut({ callbackUrl: "/" })} text={"Logg ut"}></Button>
+            </ItemsTable>
+          )}
+          <div className="block">
+            <Button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              text={"Logg ut"}
+            ></Button>
           </div>
         </div>
       </div>
@@ -114,15 +129,13 @@ function Profile({ user }: User) {
 
 export default Profile;
 
-
 export async function getServerSideProps({ req }) {
-
   const user: Session = await getSession({ req });
 
   return {
     props: {
       user,
-      requireAuthentication: true
-    }
-  }
+      requireAuthentication: true,
+    },
+  };
 }
