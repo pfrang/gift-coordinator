@@ -11,7 +11,7 @@ export const handleGet = async (req: NextApiRequest, res: NextApiResponse ) => {
     response = await MongoDBApiClient.getLobbyData(lobby);
 
   } else if (user) {
-    response = await MongoDBApiClient.getUserData(JSON.parse(user));
+    response = await MongoDBApiClient.getUserData(JSON.parse(user as string));
   }
 
   return res.status(200).json({
