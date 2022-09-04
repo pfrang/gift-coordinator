@@ -26,10 +26,6 @@ export class NextApiClient {
       },
       baseURL: '',
     });
-
-    const db = new mongoDB
-
     this.axiosInstance = axiosInstance
-    this.db = db
   }
 }

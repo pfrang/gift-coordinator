@@ -1,18 +1,21 @@
+import { Session } from 'next-auth';
 import { useSession, signIn, signOut, getSession } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import mongoDB from '../../sql-nodejs/cosmosdb/app';
-import { removeDuplicateObjectsInArray } from '../../utils/removeDuplicateObjectInArray';
 import Button from '../components/Buttons/Button';
 import Marginx20Div from '../components/StylingDivs/Divs/MarginX20Div';
-import LobbyList from './components/LobbyList';
 import ToggleButton from './components/ToggleButton';
+import { useMongoDB } from './hooks/use-profile-mongodb';
+import { UserLobbyData } from '../api/mongodb/mongo-db-sl-api-client/mongo-db-api-client';
+import LobbyList from './components/LobbyList';
+import { Spinner } from '../../ui-kit/loader/loader2';
 
 const ItemsTable = styled.div`
   height: 200px;
   overflow: hidden;
+  border: 2px solid #aeabab;
+  width: 800px;
+  position: relative;
  `
 
 interface ResponseProps {
@@ -24,20 +27,58 @@ interface ProfileProps {
   response: ResponseProps;
 }
 
-function Profile({ response }: ProfileProps) {
+interface UserProps {
+  user: {
+    email: string;
+    image: string;
+    name: string;
+  }
+}
+interface User {
+  user: UserProps;
+  expires: string;
+}
 
-  const [createdLobbies, setCreatedLobbies] = useState(response.ownerResponse)
-  const [startedMakingAListLobbies, setStartedMakingAListLobbies] = useState(response.startedMakingAListResponse)
-  const [lobbiesInvitedTo, setLobbiesInvitedTo] = useState(response.lobbiesInvitedToResponse)
+interface UserHookResponse {
+  response: UserLobbyData;
+}
+
+
+interface UserHookData {
+  data: UserHookResponse;
+  isLoading: boolean;
+  error: any;
+}
+
+
+function Profile({ user }: User) {
+
+  const [createdLobbies, setCreatedLobbies] = useState(undefined)
+  const [startedMakingAListLobbies, setStartedMakingAListLobbies] = useState(undefined)
+  const [lobbiesInvitedTo, setLobbiesInvitedTo] = useState(undefined)
   const [chosenLobbyType, setChosenLobbyType] = useState('contain')
 
-  const { data: session } = useSession();
+
+  const { data, isLoading, error }: UserHookData = useMongoDB(user)
+
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    if (status === 'authenticated') {
+      setCreatedLobbies(data.response.userResponse)
+      setStartedMakingAListLobbies(data.response.userStartedToMakeAList)
+      setLobbiesInvitedTo(data.response.userLobbiesInvitedTo)
+    }
+
+  }, [isLoading, data, status])
 
   return (
     <Marginx20Div>
       <div>
         <h5>
-          {`Logget inn som ${session.user?.email}`}
+          {`Logget inn som ${user.user.email}`}
         </h5>
       </div>
       <div className='flex h-full justify-center items-center'>
@@ -48,15 +89,20 @@ function Profile({ response }: ProfileProps) {
             <ToggleButton chosenLobbyType={chosenLobbyType} text='Blitt invitert til' choice='invited' onClick={setChosenLobbyType} />
             <ToggleButton chosenLobbyType={chosenLobbyType} text='Laget' choice='created' onClick={setChosenLobbyType} />
           </div>
-          <ItemsTable>
-            {chosenLobbyType === 'created' ?
-              <LobbyList lobbies={createdLobbies} />
-              : chosenLobbyType === 'contain' ?
-                < LobbyList lobbies={startedMakingAListLobbies} />
-                :
-                <LobbyList lobbies={lobbiesInvitedTo} />
-            }
-          </ItemsTable>
+          {!isLoading ?
+            <ItemsTable>
+              {chosenLobbyType === 'created' ?
+                <LobbyList lobbies={createdLobbies} />
+                : chosenLobbyType === 'contain' ?
+                  < LobbyList lobbies={startedMakingAListLobbies} />
+                  :
+                  <LobbyList lobbies={lobbiesInvitedTo} />
+              }
+            </ItemsTable>
+            :
+            <ItemsTable>
+              <Spinner />
+            </ItemsTable>}
           <div className='block'>
             <Button onClick={() => signOut({ callbackUrl: "/" })} text={"Logg ut"}></Button>
           </div>
@@ -71,31 +117,12 @@ export default Profile;
 
 export async function getServerSideProps({ req }) {
 
-  const db = new mongoDB
-
-  const session = await getSession({ req });
-
-  const response = await fetchLobbyOwnerships(db, session)
+  const user: Session = await getSession({ req });
 
   return {
     props: {
-      response,
+      user,
       requireAuthentication: true
     }
-  }
-}
-
-
-const fetchLobbyOwnerships = async (db, session) => {
-  const ownerQuery = `SELECT * from c where c.creator = '${session.user.email}'`;
-  const ownerResponse = await db.read(ownerQuery).then((data) => data.resources);
-  const startedMakingAListQuery = `SELECT c.id, c.description FROM c JOIN t in c.users WHERE t.email = '${session.user.email}'`;
-  const startedMakingAListResponse = await db.read(startedMakingAListQuery).then((data) => removeDuplicateObjectsInArray(data.resources));
-  const lobbiesInvitedTo = `SELECT c.id, c.description FROM c JOIN t in c.invited_users WHERE t.to = '${session.user.email}'`;
-  const lobbiesInvitedToResponse = await db.read(lobbiesInvitedTo).then((data) => removeDuplicateObjectsInArray(data.resources));
-  return {
-    ownerResponse,
-    startedMakingAListResponse,
-    lobbiesInvitedToResponse
   }
 }

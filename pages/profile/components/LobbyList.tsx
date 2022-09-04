@@ -10,11 +10,7 @@ function LobbyList({lobbies}) {
   const router = useRouter();
 
   const ContainerItemTable = styled.div`
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-  width: 800px;
   background-color: #6e87b3;
-
   max-height: 200px;
   overflow: scroll;
   overflow-x: hidden;
