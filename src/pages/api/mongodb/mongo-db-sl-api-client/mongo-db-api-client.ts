@@ -1,5 +1,5 @@
 import MongoDB from "../../../../sql-nodejs/cosmosdb/app";
-import { removeDuplicateObjectsInArray } from "../../../../utils/removeDuplicateObjectInArray";
+import { removeDuplicateObjectsInArray } from "../../../../utils/remove-duplicate-object-in-array";
 import { NextApiClient } from "../../next-api.client";
 
 export interface UserLobbyData {

@@ -6,7 +6,6 @@ import { signIn, useSession } from "next-auth/react";
 import styled from "styled-components";
 
 import MongoDB from "../../sql-nodejs/cosmosdb/app";
-import blobStorage from "../../sql-nodejs/blobstorage/app";
 import { useCurrentUser } from "../../context/context";
 
 import AddItemModal from "./components/add-item-modal";
@@ -74,7 +73,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   const { currentUser, setCurrentUser } = useCurrentUser();
 
   const db = new MongoDB();
-  const blob = new blobStorage();
+
   const creator = response.creator;
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");

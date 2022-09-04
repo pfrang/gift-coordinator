@@ -1,11 +1,11 @@
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import styled from "styled-components";
 
+import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
-import { toFindDuplicates } from "../../../utils/findDuplicates";
+import { toFindDuplicates } from "../../../utils/find-duplicates";
 import { useCurrentUser } from "../../../context/context";
 
 import { ModalWrapper } from "./modal.styles";
@@ -22,6 +22,8 @@ function AddItemModal({
   const [quantityItem, setQuantityItem] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [linkItem, setLinkItem] = useState("");
+  const [itemAlreadyExists, setItemAlreadyExists] = useState(false);
+  const [imageInMemory, setImageInMemory] = useState("");
 
   useEffect(() => {
     if (editItemIndex.description) {
@@ -38,6 +40,7 @@ function AddItemModal({
   }, [editItemIndex]);
 
   const db = new MongoDB();
+  const blob = new BlobStorage();
 
   const router = useRouter();
 
@@ -63,15 +66,29 @@ function AddItemModal({
 
   function closeModal() {
     setAddModalIsOpen(false);
+    setItemAlreadyExists(false);
+    setImageInMemory(undefined);
   }
 
-  const onChange = () => {
-    const input = document.querySelector("input[type=file]");
+  const onChange = (e) => {
+    updateImgFrontEnd();
+  };
+
+  const updateImgFrontEnd = () => {
+    const input = document.getElementById("image-selector") as HTMLInputElement;
+    const img = document.getElementById("img-placeholder");
+    const fileList = input.files;
+    const file = fileList[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", (event) => {
+      setImageInMemory(event.target.result as string);
+    });
+    reader.readAsDataURL(file);
   };
 
   const checkifItemAlreadyExists = (input) => {
     const item = document.getElementById(`list-${userIndex}`);
-    const li = Array.from(item.getElementsByTagName("li"));
+    const li = Array.from(item.getElementsByTagName("h5"));
     const liValues = li.map((item) => {
       return item.innerText;
     });
@@ -153,8 +170,7 @@ function AddItemModal({
     }
 
     if (checkifItemAlreadyExists(titleText)) {
-      alert("You already have that item on your list");
-      e.target.children[0].value = "";
+      setItemAlreadyExists(true);
       return;
     }
 
@@ -164,6 +180,7 @@ function AddItemModal({
     } else {
       itemUpdate = addItem();
     }
+    setImageInMemory(undefined);
     closeModal();
     return itemUpdate;
   };
@@ -197,19 +214,32 @@ function AddItemModal({
                 id=""
                 value={titleText}
               />
+              {itemAlreadyExists && (
+                <p className="text-sm flex text-red-500">
+                  You already have that item on your list!
+                </p>
+              )}
               <div className="grid grid-cols-2 gap-2">
                 <div className="border-2 flex flex-col justify-center text-center">
-                  <label className="cursor-pointer" htmlFor="avatar">
-                    <p>Last opp bilde</p>
-                  </label>
-                  <input
-                    className="w-full hidden"
-                    onChange={onChange}
-                    type="file"
-                    id="avatar"
-                    name="avatar"
-                    accept="image/png, image/jpeg"
-                  ></input>
+                  <img src={imageInMemory} id="img-placeholder"></img>
+                  {!imageInMemory && (
+                    <>
+                      <label
+                        className="cursor-pointer"
+                        htmlFor="image-selector"
+                      >
+                        <p>Last opp bilde</p>
+                      </label>
+                      <input
+                        className="w-full hidden"
+                        onChange={onChange}
+                        type="file"
+                        id="image-selector"
+                        name="image-selector"
+                        accept="image/png, image/jpeg"
+                      ></input>
+                    </>
+                  )}
                 </div>
                 <div>
                   <label htmlFor="quantity">

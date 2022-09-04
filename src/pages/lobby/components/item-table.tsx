@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import styled from "styled-components";
 
-import { removeNthElement } from "../../../utils/removeNthElement";
+import { removeNthElement } from "../../../utils/remove-nth-element";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 
 import ListItem from "./list-item";
