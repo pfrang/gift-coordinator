@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint \"src/**/*.{ts,tsx}\""
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "postinstall": "prisma generate"
   },
     "prisma": {
-      "schema": "prisma/schema.prisma"
+      "schema": "src/prisma/schema.prisma"
     },
   "dependencies": {
     "@azure/cosmos": "^3.15.1",
