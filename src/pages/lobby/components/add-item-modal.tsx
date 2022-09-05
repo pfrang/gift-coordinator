@@ -7,6 +7,7 @@ import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { toFindDuplicates } from "../../../utils/find-duplicates";
 import { useCurrentUser } from "../../../context/context";
+import { Icons } from "../../../icons/icons";
 
 import { ModalWrapper } from "./modal.styles";
 
@@ -23,7 +24,13 @@ function AddItemModal({
   const [itemPrice, setItemPrice] = useState("");
   const [linkItem, setLinkItem] = useState("");
   const [itemAlreadyExists, setItemAlreadyExists] = useState(false);
-  const [imageInMemory, setImageInMemory] = useState("");
+
+  const [imageInMemory, setImageInMemory] = useState({
+    src: "",
+    width: 0,
+    height: 0,
+  });
+  const [enlarginPicture, setEnlargingPicture] = useState(false);
 
   useEffect(() => {
     if (editItemIndex.description) {
@@ -50,6 +57,7 @@ function AddItemModal({
 
   const modalStyles = {
     content: {
+      position: "absolute",
       top: "50%",
       left: "50%",
       right: "auto",
@@ -58,6 +66,7 @@ function AddItemModal({
       transform: "translate(-50%, -50%)",
       padding: 0,
       width: 350,
+      overflow: "",
     },
     overlay: {
       background: "#091738b3",
@@ -65,9 +74,14 @@ function AddItemModal({
   };
 
   function closeModal() {
+    setImageInMemory({
+      src: "",
+      width: 0,
+      height: 0,
+    });
     setAddModalIsOpen(false);
     setItemAlreadyExists(false);
-    setImageInMemory(undefined);
+    setEnlargingPicture(false);
   }
 
   const onChange = (e) => {
@@ -77,12 +91,20 @@ function AddItemModal({
   const updateImgFrontEnd = () => {
     const input = document.getElementById("image-selector") as HTMLInputElement;
     const img = document.getElementById("img-placeholder");
-    const fileList = input.files;
-    const file = fileList[0];
+    const file = input.files[0];
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
-      setImageInMemory(event.target.result as string);
+      const image = new Image();
+      image.src = event.target.result as string;
+      image.onload = function () {
+        setImageInMemory({
+          src: image.src,
+          width: image.width,
+          height: image.height,
+        });
+      };
     });
+
     reader.readAsDataURL(file);
   };
 
@@ -191,9 +213,11 @@ function AddItemModal({
         isOpen={addModalIsOpen}
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
-        style={modalStyles}
+        style={
+          enlarginPicture ? (modalStyles.content.position = "") : modalStyles
+        }
       >
-        <form className="relative">
+        <form className="">
           <div
             onClick={closeModal}
             className="cursor-pointer absolute top-0 right-2"
@@ -220,9 +244,28 @@ function AddItemModal({
                 </p>
               )}
               <div className="grid grid-cols-2 gap-2">
-                <div className="border-2 flex flex-col justify-center text-center">
-                  <img src={imageInMemory} id="img-placeholder"></img>
-                  {!imageInMemory && (
+                <div
+                  className={`border-2 flex flex-col justify-center text-center ${
+                    !enlarginPicture && "relative"
+                  }`}
+                >
+                  <img
+                    onClick={() =>
+                      setEnlargingPicture(() => {
+                        if (imageInMemory.src && !enlarginPicture) return true;
+                        return false;
+                      })
+                    }
+                    className={
+                      enlarginPicture
+                        ? `absolute left-0 top-0 z-50 w-[${imageInMemory.width}px] h-[${imageInMemory.height}px] cursor-pointer`
+                        : imageInMemory.src &&
+                          "w-full h-full object-contain cursor-pointer"
+                    }
+                    src={imageInMemory.src}
+                    id="img-placeholder"
+                  ></img>
+                  {!imageInMemory.src ? (
                     <>
                       <label
                         className="cursor-pointer"
@@ -239,6 +282,15 @@ function AddItemModal({
                         accept="image/png, image/jpeg"
                       ></input>
                     </>
+                  ) : (
+                    <div
+                      onClick={() =>
+                        setImageInMemory({ src: "", width: 0, height: 0 })
+                      }
+                      className="absolute p-1 rounded-md bottom-1 right-2 z-100 border-2 border-gray bg-slate-200 cursor-pointer"
+                    >
+                      {Icons.GARBAGE}
+                    </div>
                   )}
                 </div>
                 <div>
