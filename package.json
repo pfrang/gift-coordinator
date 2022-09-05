@@ -9,7 +9,7 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\""
   },
     "prisma": {
-      "schema": "src/prisma/schema.prisma"
+      "schema": "prisma/schema.prisma"
     },
   "dependencies": {
     "@azure/cosmos": "^3.15.1",
