@@ -17,7 +17,6 @@ function AddItemModal({
   userIndex,
   setUsers,
   editItemIndex,
-  setEditItemIndex,
 }) {
   const [titleText, setTitleText] = useState("");
   const [quantityItem, setQuantityItem] = useState("");
@@ -214,7 +213,13 @@ function AddItemModal({
         // onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={
-          enlarginPicture ? (modalStyles.content.position = "") : modalStyles
+          enlarginPicture
+            ? (modalStyles.content = {
+                ...modalStyles.content,
+                overflow: "hidden",
+                position: "",
+              })
+            : modalStyles
         }
       >
         <form className="">
@@ -258,7 +263,7 @@ function AddItemModal({
                     }
                     className={
                       enlarginPicture
-                        ? `absolute left-0 top-0 z-50 w-[${imageInMemory.width}px] h-[${imageInMemory.height}px] cursor-pointer`
+                        ? `absolute z-48 w-[${imageInMemory.width}px] h-[${imageInMemory.height}px] cursor-pointer`
                         : imageInMemory.src &&
                           "w-full h-full object-contain cursor-pointer"
                     }
