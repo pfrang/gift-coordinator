@@ -30,18 +30,12 @@ class BlobStorage {
     }
   };
 
-  uploadBlob = async () => {
-    const blobName = "newblob" + new Date().getTime();
-    const content = "Hello world!";
-    const blockBlobClient = await this.containerClient.getBlockBlobClient(
-      blobName
-    );
-    const uploadBlobResponse = await blockBlobClient.upload(
-      content,
-      content.length
-    );
+  uploadBlob = async (file) => {
+    const blockBlobClient = this.containerClient.getBlockBlobClient(file.name);
+    const options = { blobHTTPHeaders: { blobContentType: file.type } };
+    const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
     console.log(
-      `Upload block blob ${blobName} successfully`,
+      `Upload block blob ${file.name} successfully`,
       uploadBlobResponse.requestId
     );
   };

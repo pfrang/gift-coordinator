@@ -4,12 +4,12 @@ import Modal from "react-modal";
 import styled from "styled-components";
 
 import BlobStorage from "../../../sql-nodejs/blob-storage/app";
-import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { toFindDuplicates } from "../../../utils/find-duplicates";
 import { useCurrentUser } from "../../../context/context";
-import { Icons } from "../../../icons/icons";
+import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 
 import { ModalWrapper } from "./modal.styles";
+import ImageHandling from "./image-handling";
 
 function AddItemModal({
   addModalIsOpen,
@@ -23,6 +23,7 @@ function AddItemModal({
   const [itemPrice, setItemPrice] = useState("");
   const [linkItem, setLinkItem] = useState("");
   const [itemAlreadyExists, setItemAlreadyExists] = useState(false);
+  const [imgUploading, setImgUploading] = useState(false);
 
   const [imageInMemory, setImageInMemory] = useState({
     src: "",
@@ -30,6 +31,12 @@ function AddItemModal({
     height: 0,
   });
   const [enlarginPicture, setEnlargingPicture] = useState(false);
+  const [fileSelected, setFileSelected] = useState(null);
+
+  const db = new MongoDB();
+  const router = useRouter();
+  const { currentUser, setCurrentUser } = useCurrentUser();
+  const lobbyId = router.asPath.split("/").pop().replace("?", "");
 
   useEffect(() => {
     if (editItemIndex.description) {
@@ -44,15 +51,6 @@ function AddItemModal({
       setLinkItem("");
     }
   }, [editItemIndex]);
-
-  const db = new MongoDB();
-  const blob = new BlobStorage();
-
-  const router = useRouter();
-
-  const { currentUser, setCurrentUser } = useCurrentUser();
-
-  const lobbyId = router.asPath.split("/").pop().replace("?", "");
 
   const modalStyles = {
     content: {
@@ -83,13 +81,8 @@ function AddItemModal({
     setEnlargingPicture(false);
   }
 
-  const onChange = (e) => {
-    updateImgFrontEnd();
-  };
-
   const updateImgFrontEnd = () => {
     const input = document.getElementById("image-selector") as HTMLInputElement;
-    const img = document.getElementById("img-placeholder");
     const file = input.files[0];
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
@@ -254,49 +247,17 @@ function AddItemModal({
                     !enlarginPicture && "relative"
                   }`}
                 >
-                  <img
-                    onClick={() =>
-                      setEnlargingPicture(() => {
-                        if (imageInMemory.src && !enlarginPicture) return true;
-                        return false;
-                      })
-                    }
-                    className={
-                      enlarginPicture
-                        ? `absolute z-48 w-[${imageInMemory.width}px] h-[${imageInMemory.height}px] cursor-pointer`
-                        : imageInMemory.src &&
-                          "w-full h-full object-contain cursor-pointer"
-                    }
-                    src={imageInMemory.src}
-                    id="img-placeholder"
-                  ></img>
-                  {!imageInMemory.src ? (
-                    <>
-                      <label
-                        className="cursor-pointer"
-                        htmlFor="image-selector"
-                      >
-                        <p>Last opp bilde</p>
-                      </label>
-                      <input
-                        className="w-full hidden"
-                        onChange={onChange}
-                        type="file"
-                        id="image-selector"
-                        name="image-selector"
-                        accept="image/png, image/jpeg"
-                      ></input>
-                    </>
-                  ) : (
-                    <div
-                      onClick={() =>
-                        setImageInMemory({ src: "", width: 0, height: 0 })
-                      }
-                      className="absolute p-1 rounded-md bottom-1 right-2 z-100 border-2 border-gray bg-slate-200 cursor-pointer"
-                    >
-                      {Icons.GARBAGE}
-                    </div>
-                  )}
+                  <ImageHandling
+                    setEnlargingPicture={setEnlargingPicture}
+                    enlarginPicture={enlarginPicture}
+                    imageInMemory={imageInMemory}
+                    setImageInMemory={setImageInMemory}
+                    updateImgFrontEnd={updateImgFrontEnd}
+                    imgUploading={imgUploading}
+                    setImgUploading={setImgUploading}
+                    fileSelected={fileSelected}
+                    setFileSelected={setFileSelected}
+                  />
                 </div>
                 <div>
                   <label htmlFor="quantity">
