@@ -2,7 +2,6 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 const connectionString = process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT;
-const containerName = process.env.NEXT_PUBLIC_BLOB_STORAGE_NAME;
 const sasToken = process.env.NEXT_PUBLIC_BLOB_STORAGE_SAS_TOKEN;
 class BlobStorage {
   blobServiceClient: BlobServiceClient;
@@ -10,9 +9,18 @@ class BlobStorage {
 
   constructor() {
     this.blobServiceClient = new BlobServiceClient(connectionString + sasToken);
-    this.containerClient =
-      this.blobServiceClient.getContainerClient(containerName);
   }
+
+  createContainerClient = async (lobby) => {
+    const containerClient: ContainerClient =
+      this.blobServiceClient.getContainerClient(lobby);
+    try {
+      await containerClient.createIfNotExists();
+    } catch (e) {
+      console.error(e);
+    }
+    return containerClient;
+  };
 
   readContainers = async () => {
     let i = 1;
@@ -30,14 +38,16 @@ class BlobStorage {
     }
   };
 
-  uploadBlob = async (file) => {
-    const blockBlobClient = this.containerClient.getBlockBlobClient(file.name);
+  uploadBlob = async (file, lobbyId) => {
+    const containerClient = await this.createContainerClient(lobbyId);
+    const blockBlobClient = containerClient.getBlockBlobClient(file.name);
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
     const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
-    console.log(
-      `Upload block blob ${file.name} successfully`,
-      uploadBlobResponse.requestId
-    );
+
+    // console.log(
+    //   `Upload block blob ${file.name} successfully`,
+    //   uploadBlobResponse.requestId
+    // );
   };
 }
 

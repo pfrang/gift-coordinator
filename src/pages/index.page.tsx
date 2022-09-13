@@ -3,12 +3,8 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 
-import MongoDB from "../sql-nodejs/cosmosdb/app";
-
 import LeftSide from "./components/front-page/left-side";
 import RightSide from "./components/front-page/right-side";
-import AddItemModal from "./lobby/components/add-item-modal";
-import AddItemOfflineModal from "./lobby/components/add-item-modal-offline";
 
 const ContentWrapper = styled.div`
   margin: 0px 8rem;

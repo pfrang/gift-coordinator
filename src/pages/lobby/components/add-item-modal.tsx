@@ -21,7 +21,6 @@ function AddItemModal({
   const [itemPrice, setItemPrice] = useState("");
   const [linkItem, setLinkItem] = useState("");
   const [itemAlreadyExists, setItemAlreadyExists] = useState(false);
-  const [imgUploading, setImgUploading] = useState(false);
 
   const [imageInMemory, setImageInMemory] = useState({
     src: "",
@@ -225,6 +224,7 @@ function AddItemModal({
                     setImageInMemory={setImageInMemory}
                     fileSelected={fileSelected}
                     setFileSelected={setFileSelected}
+                    lobbyId={lobbyId}
                   />
                 </div>
                 <div>

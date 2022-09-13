@@ -13,6 +13,7 @@ function ImageHandling(props) {
     enlarginPicture,
     imageInMemory,
     setImageInMemory,
+    lobbyId,
   } = props;
 
   const blob = new BlobStorage();
@@ -39,7 +40,7 @@ function ImageHandling(props) {
     const uploadImg = async () => {
       if (fileSelected) {
         setImgUploading(true);
-        fileSelected && (await blob.uploadBlob(fileSelected));
+        fileSelected && (await blob.uploadBlob(fileSelected, lobbyId));
         setFileSelected(null);
         setImgUploading(false);
       }
