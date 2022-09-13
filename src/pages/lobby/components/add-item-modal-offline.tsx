@@ -1,7 +1,9 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import styled from "styled-components";
 
+import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import { toFindDuplicates } from "../../../utils/find-duplicates";
 import { useCurrentUser } from "../../../context/context";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
@@ -9,13 +11,7 @@ import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { ModalWrapper } from "./modal.styles";
 import ImageHandling from "./image-handling";
 
-function AddItemModal({
-  addModalIsOpen,
-  setAddModalIsOpen,
-  userIndex,
-  setUsers,
-  editItemIndex,
-}) {
+function AddItemOfflineModal({ addModalIsOpen, setAddModalIsOpen }) {
   const [titleText, setTitleText] = useState("");
   const [quantityItem, setQuantityItem] = useState("");
   const [itemPrice, setItemPrice] = useState("");
@@ -31,24 +27,8 @@ function AddItemModal({
   const [enlarginPicture, setEnlargingPicture] = useState(false);
   const [fileSelected, setFileSelected] = useState(null);
 
-  const db = new MongoDB();
   const router = useRouter();
-  const { currentUser, setCurrentUser } = useCurrentUser();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
-
-  useEffect(() => {
-    if (editItemIndex.description) {
-      setTitleText(editItemIndex.description);
-      setQuantityItem(editItemIndex.quantity);
-      setItemPrice(editItemIndex.price);
-      setLinkItem(editItemIndex.link);
-    } else {
-      setTitleText("");
-      setQuantityItem("");
-      setItemPrice("");
-      setLinkItem("");
-    }
-  }, [editItemIndex]);
 
   const modalStyles = {
     content: {
@@ -79,82 +59,6 @@ function AddItemModal({
     setEnlargingPicture(false);
   }
 
-  const checkifItemAlreadyExists = (input) => {
-    const item = document.getElementById(`list-${userIndex}`);
-    const li = Array.from(item.getElementsByTagName("h5"));
-    const liValues = li.map((item) => {
-      return item.innerText;
-    });
-    const response = toFindDuplicates(liValues, input);
-    return response;
-  };
-
-  const updateUsersFrontEnd = (edit) => {
-    setUsers((prev) => {
-      let users = [...prev];
-
-      let info = {};
-
-      if (edit) {
-        let currentItemInfo = users[userIndex].items[editItemIndex.idx];
-        info = {
-          ...currentItemInfo,
-          description: titleText,
-          price: itemPrice,
-          quantity: quantityItem,
-          link: linkItem,
-          id: editItemIndex,
-        };
-        users[userIndex].items[editItemIndex.idx] = info;
-      } else {
-        info = {
-          description: titleText,
-          price: itemPrice,
-          quantity: quantityItem,
-          link: linkItem,
-          id: currentUser.items.length,
-        };
-        users[userIndex].items.push(info);
-      }
-
-      return users;
-    });
-  };
-
-  const editItem = async () => {
-    const info = {
-      lobbyId: lobbyId,
-      userIndex: userIndex,
-      itemIndex: editItemIndex.idx,
-      description: titleText,
-      link: linkItem,
-      quantity: quantityItem,
-      price: itemPrice,
-    };
-
-    updateUsersFrontEnd(true);
-    const updateCosmo = await db.updateItem(info);
-    return updateCosmo;
-  };
-
-  const addItem = async () => {
-    const info = {
-      lobbyId: lobbyId,
-      userIndex: userIndex,
-      itemIndex: currentUser.items.length,
-      description: titleText,
-      link: linkItem,
-      quantity: quantityItem,
-      price: itemPrice,
-      reserved: false,
-      reservedBy: "",
-    };
-
-    updateUsersFrontEnd(false);
-    const updateCosmo = await db.addNewItem(info);
-    return updateCosmo;
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -162,20 +66,8 @@ function AddItemModal({
       return;
     }
 
-    if (checkifItemAlreadyExists(titleText)) {
-      setItemAlreadyExists(true);
-      return;
-    }
-
-    let itemUpdate;
-    if (editItemIndex.description) {
-      itemUpdate = editItem();
-    } else {
-      itemUpdate = addItem();
-    }
     setImageInMemory(undefined);
     closeModal();
-    return itemUpdate;
   };
 
   return (
@@ -186,7 +78,7 @@ function AddItemModal({
         onRequestClose={closeModal}
         style={modalStyles}
       >
-        <form>
+        <form className="">
           <div
             onClick={closeModal}
             className="cursor-pointer absolute top-0 right-2"
@@ -223,6 +115,8 @@ function AddItemModal({
                     enlarginPicture={enlarginPicture}
                     imageInMemory={imageInMemory}
                     setImageInMemory={setImageInMemory}
+                    imgUploading={imgUploading}
+                    setImgUploading={setImgUploading}
                     fileSelected={fileSelected}
                     setFileSelected={setFileSelected}
                   />
@@ -283,4 +177,4 @@ function AddItemModal({
   );
 }
 
-export default AddItemModal;
+export default AddItemOfflineModal;

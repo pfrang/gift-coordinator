@@ -151,7 +151,6 @@ export default function LobbyPage({ response }: LobbyProps) {
         <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
         <AddItemModal
           editItemIndex={editItemIndex}
-          setEditItemIndex={setEditItemIndex}
           setUsers={setUsers}
           userIndex={userIndex}
           addModalIsOpen={addModalIsOpen}
