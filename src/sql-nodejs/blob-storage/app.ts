@@ -14,10 +14,8 @@ class BlobStorage {
   createContainerClient = async (lobby) => {
     const containerClient: ContainerClient =
       this.blobServiceClient.getContainerClient(lobby);
-    try {
+    if (!this.blobServiceClient.getContainerClient(lobby).exists()) {
       await containerClient.createIfNotExists();
-    } catch (e) {
-      console.error(e);
     }
     return containerClient;
   };
