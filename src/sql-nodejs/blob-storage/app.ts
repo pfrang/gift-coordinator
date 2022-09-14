@@ -12,11 +12,15 @@ class BlobStorage {
   }
 
   createContainerClient = async (lobby) => {
-    const containerClient: ContainerClient =
-      this.blobServiceClient.getContainerClient(lobby);
+    let containerClient: ContainerClient;
+    console.log("heiei");
+
     if (!this.blobServiceClient.getContainerClient(lobby).exists()) {
+      console.log("hei");
+
       await containerClient.createIfNotExists();
     }
+    containerClient = this.blobServiceClient.getContainerClient(lobby);
     return containerClient;
   };
 
@@ -38,9 +42,9 @@ class BlobStorage {
 
   uploadBlob = async (file, lobbyId) => {
     const containerClient = await this.createContainerClient(lobbyId);
-    const blockBlobClient = containerClient.getBlockBlobClient(file.name);
-    const options = { blobHTTPHeaders: { blobContentType: file.type } };
-    const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
+    // const blockBlobClient = containerClient.getBlockBlobClient(file.name);
+    // const options = { blobHTTPHeaders: { blobContentType: file.type } };
+    // const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
 
     // console.log(
     //   `Upload block blob ${file.name} successfully`,
