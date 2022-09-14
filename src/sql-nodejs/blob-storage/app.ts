@@ -1,5 +1,10 @@
 /* eslint-disable no-console */
-import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import {
+  BlobServiceClient,
+  ContainerClient,
+  ContainerCreateOptions,
+  ContainerDeleteBlobOptions,
+} from "@azure/storage-blob";
 
 const connectionString = process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT;
 const sasToken = process.env.NEXT_PUBLIC_BLOB_STORAGE_SAS_TOKEN;
@@ -13,15 +18,32 @@ class BlobStorage {
 
   createContainerClient = async (lobby) => {
     let containerClient: ContainerClient;
-    console.log("heiei");
+    let exists: boolean;
 
-    if (!this.blobServiceClient.getContainerClient(lobby).exists()) {
-      console.log("hei");
-
-      await containerClient.createIfNotExists();
+    try {
+      exists = await this.blobServiceClient.getContainerClient(lobby).exists();
+    } catch (e) {
+      console.log(e);
     }
-    containerClient = this.blobServiceClient.getContainerClient(lobby);
+
+    if (!exists) {
+      containerClient = (
+        await this.blobServiceClient.createContainer(lobby, {
+          access: "blob",
+        })
+      ).containerClient;
+    } else {
+      containerClient = this.blobServiceClient.getContainerClient(lobby);
+    }
+
     return containerClient;
+  };
+
+  deleteBlob = async (lobby, name) => {
+    const deleteResponse = await this.blobServiceClient
+      .getContainerClient(lobby)
+      .deleteBlob(name);
+    console.log(deleteResponse);
   };
 
   readContainers = async () => {
@@ -42,14 +64,14 @@ class BlobStorage {
 
   uploadBlob = async (file, lobbyId) => {
     const containerClient = await this.createContainerClient(lobbyId);
-    // const blockBlobClient = containerClient.getBlockBlobClient(file.name);
-    // const options = { blobHTTPHeaders: { blobContentType: file.type } };
-    // const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
+    const blockBlobClient = containerClient.getBlockBlobClient(file.name);
+    const options = { blobHTTPHeaders: { blobContentType: file.type } };
+    const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
 
-    // console.log(
-    //   `Upload block blob ${file.name} successfully`,
-    //   uploadBlobResponse.requestId
-    // );
+    console.log(
+      `Upload block blob ${file.name} successfully`,
+      uploadBlobResponse.requestId
+    );
   };
 }
 

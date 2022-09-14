@@ -113,6 +113,7 @@ class MongoDB {
       itemIndex,
       reserved,
       price,
+      img,
       reservedBy,
     } = info;
     const add = "add" as const;
@@ -126,6 +127,7 @@ class MongoDB {
           price: price,
           quantity: quantity,
           link: link,
+          img: img,
           reserved: reserved,
           reserved_by: reservedBy,
         },

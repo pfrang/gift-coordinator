@@ -20,15 +20,8 @@ function AddItemModal({
   const [quantityItem, setQuantityItem] = useState("");
   const [itemPrice, setItemPrice] = useState("");
   const [linkItem, setLinkItem] = useState("");
+  const [imgName, setImgName] = useState("");
   const [itemAlreadyExists, setItemAlreadyExists] = useState(false);
-
-  const [imageInMemory, setImageInMemory] = useState({
-    src: "",
-    width: 0,
-    height: 0,
-  });
-  const [enlarginPicture, setEnlargingPicture] = useState(false);
-  const [fileSelected, setFileSelected] = useState(null);
 
   const db = new MongoDB();
   const router = useRouter();
@@ -68,14 +61,8 @@ function AddItemModal({
   };
 
   function closeModal() {
-    setImageInMemory({
-      src: "",
-      width: 0,
-      height: 0,
-    });
     setAddModalIsOpen(false);
     setItemAlreadyExists(false);
-    setEnlargingPicture(false);
   }
 
   const checkifItemAlreadyExists = (input) => {
@@ -145,6 +132,7 @@ function AddItemModal({
       link: linkItem,
       quantity: quantityItem,
       price: itemPrice,
+      img: imgName,
       reserved: false,
       reservedBy: "",
     };
@@ -172,7 +160,6 @@ function AddItemModal({
     } else {
       itemUpdate = addItem();
     }
-    setImageInMemory(undefined);
     closeModal();
     return itemUpdate;
   };
@@ -213,17 +200,11 @@ function AddItemModal({
               )}
               <div className="grid grid-cols-2 gap-2">
                 <div
-                  className={`border-2 flex flex-col justify-center text-center ${
-                    !enlarginPicture && "relative"
-                  }`}
+                  className={`border-2 flex flex-col justify-center text-center relative`}
                 >
                   <ImageHandling
-                    setEnlargingPicture={setEnlargingPicture}
-                    enlarginPicture={enlarginPicture}
-                    imageInMemory={imageInMemory}
-                    setImageInMemory={setImageInMemory}
-                    fileSelected={fileSelected}
-                    setFileSelected={setFileSelected}
+                    imgName={imgName}
+                    setImgName={setImgName}
                     lobbyId={lobbyId}
                   />
                 </div>
