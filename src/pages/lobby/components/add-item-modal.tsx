@@ -34,11 +34,13 @@ function AddItemModal({
       setQuantityItem(editItemIndex.quantity);
       setItemPrice(editItemIndex.price);
       setLinkItem(editItemIndex.link);
+      setImgName(editItemIndex.img);
     } else {
       setTitleText("");
       setQuantityItem("");
       setItemPrice("");
       setLinkItem("");
+      setImgName("");
     }
   }, [editItemIndex]);
 

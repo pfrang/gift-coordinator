@@ -48,8 +48,8 @@ function ImageHandling(props) {
     uploadImg();
   }, [fileSelected]);
 
-  const onDelete = async () => {
-    await blob.deleteBlob(lobbyId, name);
+  const onDelete = async (e) => {
+    await blob.deleteBlob(lobbyId, imgName);
     setImgName("");
   };
 
@@ -88,7 +88,7 @@ function ImageHandling(props) {
             </>
           ) : (
             <div
-              onClick={() => onDelete()}
+              onClick={(e) => onDelete(e.target)}
               className="absolute p-1 rounded-md bottom-1 right-2 z-100 border-2 border-gray bg-slate-200 cursor-pointer"
             >
               {Icons.GARBAGE}
