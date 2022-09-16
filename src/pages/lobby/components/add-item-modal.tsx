@@ -22,6 +22,7 @@ function AddItemModal({
   const [linkItem, setLinkItem] = useState("");
   const [imgName, setImgName] = useState("");
   const [itemAlreadyExists, setItemAlreadyExists] = useState(false);
+  const [emptyTitleField, setEmptyTitleField] = useState(false);
 
   const db = new MongoDB();
   const router = useRouter();
@@ -64,6 +65,7 @@ function AddItemModal({
 
   function closeModal() {
     setAddModalIsOpen(false);
+    setEmptyTitleField(false);
     setItemAlreadyExists(false);
   }
 
@@ -74,7 +76,8 @@ function AddItemModal({
       return item.innerText;
     });
     const response = toFindDuplicates(liValues, input);
-    return response;
+    if (editItemIndex.description === input) return;
+    return response.length > 0;
   };
 
   const updateUsersFrontEnd = (edit) => {
@@ -91,6 +94,7 @@ function AddItemModal({
           price: itemPrice,
           quantity: quantityItem,
           link: linkItem,
+          img: imgName,
           id: editItemIndex,
         };
         users[userIndex].items[editItemIndex.idx] = info;
@@ -100,6 +104,7 @@ function AddItemModal({
           price: itemPrice,
           quantity: quantityItem,
           link: linkItem,
+          img: imgName,
           id: currentUser.items.length,
         };
         users[userIndex].items.push(info);
@@ -149,6 +154,7 @@ function AddItemModal({
     e.preventDefault();
 
     if (!titleText) {
+      setEmptyTitleField(true);
       return;
     }
 
@@ -199,6 +205,11 @@ function AddItemModal({
               {itemAlreadyExists && (
                 <p className="text-sm flex text-red-500">
                   You already have that item on your list!
+                </p>
+              )}
+              {emptyTitleField && (
+                <p className="text-sm flex text-red-500">
+                  You have to put in a description!
                 </p>
               )}
               <div className="grid grid-cols-2 gap-2">

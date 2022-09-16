@@ -202,8 +202,8 @@ export default function LobbyPage({ response }: LobbyProps) {
           </InviteModalButton>
         </ExtendedHeaderDiv>
         {showClickStartbtn && (
-          <div className="flex items-center justify-center">
-            <h1>You havent made a wish list yet !</h1>
+          <div className="flex items-center justify-center gap-5">
+            <h4>You havent made a wish list yet !</h4>
             <button
               className="h-12 p-2 mt-2 w-[100px] border-2 rounded-lg bg-green-500 hover:bg-green-700 text-white text-xs"
               onClick={addUser}

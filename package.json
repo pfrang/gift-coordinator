@@ -9,9 +9,9 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "postinstall": "prisma generate"
   },
-    "prisma": {
-      "schema": "src/prisma/schema.prisma"
-    },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
+  },
   "dependencies": {
     "@azure/cosmos": "^3.15.1",
     "@azure/storage-blob": "^12.11.0",
