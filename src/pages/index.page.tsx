@@ -1,6 +1,3 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
 import styled from "styled-components";
 
 import LeftSide from "./components/front-page/left-side";
@@ -26,13 +23,6 @@ const ContentWrapper = styled.div`
 `;
 
 export const Home = (props) => {
-  const [createdLobbies, setCreatedLobbies] = useState([]);
-  const [belongingLobbies, setBelongingLobbies] = useState([]);
-  const [addModalIsOpen, setAddModalIsOpen] = useState(false);
-  const router = useRouter();
-  // const db = new MongoDB();
-  const { data: session, status } = useSession();
-
   return (
     <ContentWrapper>
       {/* <div id="root">

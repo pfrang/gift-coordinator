@@ -1,12 +1,16 @@
 import Email from "next-auth/providers/email";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function MenuItems(props) {
   const [invalidProfileDirect, setInvalidProfileDirect] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    status === "authenticated" && setInvalidProfileDirect(false);
+  }, [status]);
 
   const redirect = (e) => {
     switch (props.items) {

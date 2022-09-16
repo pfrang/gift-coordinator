@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Icons } from "../../../icons/icons";
 import BlobStorage from "../../../sql-nodejs/blob-storage/app";
-import { Spinner } from "../../../ui-kit/loader/loader2";
+import { Spinner } from "../../../ui-kit/spinner/spinner";
 
 function ImageHandling(props) {
   const [fileSelected, setFileSelected] = useState(null);

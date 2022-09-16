@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Button from "../components/buttons/button";
 import Marginx20Div from "../components/styling-divs/divs/margin-x20-div";
 import { UserLobbyData } from "../api/mongodb/mongo-db-sl-api-client/mongo-db-api-client";
-import { Spinner } from "../../ui-kit/loader/loader2";
+import { Spinner } from "../../ui-kit/spinner/spinner";
 
 import ToggleButton from "./components/toggle-button";
 import { useMongoDB } from "./hooks/use-profile-mongodb";

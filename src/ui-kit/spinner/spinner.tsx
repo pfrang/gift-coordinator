@@ -1,6 +1,4 @@
 import styled, { keyframes } from "styled-components";
-// import Logo from "./logo.svg";
-import Logo from "./test";
 
 const StyledSpinner = styled.svg`
   animation: rotate 2s linear infinite;
@@ -9,7 +7,7 @@ const StyledSpinner = styled.svg`
   height: 50px;
 
   & .path {
-    stroke: #5652BF;
+    stroke: #5652bf;
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite;
   }
@@ -36,12 +34,11 @@ const StyledSpinner = styled.svg`
   }
 `;
 
-
 const Wrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-`
+`;
 
 export const Spinner = () => (
   <Wrapper>

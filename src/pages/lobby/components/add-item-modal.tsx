@@ -118,6 +118,7 @@ function AddItemModal({
       link: linkItem,
       quantity: quantityItem,
       price: itemPrice,
+      img: imgName,
     };
 
     updateUsersFrontEnd(true);
