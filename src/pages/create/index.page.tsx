@@ -58,7 +58,7 @@ export default function CreatePage({ ...props }: CreatePageData) {
                 htmlFor="Lobby"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
-                Lobby Description
+                <h4>Lobby Description</h4>
               </label>
               <input
                 onChange={(e) => setText(e.target.value)}

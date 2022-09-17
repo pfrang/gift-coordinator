@@ -45,7 +45,7 @@ function Header(props) {
       <MediaDiv>
         <div className="mt-auto">
           <Link href="/">
-            <h2 className="rounded-sm cursor-pointer text-xl py-2">GiftMe!</h2>
+            <h2 className="rounded-sm cursor-pointer text-xl py-2">GiftMe</h2>
           </Link>
         </div>
         <nav className="mt-auto mr-20">
