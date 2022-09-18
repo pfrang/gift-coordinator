@@ -256,11 +256,11 @@ export async function getStaticProps(context) {
   const query = `SELECT * from c where c.id = '${lobby}'`;
   const response = await db.read(query).then((data) => data.resources[0]);
 
-  if (!response) {
-    return {
-      notFound: true,
-    };
-  }
+  // if (!response) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 
   return {
     props: {
