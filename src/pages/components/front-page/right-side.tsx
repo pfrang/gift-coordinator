@@ -20,9 +20,12 @@ const ImageContainer = styled.div`
     height: 300px;
     width: 300px;
   }
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
-export default function RightSide({}: Props) {
+export default function RightSide() {
   return (
     <Wrapper>
       <ImageContainer>

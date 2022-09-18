@@ -11,9 +11,14 @@ const GridRow2 = styled.div`
 
 const ButtonsWrapper = styled.div`
   display: grid;
+  justify-content: center;
   grid-template-columns: 1fr 1fr;
   width: 100%;
   grid-gap: 20px;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    width: 70%;
+  }
 `;
 
 const ButtonTextAndArrowWrapper = styled.div`
@@ -39,7 +44,7 @@ function LeftSide(props) {
         </p>
       </div>
       <GridRow2>
-        <div className="flex h-full">
+        <div className="flex h-full justify-center">
           <ButtonsWrapper>
             <div className="border-2 p-4 border-blue-700 rounded-md shadow-md flex flex-col justify-between">
               <div className="flex flex-col gap-2">
