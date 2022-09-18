@@ -4,6 +4,14 @@ import styled from "styled-components";
 
 import { Icons } from "../../../icons/icons";
 
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
 const GridRow2 = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
@@ -15,10 +23,6 @@ const ButtonsWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
   width: 100%;
   grid-gap: 20px;
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    width: 70%;
-  }
 `;
 
 const ButtonTextAndArrowWrapper = styled.div`
@@ -35,7 +39,7 @@ function LeftSide(props) {
   };
 
   return (
-    <GridRow2>
+    <Wrapper>
       <div className="flex flex-col gap-5 py-12">
         <h4 className="text-3xl">Koordiner innkjøp på en felles platform</h4>
         <p className="text-sm">
@@ -95,7 +99,7 @@ function LeftSide(props) {
           </ButtonsWrapper>
         </div>
       </GridRow2>
-    </GridRow2>
+    </Wrapper>
   );
 }
 

@@ -8,6 +8,7 @@ const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 50px;
+  max-height: 80%;
   @media (max-width: 1460px) {
     margin: 0px 3rem;
   }
