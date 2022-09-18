@@ -245,7 +245,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // can also be true or 'blocking'
+    fallback: "blocking", // can also be true or false
   };
 }
 
@@ -256,11 +256,11 @@ export async function getStaticProps(context) {
   const query = `SELECT * from c where c.id = '${lobby}'`;
   const response = await db.read(query).then((data) => data.resources[0]);
 
-  // if (!response) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
+  if (!response) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
