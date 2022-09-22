@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 import { Icons } from "../../../icons/icons";
 
@@ -15,15 +16,35 @@ function ListItem({
 }) {
   const { data: session, status } = useSession();
 
+  const router = useRouter();
+
+  const [enlargeImage, setEnlargeImage] = useState(false);
+
   const openEditModal = () => {
     setAddModalIsOpen(true);
     setEditItemIndex({ ...item, idx });
   };
 
+  const lobbyId = router.asPath.split("/").pop().replace("?", "");
   return (
     <tr className="border-t-2 border-slate-400 h-12">
       <td className="1-3">
-        <h5 className="pl-2">{item?.description}</h5>
+        <div className="flex flex-col">
+          <div>
+            <h5 className="pl-2">{item?.description}</h5>
+          </div>
+          <div className="m-1 h-12">
+            <img
+              onClick={() => setEnlargeImage(!enlargeImage)}
+              className={
+                enlargeImage
+                  ? "object-contain w-full h-full cursor-pointer"
+                  : "absolute bottom-[50%] left-[30%] max-w-[50%] max-h-[70%] cursor-pointer"
+              }
+              src={`${process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT}${lobbyId}/${item.img}`}
+            />
+          </div>
+        </div>
       </td>
       {session?.user.email === user ? (
         <>
@@ -40,9 +61,8 @@ function ListItem({
       ) : item.reserved ? (
         <>
           <td className="w-1/3">
-            <p className="text-xs px-5 break-words">{`Reserved by ${
-              item.reserved_by.split("@")[0]
-            }`}</p>
+            <p className="text-xs px-5 break-words">{`Reserved by
+            ${item.reserved_by.split("@")[0]}`}</p>
           </td>
           <td className="w-1/3">
             {item.reserved_by === session.user.email && (
