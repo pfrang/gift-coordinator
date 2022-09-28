@@ -5,8 +5,18 @@ import styled from "styled-components";
 
 import { removeNthElement } from "../../../utils/remove-nth-element";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
+import { User } from "../[lobby].page";
 
 import ListItem from "./list-item";
+
+interface ItemTableProps {
+  setEditItemIndex: (any) => void;
+  setUsers: (prev) => void;
+  setAddModalIsOpen: (boolean) => void;
+  userIndex: number;
+  users: User[];
+  user: User;
+}
 
 const TableStyle = styled.table`
   display: table;
@@ -19,23 +29,22 @@ const TableStyle = styled.table`
 function ItemTable({
   setEditItemIndex,
   userIndex,
-  items,
   user,
   users,
   setUsers,
   setAddModalIsOpen,
-}) {
+}: ItemTableProps) {
   const db = new MongoDB();
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
   const { data: session, status } = useSession();
 
-  const [startItems, setStartItems] = useState(items);
+  const [startItems, setStartItems] = useState(user.items);
 
-  const name = user?.split("@")[0];
+  const name = user?.email.split("@")[0];
 
   useEffect(() => {
-    setStartItems(items);
+    setStartItems(user.items);
   }, [users]);
 
   const onDelete = async (itemIndex) => {
@@ -101,7 +110,7 @@ function ItemTable({
             {name}
             {`'s Wish List !`}
           </h5>
-          {session && session.user.email === user && (
+          {session && session.user.email === user.email && (
             <button
               className="rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs"
               onClick={() => setAddModalIsOpen(true)}
@@ -112,7 +121,7 @@ function ItemTable({
         </div>
         <TableStyle id={`list-${userIndex}`}>
           <tbody className="table-row-group text-center">
-            {session && session.user.email === user ? (
+            {session && session.user.email === user.email ? (
               <tr className="table-row border-t-2 border-slate-400">
                 <th className="w-1/3">Tittel</th>
                 <th className="w-1/3">Rediger</th>

@@ -13,21 +13,27 @@ import InviteModalButton from "./components/invite-modal-button";
 import ItemTable from "./components/item-table";
 import InviteModal from "./components/invite-modal";
 
-interface Items {
+export interface Item {
+  id: number;
   description: string;
+  price: string;
+  link: string;
+  img: string;
+  reserved: boolean;
+  reserved_by: string;
 }
-interface Users {
+export interface User {
   name: string;
   email: string;
-  items: Array<Items>;
+  items: Array<Item>;
 }
 
-interface LobbyProps {
+export interface LobbyProps {
   response: {
     id: string;
     description: string;
     creator: string;
-    users: Array<Users>;
+    users: Array<User>;
   };
 }
 
@@ -62,7 +68,6 @@ const TwoColumnLayout = styled.div`
 export default function LobbyPage({ response }: LobbyProps) {
   const [edit, setEdit] = useState(true);
   const [showClickStartbtn, setShowClickStartbtn] = useState(false);
-  const [isAdmin, setisAdmin] = useState(false);
   const [users, setUsers] = useState(response.users);
   const [editVal, setEditVal] = useState(response.description);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -221,8 +226,7 @@ export default function LobbyPage({ response }: LobbyProps) {
                   setAddModalIsOpen={setAddModalIsOpen}
                   users={users}
                   setUsers={setUsers}
-                  user={user.email}
-                  items={user.items}
+                  user={user}
                   userIndex={idx}
                   key={idx}
                 />

@@ -3,6 +3,18 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { Icons } from "../../../icons/icons";
+import { Item, User } from "../[lobby].page";
+
+interface ListItemProps {
+  setEditItemIndex: (any) => void;
+  setAddModalIsOpen: (boolean) => void;
+  onDelete: (idx) => void;
+  onReserve: (idx) => void;
+  onRemoveReservation: (idx) => void;
+  idx: number;
+  user: User;
+  item: Item;
+}
 
 function ListItem({
   user,
@@ -13,7 +25,7 @@ function ListItem({
   onRemoveReservation,
   setEditItemIndex,
   setAddModalIsOpen,
-}) {
+}: ListItemProps) {
   const { data: session, status } = useSession();
 
   const router = useRouter();
@@ -38,15 +50,15 @@ function ListItem({
               onClick={() => setEnlargeImage(!enlargeImage)}
               className={
                 enlargeImage
-                  ? "object-contain w-full h-full cursor-pointer"
-                  : "absolute bottom-[50%] left-[30%] max-w-[50%] max-h-[70%] cursor-pointer"
+                  ? "absolute bottom-[50%] left-[30%] max-w-[50%] max-h-[70%] cursor-pointer"
+                  : "object-contain w-full h-full cursor-pointer"
               }
               src={`${process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT}${lobbyId}/${item.img}`}
             />
           </div>
         </div>
       </td>
-      {session?.user.email === user ? (
+      {session?.user.email === user.email ? (
         <>
           <td className="1-3">
             {/* <div className='flex gap-2 text-slate-200 align-middle'> */}
