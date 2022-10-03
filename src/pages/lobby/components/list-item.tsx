@@ -45,17 +45,19 @@ function ListItem({
           <div>
             <h5 className="pl-2">{item?.description}</h5>
           </div>
-          <div className="m-1 h-12">
-            <img
-              onClick={() => setEnlargeImage(!enlargeImage)}
-              className={
-                enlargeImage
-                  ? "absolute bottom-[50%] left-[30%] max-w-[50%] max-h-[70%] cursor-pointer"
-                  : "object-contain w-full h-full cursor-pointer"
-              }
-              src={`${process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT}${lobbyId}/${item.img}`}
-            />
-          </div>
+          {item.img && (
+            <div className="m-1 h-12">
+              <img
+                onClick={() => setEnlargeImage(!enlargeImage)}
+                className={
+                  enlargeImage
+                    ? "absolute bottom-[50%] left-[30%] max-w-[50%] max-h-[70%] cursor-pointer"
+                    : "object-contain w-full h-full cursor-pointer"
+                }
+                src={`${process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT}${lobbyId}/${item.img}`}
+              />
+            </div>
+          )}
         </div>
       </td>
       {session?.user.email === user.email ? (
