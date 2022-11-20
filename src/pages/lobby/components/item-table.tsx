@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { removeNthElement } from "../../../utils/remove-nth-element";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { User } from "../[lobby].page";
+import { NextApiClient } from "../../api/next-api.client";
 
 import ListItem from "./list-item";
 
@@ -40,6 +41,7 @@ function ItemTable({
   const { data: session, status } = useSession();
 
   const [startItems, setStartItems] = useState(user.items);
+  const apiClient = new NextApiClient();
 
   const name = user?.email.split("@")[0];
 
@@ -61,6 +63,9 @@ function ItemTable({
       return users;
     });
     const updateCosmo = await db.deleteItem(info);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return updateCosmo;
   };
 
@@ -80,6 +85,9 @@ function ItemTable({
     });
 
     const updateCosmo = await db.reserveItem(info);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return updateCosmo;
   };
 
@@ -99,6 +107,9 @@ function ItemTable({
     });
 
     const updateCosmo = await db.removeReservationItem(info);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return updateCosmo;
   };
 

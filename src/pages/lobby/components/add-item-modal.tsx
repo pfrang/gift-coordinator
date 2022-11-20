@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import { toFindDuplicates } from "../../../utils/find-duplicates";
 import { useCurrentUser } from "../../../context/context";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
+import { NextApiClient } from "../../api/next-api.client";
 
 import { ModalWrapper } from "./modal.styles";
 import ImageHandling from "./image-handling";
@@ -28,6 +29,8 @@ function AddItemModal({
   const router = useRouter();
   const { currentUser, setCurrentUser } = useCurrentUser();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
+
+  const apiClient = new NextApiClient();
 
   useEffect(() => {
     if (editItemIndex.description) {
@@ -128,6 +131,9 @@ function AddItemModal({
 
     updateUsersFrontEnd(true);
     const updateCosmo = await db.updateItem(info);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return updateCosmo;
   };
 
@@ -147,6 +153,9 @@ function AddItemModal({
 
     updateUsersFrontEnd(false);
     const updateCosmo = await db.addNewItem(info);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return updateCosmo;
   };
 
@@ -170,6 +179,10 @@ function AddItemModal({
       itemUpdate = addItem();
     }
     closeModal();
+
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return itemUpdate;
   };
 

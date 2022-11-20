@@ -7,6 +7,7 @@ import styled from "styled-components";
 
 import MongoDB from "../../sql-nodejs/cosmosdb/app";
 import { useCurrentUser } from "../../context/context";
+import { NextApiClient } from "../api/next-api.client";
 
 import AddItemModal from "./components/add-item-modal";
 import InviteModalButton from "./components/invite-modal-button";
@@ -79,6 +80,8 @@ export default function LobbyPage({ response }: LobbyProps) {
 
   const db = new MongoDB();
 
+  const apiClient = new NextApiClient();
+
   const creator = response.creator;
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
@@ -121,10 +124,14 @@ export default function LobbyPage({ response }: LobbyProps) {
     const newUser = response.resource.users[0];
 
     setUsers([newUser, ...users]);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     const query = {
       id: lobbyId,
       description: editVal,
@@ -136,6 +143,9 @@ export default function LobbyPage({ response }: LobbyProps) {
     }
     setEdit(true);
     const inputField = document.getElementById("input");
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     inputField.blur();
   };
 

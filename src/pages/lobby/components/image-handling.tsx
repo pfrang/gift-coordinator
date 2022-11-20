@@ -3,10 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Icons } from "../../../icons/icons";
 import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import { Spinner } from "../../../ui-kit/spinner/spinner";
+import { NextApiClient } from "../../api/next-api.client";
 
 function ImageHandling(props) {
   const [fileSelected, setFileSelected] = useState(null);
   const [imgUploading, setImgUploading] = useState(false);
+
+  const apiClient = new NextApiClient();
 
   const { setEnlargingPicture, enlarginPicture, lobbyId, imgName, setImgName } =
     props;
@@ -45,11 +48,20 @@ function ImageHandling(props) {
         setImgUploading(false);
       }
     };
+    const reval = async () => {
+      const reval = await apiClient.axiosInstance.get(
+        `/api/revalidate?path=${lobbyId}`
+      );
+    };
     uploadImg();
+    reval();
   }, [fileSelected]);
 
   const onDelete = async (e) => {
     await blob.deleteBlob(lobbyId, imgName);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     setImgName("");
   };
 

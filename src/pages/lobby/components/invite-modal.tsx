@@ -6,6 +6,7 @@ import styled from "styled-components";
 import validator from "validator";
 
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
+import { NextApiClient } from "../../api/next-api.client";
 
 import { ModalWrapper } from "./modal.styles";
 
@@ -23,6 +24,7 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
   const db = new MongoDB();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
   const { data: session } = useSession();
+  const apiClient = new NextApiClient();
 
   const modalStyles = {
     content: {
@@ -75,6 +77,9 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
     setInvitationLinkSent(true);
     setBadEmail(false);
     const updateCosmo = await db.inviteUser(info);
+    const reval = await apiClient.axiosInstance.get(
+      `/api/revalidate?path=${lobbyId}`
+    );
     return updateCosmo;
   };
 
