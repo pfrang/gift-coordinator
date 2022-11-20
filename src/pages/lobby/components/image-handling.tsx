@@ -5,38 +5,17 @@ import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import { Spinner } from "../../../ui-kit/spinner/spinner";
 import { NextApiClient } from "../../api/next-api.client";
 
-function ImageHandling(props) {
+function ImageHandling({ lobbyId, imgName, setImgName }) {
   const [fileSelected, setFileSelected] = useState(null);
   const [imgUploading, setImgUploading] = useState(false);
 
   const apiClient = new NextApiClient();
-
-  const { setEnlargingPicture, enlarginPicture, lobbyId, imgName, setImgName } =
-    props;
 
   const blob = new BlobStorage();
 
   const imgUrlPath =
     imgName &&
     `${process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT}${lobbyId}/${imgName}`;
-
-  // const updateImgFrontEnd = () => {
-  //   const file = fileSelected;
-  //   const reader = new FileReader();
-  //   reader.addEventListener("load", (event) => {
-  //     const image = new Image();
-  //     image.src = event.target.result as string;
-  //     image.onload = function () {
-  //       setImageInMemory({
-  //         src: image.src,
-  //         width: image.width,
-  //         height: image.height,
-  //       });
-  //     };
-  //   });
-
-  //   // reader.readAsDataURL(file);
-  // };
 
   useEffect(() => {
     const uploadImg = async () => {
@@ -76,15 +55,11 @@ function ImageHandling(props) {
       ) : (
         <>
           <img
-            className={
-              enlarginPicture
-                ? `absolute z-48 min-w-[100px] min-h-[100px] -left-[0.1rem] cursor-pointer`
-                : imgUrlPath && `object-contsin overflow-hidden cursor-pointer `
-            }
+            className={`object-contain overflow-hidden cursor-pointer `}
             src={imgUrlPath}
             id="img-placeholder"
           ></img>
-          {!imgUrlPath ? (
+          {!imgName ? (
             <>
               <label className="cursor-pointer" htmlFor="image-selector">
                 <p>Last opp bilde</p>
