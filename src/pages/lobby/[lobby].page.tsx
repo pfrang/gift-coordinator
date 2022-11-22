@@ -73,6 +73,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [editVal, setEditVal] = useState(response.description);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [addModalIsOpen, setAddModalIsOpen] = useState(false);
+  const [currentUsersList, setCurrentUsersList] = useState(undefined);
   const [userIndex, setUserIndex] = useState(0);
   const [editItemIndex, setEditItemIndex] = useState({});
 
@@ -170,6 +171,7 @@ export default function LobbyPage({ response }: LobbyProps) {
           userIndex={userIndex}
           addModalIsOpen={addModalIsOpen}
           setAddModalIsOpen={setAddModalIsOpen}
+          currentUsersList={currentUsersList}
         />
         <ExtendedHeaderDiv>
           <div className="flex h-8 gap-1">
@@ -239,6 +241,7 @@ export default function LobbyPage({ response }: LobbyProps) {
                   user={user}
                   userIndex={idx}
                   key={idx}
+                  setCurrentUsersList={setCurrentUsersList}
                 />
               );
             })}

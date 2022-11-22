@@ -1,8 +1,10 @@
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 import { Icons } from "../../../icons/icons";
+import Button from "../../components/buttons/button";
 import { Item, User } from "../[lobby].page";
 
 interface ListItemProps {
@@ -11,6 +13,7 @@ interface ListItemProps {
   onDelete: (idx) => void;
   onReserve: (idx) => void;
   onRemoveReservation: (idx) => void;
+  setCurrentUsersList: (user) => void;
   idx: number;
   user: User;
   item: Item;
@@ -25,6 +28,7 @@ function ListItem({
   onRemoveReservation,
   setEditItemIndex,
   setAddModalIsOpen,
+  setCurrentUsersList,
 }: ListItemProps) {
   const { data: session, status } = useSession();
 
@@ -34,16 +38,29 @@ function ListItem({
 
   const openEditModal = () => {
     setAddModalIsOpen(true);
+    setCurrentUsersList(user);
     setEditItemIndex({ ...item, idx });
   };
 
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
   return (
     <tr className="border-t-2 border-slate-400 h-12">
-      <td className="1-3">
-        <div className="flex flex-col">
-          <div>
+      <td className="">
+        <div className="flex flex-col items-center">
+          <div className="flex relative">
             <h5 className="pl-2">{item?.description}</h5>
+            {session?.user.email !== user.email && (
+              // <div className="absolute -top-2 left-10 w-full hover:text-white cursor-pointer color-white">
+              <>
+                <div
+                  onClick={() => openEditModal()}
+                  className="absolute w-4 -top-2 left-10 hover:bg-white cursor-pointer"
+                >
+                  <Image src="/svg/information.svg" height={50} width={50} />
+                </div>
+              </>
+              // </div>
+            )}
           </div>
           {item.img && (
             <div className="m-1 h-12">

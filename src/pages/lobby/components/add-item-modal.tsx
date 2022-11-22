@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { useSession } from "next-auth/react";
 
 import { toFindDuplicates } from "../../../utils/find-duplicates";
 import { useCurrentUser } from "../../../context/context";
@@ -16,6 +17,7 @@ function AddItemModal({
   userIndex,
   setUsers,
   editItemIndex,
+  currentUsersList,
 }) {
   const [titleText, setTitleText] = useState("");
   const [quantityItem, setQuantityItem] = useState("");
@@ -31,6 +33,8 @@ function AddItemModal({
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
 
   const apiClient = new NextApiClient();
+
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (editItemIndex.description) {
@@ -186,6 +190,8 @@ function AddItemModal({
     return itemUpdate;
   };
 
+  const isOwner = session?.user.email === currentUsersList;
+
   return (
     <>
       <Modal
@@ -214,6 +220,7 @@ function AddItemModal({
                 name="title"
                 id=""
                 value={titleText}
+                disabled={!isOwner}
               />
               {itemAlreadyExists && (
                 <p className="text-sm flex text-red-500">
@@ -230,6 +237,7 @@ function AddItemModal({
                   className={`border-2 flex flex-col justify-center text-center relative`}
                 >
                   <ImageHandling
+                    isOwner={isOwner}
                     imgName={imgName}
                     setImgName={setImgName}
                     lobbyId={lobbyId}
@@ -247,6 +255,7 @@ function AddItemModal({
                     name="quantity"
                     id=""
                     value={quantityItem}
+                    disabled={!isOwner}
                   />
                   <label htmlFor="price">
                     <p>Pris</p>
@@ -259,6 +268,7 @@ function AddItemModal({
                     name="quantity"
                     id=""
                     value={itemPrice}
+                    disabled={!isOwner}
                   />
                 </div>
               </div>
@@ -273,17 +283,20 @@ function AddItemModal({
                   name="link"
                   id=""
                   value={linkItem}
+                  disabled={!isOwner}
                 />
               </div>
             </div>
-            <button
-              onClick={onSubmit}
-              className="mt-2 cursor-pointer rounded-md shadow-md bg-pink-700 hover:bg-pink-800 text-slate-200 p-2"
-              type="submit"
-              value="Submit"
-            >
-              Legg til
-            </button>
+            {isOwner && (
+              <button
+                onClick={onSubmit}
+                className="mt-2 cursor-pointer rounded-md shadow-md bg-pink-700 hover:bg-pink-800 text-slate-200 p-2"
+                type="submit"
+                value="Submit"
+              >
+                Legg til
+              </button>
+            )}
           </ModalWrapper>
         </form>
       </Modal>

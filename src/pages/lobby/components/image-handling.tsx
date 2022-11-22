@@ -5,7 +5,7 @@ import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import { Spinner } from "../../../ui-kit/spinner/spinner";
 import { NextApiClient } from "../../api/next-api.client";
 
-function ImageHandling({ lobbyId, imgName, setImgName }) {
+function ImageHandling({ isOwner, lobbyId, imgName, setImgName }) {
   const [fileSelected, setFileSelected] = useState(null);
   const [imgUploading, setImgUploading] = useState(false);
 
@@ -71,15 +71,20 @@ function ImageHandling({ lobbyId, imgName, setImgName }) {
                 id="image-selector"
                 name="image-selector"
                 accept="image/png, image/jpeg"
+                disabled={!isOwner}
               ></input>
             </>
           ) : (
-            <div
-              onClick={(e) => onDelete(e.target)}
-              className="absolute p-1 rounded-md bottom-1 right-2 z-100 border-2 border-gray bg-slate-200 cursor-pointer"
-            >
-              {Icons.GARBAGE}
-            </div>
+            <>
+              {isOwner && (
+                <div
+                  onClick={(e) => onDelete(e.target)}
+                  className="absolute p-1 rounded-md bottom-1 right-2 z-100 border-2 border-gray bg-slate-200 cursor-pointer"
+                >
+                  {Icons.GARBAGE}
+                </div>
+              )}
+            </>
           )}
         </>
       )}

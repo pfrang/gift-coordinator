@@ -14,6 +14,7 @@ interface ItemTableProps {
   setEditItemIndex: (any) => void;
   setUsers: (prev) => void;
   setAddModalIsOpen: (boolean) => void;
+  setCurrentUsersList: (user) => void;
   userIndex: number;
   users: User[];
   user: User;
@@ -34,6 +35,7 @@ function ItemTable({
   users,
   setUsers,
   setAddModalIsOpen,
+  setCurrentUsersList,
 }: ItemTableProps) {
   const db = new MongoDB();
   const router = useRouter();
@@ -158,6 +160,7 @@ function ItemTable({
                     onDelete={onDelete}
                     onReserve={onReserve}
                     onRemoveReservation={onRemoveReservation}
+                    setCurrentUsersList={setCurrentUsersList}
                   />
                 );
               })}
