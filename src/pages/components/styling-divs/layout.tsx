@@ -5,7 +5,6 @@ import Footer from "../footer";
 import Header from "../header";
 
 const Wrapper = styled.div`
-  min-width: 100vh;
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;

@@ -115,8 +115,13 @@ function ItemTable({
     return updateCosmo;
   };
 
+  const openAddModal = () => {
+    setAddModalIsOpen(true);
+    setCurrentUsersList(user);
+  };
+
   return (
-    <div>
+    <div className="">
       <div className="border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1">
         <div className="flex items-center py-4 justify-between h-12">
           <h5 className="align-middle text-xs">
@@ -126,7 +131,7 @@ function ItemTable({
           {session && session.user.email === user.email && (
             <button
               className="rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs"
-              onClick={() => setAddModalIsOpen(true)}
+              onClick={() => openAddModal()}
             >
               <h5>Legg til ønske</h5>
             </button>

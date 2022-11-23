@@ -40,6 +40,14 @@ export interface LobbyProps {
 
 const PageWrapper = styled.div`
   margin: 0px 8rem;
+  @media (max-width: 768px) {
+    margin: 0px 2rem;
+    width: calc(100% - 100px);
+  }
+  @media (max-width: 480px) {
+    margin: 0px 1rem;
+    width: calc(100% - 200px);
+  }
 `;
 
 const ExtendedHeaderDiv = styled.div`
@@ -51,7 +59,14 @@ const ExtendedHeaderDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding: 0px 8rem;
+  @media (max-width: 768px) {
+    margin-left: -2rem;
+    margin-right: -2rem;
+  }
+  @media (max-width: 480px) {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
 `;
 
 const TwoColumnLayout = styled.div`
@@ -61,9 +76,12 @@ const TwoColumnLayout = styled.div`
   gap: 3rem;
   align-content: center;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  @media (max-width: 768px) {
+  @media (max-width: 1100px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
+  /* @media (max-width: 768px) {
+    width: calc(100% - 50px);
+  } */
 `;
 
 export default function LobbyPage({ response }: LobbyProps) {

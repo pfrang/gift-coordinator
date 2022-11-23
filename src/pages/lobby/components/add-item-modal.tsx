@@ -190,7 +190,7 @@ function AddItemModal({
     return itemUpdate;
   };
 
-  const isOwner = session?.user.email === currentUsersList;
+  const isOwner = session?.user.email === currentUsersList?.email;
 
   return (
     <>
