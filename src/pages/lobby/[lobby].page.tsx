@@ -42,11 +42,9 @@ const PageWrapper = styled.div`
   margin: 0px 8rem;
   @media (max-width: 768px) {
     margin: 0px 2rem;
-    width: calc(100% - 100px);
   }
   @media (max-width: 480px) {
     margin: 0px 1rem;
-    width: calc(100% - 200px);
   }
 `;
 
@@ -59,11 +57,14 @@ const ExtendedHeaderDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   text-align: center;
+  padding: 0px 8rem;
   @media (max-width: 768px) {
+    padding: 0px 2rem;
     margin-left: -2rem;
     margin-right: -2rem;
   }
   @media (max-width: 480px) {
+    padding: 0px 1rem;
     margin-left: -1rem;
     margin-right: -1rem;
   }
