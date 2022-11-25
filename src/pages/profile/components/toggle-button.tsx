@@ -19,7 +19,7 @@ const ButtonWrapper = styled.div`
   height: 100%;
   transition: background-color 200ms linear;
   :hover {
-    background-color: #b2adad;
+    background-color: #be185d8b;
   }
 `;
 
@@ -28,11 +28,11 @@ const HighlightedButtonWrapper = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-color: #847f7f;
+  background-color: #be185d;
   height: 100%;
   transition: background-color 200ms linear;
   :hover {
-    background-color: #b2adad;
+    background-color: #be185d8b;
   }
 `;
 

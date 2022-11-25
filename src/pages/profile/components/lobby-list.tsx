@@ -31,7 +31,7 @@ function LobbyList({ lobbies }) {
     cursor: pointer;
     transition: background-color 500ms linear;
     :hover {
-      background-color: #b2adad;
+      background-color: #be185d;
     }
   `;
 

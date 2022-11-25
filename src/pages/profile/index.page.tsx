@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Button from "../components/buttons/button";
-import Marginx20Div from "../components/styling-divs/divs/margin-x20-div";
 import { UserLobbyData } from "../api/mongodb/mongo-db-sl-api-client/mongo-db-api-client";
 import { Spinner } from "../../ui-kit/spinner/spinner";
 
@@ -19,6 +18,8 @@ const ItemsTable = styled.div`
   width: 800px;
   position: relative;
 `;
+
+const Wrapper = styled.div``;
 
 interface ResponseProps {
   ownerResponse: Record<string, string>[];
@@ -73,7 +74,7 @@ function Profile({ user }: User) {
   }, [isLoading, data, status]);
 
   return (
-    <Marginx20Div>
+    <>
       <div>
         <h5>{`Logget inn som ${user.user.email}`}</h5>
       </div>
@@ -123,7 +124,7 @@ function Profile({ user }: User) {
           </div>
         </div>
       </div>
-    </Marginx20Div>
+    </>
   );
 }
 
