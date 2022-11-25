@@ -92,7 +92,7 @@ function ListItem({
       ) : item.reserved ? (
         <>
           <td className="w-1/3">
-            <p className="text-xs px-5 break-words">{`Reserved`}</p>
+            <p className="text-xs px-5 break-words">Reservert</p>
             {/* // ${item.reserved_by.split("@")[0]}`} */}
           </td>
           <td className="w-1/3">
@@ -109,7 +109,7 @@ function ListItem({
       ) : (
         <>
           <td className="w-1/3">
-            <p className="text-xs px-5">Ingen</p>
+            <p className="text-xs px-5">Ikke reservert</p>
           </td>
           <td className="w-1/3">
             <button

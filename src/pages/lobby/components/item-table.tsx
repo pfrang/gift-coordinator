@@ -20,6 +20,10 @@ interface ItemTableProps {
   user: User;
 }
 
+const Wrapper = styled.div`
+  background-color: #0d1e45ef;
+`;
+
 const TableStyle = styled.table`
   display: table;
   table-layout: fixed;
@@ -121,8 +125,8 @@ function ItemTable({
   };
 
   return (
-    <div className="">
-      <div className="border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1">
+    <div>
+      <div className="border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1 bg-[#0d1e45ef]">
         <div className="flex items-center py-4 justify-between h-12">
           <h5 className="align-middle text-xs">
             {name}
@@ -148,7 +152,7 @@ function ItemTable({
             ) : (
               <tr className="table-row border-t-2 border-slate-400">
                 <th className="w-1/3">Tittel</th>
-                <th className="w-1/3">Reservert av</th>
+                <th className="w-1/3">Reservert?</th>
                 <th className="w-1/3">Reserver</th>
               </tr>
             )}

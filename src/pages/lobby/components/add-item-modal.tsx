@@ -276,15 +276,29 @@ function AddItemModal({
                 <label htmlFor="link">
                   <p>Link</p>
                 </label>
-                <input
-                  onChange={(e) => setLinkItem(e.target.value)}
-                  className="p-1 border-2 w-full"
-                  type="text"
-                  name="link"
-                  id=""
-                  value={linkItem}
-                  disabled={!isOwner}
-                />
+                {isOwner ? (
+                  <input
+                    onChange={(e) => setLinkItem(e.target.value)}
+                    className="p-1 border-2 w-full"
+                    type="text"
+                    name="link"
+                    id=""
+                    value={linkItem}
+                    disabled={!isOwner}
+                  />
+                ) : (
+                  <a target="_blank" href={`${linkItem}`}>
+                    <input
+                      onChange={(e) => setLinkItem(e.target.value)}
+                      className="p-1 border-2 w-full cursor-pointer"
+                      type="text"
+                      name="link"
+                      id=""
+                      value={linkItem}
+                      disabled={!isOwner}
+                    />
+                  </a>
+                )}
               </div>
             </div>
             {isOwner && (

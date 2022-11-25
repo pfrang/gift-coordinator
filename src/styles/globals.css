@@ -65,14 +65,14 @@ h3 {
 
 h4,
 th {
-  font-family: 'Anton';
+  font-family: 'Calibri';
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 h5 {
   margin: 0;
-  font-family: 'Anton';
+  font-family: 'Calibri';
   --tw-bg-opacity: 1;
   color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
