@@ -92,8 +92,8 @@ function ListItem({
       ) : item.reserved ? (
         <>
           <td className="w-1/3">
-            <p className="text-xs px-5 break-words">{`Reserved by
-            ${item.reserved_by.split("@")[0]}`}</p>
+            <p className="text-xs px-5 break-words">{`Reserved`}</p>
+            {/* // ${item.reserved_by.split("@")[0]}`} */}
           </td>
           <td className="w-1/3">
             {item.reserved_by === session.user.email && (
