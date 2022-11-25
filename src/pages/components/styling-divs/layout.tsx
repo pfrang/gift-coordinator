@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   background-color: #0d1e45ef;
-  overflow: hidden;
 `;
 
 function Layout({ children }) {

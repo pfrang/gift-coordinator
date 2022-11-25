@@ -40,11 +40,7 @@ export default function RightSide() {
         <Wrapper>
           <div></div>
           <div className="flex flex-col gap-4">
-            <h5 className="text-sm">
-              Bli kvitt stresset med å sende melding til hele slekta for å høre
-              om den og den tingen kan kjøpes.
-            </h5>
-            <p className="text-xs">
+            <p className="text-md mt-auto">
               Gjør det enkelt med GiftMe hvor uendelig mange personer kan
               befinne seg i samme lobby og reservere ønsker fra hverandre.
             </p>
