@@ -74,7 +74,7 @@ function Profile({ user }: User) {
   }, [isLoading, data, status]);
 
   return (
-    <>
+    <div>
       <div>
         <h5>{`Logget inn som ${user.user.email}`}</h5>
       </div>
@@ -124,7 +124,7 @@ function Profile({ user }: User) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
