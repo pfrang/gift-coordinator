@@ -34,8 +34,6 @@ function ListItem({
 
   const router = useRouter();
 
-  const [enlargeImage, setEnlargeImage] = useState(false);
-
   const openEditModal = () => {
     setAddModalIsOpen(true);
     setCurrentUsersList(user);
@@ -47,15 +45,14 @@ function ListItem({
     <tr className="border-t-2 border-slate-400 h-12">
       <td className="">
         <div
-          className="flex flex-col items-center"
+          className="flex flex-col items-center cursor-pointer"
           onClick={() => openEditModal()}
         >
           <div className="flex relative">
             <h5 className="pl-2">{item?.description}</h5>
             {session?.user.email !== user.email && (
-              // <div className="absolute -top-2 left-10 w-full hover:text-white cursor-pointer color-white">
               <>
-                <div className="absolute w-4 -top-2 -right-6 hover:bg-white cursor-pointer">
+                <div className="absolute w-4 -right-6 hover:bg-white cursor-pointer">
                   <Image src="/svg/information.svg" height={50} width={50} />
                 </div>
               </>
@@ -65,12 +62,7 @@ function ListItem({
           {item.img && (
             <div className="m-1 h-12">
               <img
-                onClick={() => setEnlargeImage(!enlargeImage)}
-                className={
-                  enlargeImage
-                    ? "absolute bottom-[50%] left-[30%] max-w-[50%] max-h-[70%] cursor-pointer"
-                    : "object-contain w-full h-full cursor-pointer"
-                }
+                className={"object-contain w-full h-full"}
                 src={`${process.env.NEXT_PUBLIC_BLOB_STORAGE_ENDPOINT}${lobbyId}/${item.img}`}
               />
             </div>

@@ -290,7 +290,7 @@ function AddItemModal({
                   <a target="_blank" href={`${linkItem}`}>
                     <input
                       onChange={(e) => setLinkItem(e.target.value)}
-                      className="p-1 border-2 w-full cursor-pointer"
+                      className="p-1 border-2 w-full cursor-pointer hover:bg-slate-700 hover:text-white"
                       type="text"
                       name="link"
                       id=""
