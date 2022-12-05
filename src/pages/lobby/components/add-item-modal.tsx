@@ -183,10 +183,6 @@ function AddItemModal({
       itemUpdate = addItem();
     }
     closeModal();
-
-    const reval = await apiClient.axiosInstance.get(
-      `/api/revalidate?path=${lobbyId}`
-    );
     return itemUpdate;
   };
 

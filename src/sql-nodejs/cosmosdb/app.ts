@@ -150,6 +150,7 @@ class MongoDB {
       link,
       itemIndex,
       price,
+      img,
     } = info;
     const set = "set" as const;
     const operations = [
@@ -172,6 +173,11 @@ class MongoDB {
         op: set,
         path: `/users/${userIndex}/items/${itemIndex}/link`,
         value: link ? link : "",
+      },
+      {
+        op: set,
+        path: `/users/${userIndex}/items/${itemIndex}/img`,
+        value: img ? img : "",
       },
     ];
 
