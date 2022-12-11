@@ -84,7 +84,9 @@ function ListItem({
       ) : item.reserved ? (
         <>
           <td className="w-1/3">
-            <p className="text-xs px-5 break-words">Reservert</p>
+            <p className="text-xs px-5 break-words">{`Reservert av ${
+              item.reserved_by.split("@")[0]
+            }`}</p>
             {/* // ${item.reserved_by.split("@")[0]}`} */}
           </td>
           <td className="w-1/3">
