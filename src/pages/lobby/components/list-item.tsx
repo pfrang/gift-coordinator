@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Icons } from "../../../icons/icons";
 import Button from "../../components/buttons/button";
 import { Item, User } from "../[lobby].page";
+import { useCurrentUser } from "../../../context/context";
 
 interface ListItemProps {
   setEditItemIndex: (any) => void;
@@ -30,7 +31,7 @@ function ListItem({
   setAddModalIsOpen,
   setCurrentUsersList,
 }: ListItemProps) {
-  const { data: session, status } = useSession();
+  const { currentUser } = useCurrentUser();
 
   const router = useRouter();
 
@@ -50,7 +51,7 @@ function ListItem({
         >
           <div className="flex relative">
             <h5 className="pl-2">{item?.description}</h5>
-            {session?.user.email !== user.email && (
+            {currentUser.email !== user.email && (
               <>
                 <div className="absolute w-4 -right-6 hover:bg-white cursor-pointer">
                   <Image src="/svg/information.svg" height={50} width={50} />
@@ -69,7 +70,7 @@ function ListItem({
           )}
         </div>
       </td>
-      {session?.user.email === user.email ? (
+      {user.email === currentUser.email ? (
         <>
           <td className="1-3">
             {/* <div className='flex gap-2 text-slate-200 align-middle'> */}
@@ -90,7 +91,7 @@ function ListItem({
             {/* // ${item.reserved_by.split("@")[0]}`} */}
           </td>
           <td className="w-1/3">
-            {item.reserved_by === session.user.email && (
+            {item.reserved_by === currentUser.email && (
               <button
                 className="rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs"
                 onClick={() => onRemoveReservation(idx)}

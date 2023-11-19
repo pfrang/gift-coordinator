@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 
+import { useCurrentUser } from "../../context/context";
+
 import MenuItems from "./menu-items";
 
 const HeaderComp = styled.header`
@@ -34,9 +36,14 @@ const MediaDiv = styled.div`
 `;
 
 function Header(props) {
-  const { data: session, status } = useSession();
+  const { currentUser } = useCurrentUser();
 
-  const arr = ["Home", "About", "Profile", session ? "Logout" : "Login"];
+  const arr = [
+    "Home",
+    "About",
+    "Profile",
+    currentUser.email ? "Logout" : "Login",
+  ];
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
 

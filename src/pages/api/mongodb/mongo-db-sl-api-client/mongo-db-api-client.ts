@@ -1,3 +1,4 @@
+import { UserZustand } from "../../../../context/context";
 import MongoDB from "../../../../sql-nodejs/cosmosdb/app";
 import { removeDuplicateObjectsInArray } from "../../../../utils/remove-duplicate-object-in-array";
 import { NextApiClient } from "../../next-api.client";
@@ -23,14 +24,16 @@ export abstract class MongoDBApiClient extends NextApiClient {
     return response;
   }
 
-  static async getUserData(user): Promise<UserLobbyData> {
-    const userQuery = `SELECT * from c where c.creator = '${user.user.email}'`;
+  static async getUserData(user: UserZustand): Promise<UserLobbyData> {
+    const userQuery = `SELECT * from c where c.creator = '${user.email}'`;
+
     const userResponse = this.db.read(userQuery).then((data) => data.resources);
-    const userStartedMakingAListQuery = `SELECT c.id, c.description FROM c JOIN t in c.users WHERE t.email = '${user.user.email}'`;
+
+    const userStartedMakingAListQuery = `SELECT c.id, c.description FROM c JOIN t in c.users WHERE t.email = '${user.email}'`;
     const userStartedMakingAListResponse = this.db
       .read(userStartedMakingAListQuery)
       .then((data) => removeDuplicateObjectsInArray(data.resources));
-    const lobbiesInvitedToQuery = `SELECT c.id, c.description FROM c JOIN t in c.invited_users WHERE t.to = '${user.user.email}'`;
+    const lobbiesInvitedToQuery = `SELECT c.id, c.description FROM c JOIN t in c.invited_users WHERE t.to = '${user.email}'`;
     const lobbiesInvitedToResponse = this.db
       .read(lobbiesInvitedToQuery)
       .then((data) => removeDuplicateObjectsInArray(data.resources));
@@ -39,6 +42,7 @@ export abstract class MongoDBApiClient extends NextApiClient {
       userStartedMakingAListResponse,
       lobbiesInvitedToResponse,
     ]);
+
     return {
       userResponse: response[0],
       userStartedToMakeAList: response[1],

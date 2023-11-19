@@ -18,6 +18,7 @@ function AddItemModal({
   setUsers,
   editItemIndex,
   currentUsersList,
+  currentUserData,
 }) {
   const [titleText, setTitleText] = useState("");
   const [quantityItem, setQuantityItem] = useState("");
@@ -29,12 +30,10 @@ function AddItemModal({
 
   const db = new MongoDB();
   const router = useRouter();
-  const { currentUser, setCurrentUser } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
 
   const apiClient = new NextApiClient();
-
-  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (editItemIndex.description) {
@@ -112,7 +111,7 @@ function AddItemModal({
           quantity: quantityItem,
           link: linkItem,
           img: imgName,
-          id: currentUser.items.length,
+          id: currentUserData.items.length,
         };
         users[userIndex].items.push(info);
       }
@@ -145,7 +144,7 @@ function AddItemModal({
     const info = {
       lobbyId: lobbyId,
       userIndex: userIndex,
-      itemIndex: currentUser.items.length,
+      itemIndex: currentUserData.items.length,
       description: titleText,
       link: linkItem,
       quantity: quantityItem,
@@ -186,7 +185,7 @@ function AddItemModal({
     return itemUpdate;
   };
 
-  const isOwner = session?.user.email === currentUsersList?.email;
+  const isOwner = currentUser.email === currentUsersList?.email;
 
   return (
     <>

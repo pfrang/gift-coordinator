@@ -2,10 +2,14 @@ import { Session } from "next-auth";
 import { useSession, signIn, signOut, getSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 import Button from "../components/buttons/button";
 import { UserLobbyData } from "../api/mongodb/mongo-db-sl-api-client/mongo-db-api-client";
 import { Spinner } from "../../ui-kit/spinner/spinner";
+import { useCurrentUser } from "../../context/context";
+import { CookieStorage } from "../cookie/token-storage";
+import { useShouldHydrate } from "../utils/should-hydrate";
 
 import ToggleButton from "./components/toggle-button";
 import { useMongoDB } from "./hooks/use-profile-mongodb";
@@ -52,31 +56,38 @@ interface UserHookData {
   error: any;
 }
 
-function Profile({ user }: User) {
+function Profile() {
   const [createdLobbies, setCreatedLobbies] = useState(undefined);
   const [startedMakingAListLobbies, setStartedMakingAListLobbies] =
     useState(undefined);
   const [lobbiesInvitedTo, setLobbiesInvitedTo] = useState(undefined);
   const [chosenLobbyType, setChosenLobbyType] = useState("contain");
+  const { currentUser, logOut } = useCurrentUser();
 
-  const { data, isLoading, error }: UserHookData = useMongoDB(user);
+  const { data, isLoading, error }: UserHookData = useMongoDB(currentUser);
 
-  const { status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (status === "authenticated") {
+    if (currentUser.email && data) {
       setCreatedLobbies(data.response.userResponse);
       setStartedMakingAListLobbies(data.response.userStartedToMakeAList);
       setLobbiesInvitedTo(data.response.userLobbiesInvitedTo);
     }
-  }, [isLoading, data, status]);
+  }, [isLoading, data, currentUser]);
+
+  const onLogout = () => {
+    new CookieStorage().deleteCookie();
+    logOut();
+    router.push("/");
+  };
 
   return (
     <div>
       <div>
-        <h5>{`Logget inn som ${user.user.email}`}</h5>
+        <h5>{`Logget inn som ${currentUser.email}`}</h5>
       </div>
       <div className="flex h-full justify-center items-center">
         <div className="flex flex-col gap-6 justify-center items-center h-full">
@@ -117,10 +128,7 @@ function Profile({ user }: User) {
             </ItemsTable>
           )}
           <div className="block">
-            <Button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              text={"Logg ut"}
-            ></Button>
+            <Button onClick={() => onLogout()} text={"Logg ut"}></Button>
           </div>
         </div>
       </div>
@@ -129,14 +137,3 @@ function Profile({ user }: User) {
 }
 
 export default Profile;
-
-export async function getServerSideProps({ req }) {
-  const user: Session = await getSession({ req });
-
-  return {
-    props: {
-      user,
-      requireAuthentication: true,
-    },
-  };
-}

@@ -1,7 +1,9 @@
 import axios from "axios";
 import useSWR from "swr";
 
-export const useMongoDB = (user) => {
+import { UserZustand } from "../../../context/context";
+
+export const useMongoDB = (user: UserZustand) => {
   const params = {
     user: user,
   };
@@ -14,7 +16,7 @@ export const useMongoDB = (user) => {
       .then((res) => res.data);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data, error } = useSWR("/api/mongodb", fetcher);
+  const { data, error } = useSWR(user.email ? "/api/mongodb" : null, fetcher);
 
   const isLoading = !data && !error;
 

@@ -7,6 +7,7 @@ import validator from "validator";
 
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { NextApiClient } from "../../api/next-api.client";
+import { useCurrentUser } from "../../../context/context";
 
 import { ModalWrapper } from "./modal.styles";
 
@@ -20,11 +21,11 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
   const [invitationLinkSent, setInvitationLinkSent] = useState(false);
   const [badEmail, setBadEmail] = useState(false);
   const router = useRouter();
-  let subtitle;
+
   const db = new MongoDB();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
-  const { data: session } = useSession();
   const apiClient = new NextApiClient();
+  const { currentUser } = useCurrentUser();
 
   const modalStyles = {
     content: {
@@ -71,7 +72,7 @@ function InviteModal({ modalIsOpen, setIsOpen }) {
     });
     const info = {
       lobbyId: lobbyId,
-      user: session?.user.email,
+      user: currentUser.email,
       userInvited: email,
     };
     setInvitationLinkSent(true);

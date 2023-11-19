@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import styled from "styled-components";
 
 import { removeNthElement } from "../../../utils/remove-nth-element";
 import MongoDB from "../../../sql-nodejs/cosmosdb/app";
 import { User } from "../[lobby].page";
 import { NextApiClient } from "../../api/next-api.client";
+import { useCurrentUser } from "../../../context/context";
 
 import ListItem from "./list-item";
 
@@ -44,7 +44,7 @@ function ItemTable({
   const db = new MongoDB();
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
-  const { data: session, status } = useSession();
+  const { currentUser, setCurrentUser } = useCurrentUser();
 
   const [startItems, setStartItems] = useState(user.items);
   const apiClient = new NextApiClient();
@@ -79,14 +79,14 @@ function ItemTable({
     const info = {
       id: lobbyId,
       userIndex: userIndex,
-      reservedBy: session.user.email,
+      reservedBy: currentUser.email,
       itemIndex: itemIndex,
     };
 
     setStartItems((prev) => {
       let prevData = [...prev];
       prevData[itemIndex].reserved = true;
-      prevData[itemIndex].reserved_by = session?.user.email;
+      prevData[itemIndex].reserved_by = currentUser.email;
       return prevData;
     });
 
@@ -101,7 +101,7 @@ function ItemTable({
     const info = {
       id: lobbyId,
       userIndex: userIndex,
-      reservedBy: session?.user.email,
+      reservedBy: currentUser.email,
       itemIndex: itemIndex,
     };
 
@@ -124,6 +124,8 @@ function ItemTable({
     setCurrentUsersList(user);
   };
 
+  const isCurrentUsersItem = currentUser.email === user.email;
+
   return (
     <div>
       <div className="border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1 bg-[#0d1e45ef]">
@@ -132,7 +134,7 @@ function ItemTable({
             {name}
             {`'s Wish List !`}
           </h5>
-          {session && session.user.email === user.email && (
+          {isCurrentUsersItem && (
             <button
               className="rounded-md shadow-md bg-pink-700 hover:bg-pink-800 p-2 text-xs"
               onClick={() => openAddModal()}
@@ -143,7 +145,7 @@ function ItemTable({
         </div>
         <TableStyle id={`list-${userIndex}`}>
           <tbody className="table-row-group text-center">
-            {session && session.user.email === user.email ? (
+            {isCurrentUsersItem ? (
               <tr className="table-row border-t-2 border-slate-400">
                 <th className="w-1/3">Tittel</th>
                 <th className="w-1/3">Rediger</th>

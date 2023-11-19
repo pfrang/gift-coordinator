@@ -98,6 +98,8 @@ export default function LobbyPage({ response }: LobbyProps) {
 
   const { currentUser, setCurrentUser } = useCurrentUser();
 
+  const [currentUserData, setCurrentUserData] = useState<User | null>(null);
+
   const db = new MongoDB();
 
   const apiClient = new NextApiClient();
@@ -105,25 +107,16 @@ export default function LobbyPage({ response }: LobbyProps) {
   const creator = response.creator;
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
-  const { data: session } = useSession();
-  const { status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      signIn();
-    },
-  });
 
   useEffect(() => {
-    if (status === "authenticated" && users) {
-      const foundUser = users.find(
-        (user) => user.email === session?.user.email
-      );
+    if (currentUser.email && users) {
+      const foundUser = users.find((user) => user.email === currentUser.email);
       const userIndex = users.indexOf(foundUser, 0);
 
       if (foundUser) {
         setShowClickStartbtn(false);
         setUserIndex(userIndex);
-        setCurrentUser(foundUser);
+        setCurrentUserData(foundUser);
       } else {
         setShowClickStartbtn(true);
       }
@@ -132,13 +125,13 @@ export default function LobbyPage({ response }: LobbyProps) {
     if (!addModalIsOpen) {
       setEditItemIndex({});
     }
-  }, [session, users, addModalIsOpen]);
+  }, [currentUser, users, addModalIsOpen]);
 
   const addUser = async (e) => {
     const query = {
       lobbyId: lobbyId,
-      email: session.user.email,
-      name: session.user.email.split("@")[0],
+      email: currentUser.email,
+      name: currentUser.email.split("@")[0],
     };
     const response = await db.addNewUser(query);
     const newUser = response.resource.users[0];
@@ -191,10 +184,11 @@ export default function LobbyPage({ response }: LobbyProps) {
           addModalIsOpen={addModalIsOpen}
           setAddModalIsOpen={setAddModalIsOpen}
           currentUsersList={currentUsersList}
+          currentUserData={currentUserData}
         />
         <ExtendedHeaderDiv>
           <div className="flex h-8 gap-1">
-            {creator === session.user.email ? (
+            {creator === currentUser.email ? (
               <>
                 <form onSubmit={onSubmit} className="">
                   <input
@@ -232,7 +226,7 @@ export default function LobbyPage({ response }: LobbyProps) {
               </div>
             )}
           </div>
-          {session && <h4>{editVal}</h4>}
+          {currentUser.email && <h4>{editVal}</h4>}
           <InviteModalButton setShowModal={openModal}>
             Invite friend
           </InviteModalButton>
@@ -301,7 +295,7 @@ export async function getStaticProps(context) {
   return {
     props: {
       response,
-      requireAuthentication: true,
+      // requireAuthentication: true,
     },
   };
 }
