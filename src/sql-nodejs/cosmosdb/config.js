@@ -6,7 +6,7 @@ const config = {
   databaseId: process.env.NEXT_PUBLIC_DATABASEID,
   AccountEndpoint: process.env.NEXT_PUBLIC_ACCOUNTENDPOINT,
   containerId: "Lobbies",
-  partitionKey: { kind: "Hash", paths: ["/category"] }
+  partitionKey: { kind: "Hash", paths: ["/category"] },
 };
 
 module.exports = config;

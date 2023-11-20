@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 
 import MongoDB from "../../sql-nodejs/cosmosdb/app";
 import { LoadingBar } from "../../ui-kit/loading-bar/loading-bar";
+import { useCurrentUser } from "../../context/context";
 
 interface CreatePageData {
   lobbyId: string;
@@ -12,21 +12,18 @@ interface CreatePageData {
 export default function CreatePage({ ...props }: CreatePageData) {
   const [createPageLoading, setCreatePageLoading] = useState(false);
   const lobbyId = (parseInt(props.lobbyId, 10) + 1).toString();
+  const [needToLogin, setNeedToLogin] = useState(false);
 
   const [text, setText] = useState("");
   const router = useRouter();
   const db = new MongoDB();
-  const { data: session, status } = useSession();
+
+  const { currentUser, setCurrentUser } = useCurrentUser();
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!currentUser.email) return setNeedToLogin(true);
     const errorTag = document.getElementById("error");
-
-    if (status !== "authenticated") {
-      errorTag.innerHTML =
-        '<h2 class="text: red"> You need to sign in before creating a lobby</h2>';
-      return;
-    }
 
     if (!text) {
       errorTag.innerHTML =
@@ -38,7 +35,7 @@ export default function CreatePage({ ...props }: CreatePageData) {
       const response = await db.createLobby({
         id: lobbyId,
         description: text,
-        creator: session.user.email,
+        creator: currentUser.email,
       });
       router.push(`/lobby/${lobbyId}`);
     } catch (err) {
@@ -77,6 +74,11 @@ export default function CreatePage({ ...props }: CreatePageData) {
             >
               Create
             </button>
+            {needToLogin && (
+              <p className="text-red-500 text-sm pt-2">
+                You need to sign in before creating a lobby
+              </p>
+            )}
           </form>
         </>
       )}

@@ -120,7 +120,7 @@ function AddItemModal({
     });
   };
 
-  const editItem = async () => {
+  const editItem = async (imageUpdate: boolean = false) => {
     const info = {
       lobbyId: lobbyId,
       userIndex: userIndex,
@@ -129,7 +129,7 @@ function AddItemModal({
       link: linkItem,
       quantity: quantityItem,
       price: itemPrice,
-      img: imgName,
+      img: imageUpdate ? "" : imgName,
     };
 
     updateUsersFrontEnd(true);
@@ -236,6 +236,7 @@ function AddItemModal({
                     imgName={imgName}
                     setImgName={setImgName}
                     lobbyId={lobbyId}
+                    editItem={editItem}
                   />
                 </div>
                 <div>
@@ -251,6 +252,7 @@ function AddItemModal({
                     id=""
                     value={quantityItem}
                     disabled={!isOwner}
+                    placeholder="Valgfritt"
                   />
                   <label htmlFor="price">
                     <p>Pris</p>
@@ -264,6 +266,7 @@ function AddItemModal({
                     id=""
                     value={itemPrice}
                     disabled={!isOwner}
+                    placeholder="Valgfritt"
                   />
                 </div>
               </div>
@@ -280,6 +283,7 @@ function AddItemModal({
                     id=""
                     value={linkItem}
                     disabled={!isOwner}
+                    placeholder="Valgfritt"
                   />
                 ) : (
                   <a target="_blank" href={`${linkItem}`}>

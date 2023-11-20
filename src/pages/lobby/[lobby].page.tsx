@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { signIn, useSession } from "next-auth/react";
 import styled from "styled-components";
 
 import MongoDB from "../../sql-nodejs/cosmosdb/app";
@@ -86,8 +85,9 @@ const TwoColumnLayout = styled.div`
 `;
 
 export default function LobbyPage({ response }: LobbyProps) {
+  const { currentUser, setCurrentUser } = useCurrentUser();
   const [edit, setEdit] = useState(true);
-  const [showClickStartbtn, setShowClickStartbtn] = useState(false);
+  const [showClickStartbtn, setShowClickStartbtn] = useState(true);
   const [users, setUsers] = useState(response.users);
   const [editVal, setEditVal] = useState(response.description);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -95,8 +95,6 @@ export default function LobbyPage({ response }: LobbyProps) {
   const [currentUsersList, setCurrentUsersList] = useState(undefined);
   const [userIndex, setUserIndex] = useState(0);
   const [editItemIndex, setEditItemIndex] = useState({});
-
-  const { currentUser, setCurrentUser } = useCurrentUser();
 
   const [currentUserData, setCurrentUserData] = useState<User | null>(null);
 
@@ -107,6 +105,12 @@ export default function LobbyPage({ response }: LobbyProps) {
   const creator = response.creator;
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
+
+  useEffect(() => {
+    if (!currentUser.email) {
+      router.push(`/login?callbackUrl=lobby/${lobbyId}`);
+    }
+  }, []);
 
   useEffect(() => {
     if (currentUser.email && users) {
@@ -176,7 +180,7 @@ export default function LobbyPage({ response }: LobbyProps) {
   return (
     <div id="root">
       <PageWrapper>
-        <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+        {/* <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} /> */}
         <AddItemModal
           editItemIndex={editItemIndex}
           setUsers={setUsers}
@@ -227,9 +231,9 @@ export default function LobbyPage({ response }: LobbyProps) {
             )}
           </div>
           {currentUser.email && <h4>{editVal}</h4>}
-          <InviteModalButton setShowModal={openModal}>
+          {/* <InviteModalButton setShowModal={openModal}>
             Invite friend
-          </InviteModalButton>
+          </InviteModalButton> */}
         </ExtendedHeaderDiv>
         {showClickStartbtn && (
           <div className="flex items-center justify-center gap-5">

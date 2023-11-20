@@ -11,6 +11,8 @@ function MenuItems(props) {
   const { currentUser, setCurrentUser } = useCurrentUser();
   const { shouldHydrate } = useShouldHydrate();
 
+  const path = router.asPath;
+
   useEffect(() => {
     currentUser.email && setInvalidProfileDirect(false);
   }, [currentUser]);
@@ -18,7 +20,7 @@ function MenuItems(props) {
   const onLogout = () => {
     new CookieStorage().deleteCookie();
     setCurrentUser({ email: "" });
-    router.push("/login");
+    router.push(`/login?callbackUrl=${path}`);
   };
 
   const redirect = (e) => {

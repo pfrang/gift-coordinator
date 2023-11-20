@@ -5,7 +5,7 @@ import BlobStorage from "../../../sql-nodejs/blob-storage/app";
 import { Spinner } from "../../../ui-kit/spinner/spinner";
 import { NextApiClient } from "../../api/next-api.client";
 
-function ImageHandling({ isOwner, lobbyId, imgName, setImgName }) {
+function ImageHandling({ isOwner, lobbyId, imgName, setImgName, editItem }) {
   const [fileSelected, setFileSelected] = useState(null);
   const [imgUploading, setImgUploading] = useState(false);
 
@@ -42,6 +42,7 @@ function ImageHandling({ isOwner, lobbyId, imgName, setImgName }) {
       `/api/revalidate?path=${lobbyId}`
     );
     setImgName("");
+    // await editItem(true);
   };
 
   const onFileChange = (event: any) => {

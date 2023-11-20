@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 import { useCurrentUser } from "../../context/context";
 import { CookieStorage } from "../cookie/token-storage";
 
@@ -5,6 +7,8 @@ const { v4: uuidv4 } = require("uuid");
 
 export const Login = () => {
   const { currentUser, setCurrentUser } = useCurrentUser();
+
+  const router = useRouter();
 
   const onLogout = (e) => {
     e.preventDefault();
@@ -20,6 +24,10 @@ export const Login = () => {
 
     new CookieStorage().setCookie(mailInput, 60);
     setCurrentUser({ email: mailInput });
+
+    if (router.query.callbackUrl) {
+      router.push(router.query.callbackUrl as string);
+    }
   };
 
   return (
@@ -35,7 +43,7 @@ export const Login = () => {
             <label htmlFor="email">
               <h5>Email</h5>
             </label>
-            <input required type="text" name="email" />
+            <input required type="email" name="email" />
 
             <span className="h-2" />
 

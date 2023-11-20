@@ -14,7 +14,9 @@ import { useShouldHydrate } from "./utils/should-hydrate";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const requireAuthentication = pageProps.requireAuthentication;
-  Modal.setAppElement("#root");
+  useEffect(() => {
+    Modal?.setAppElement("#root");
+  }, []);
 
   const { shouldHydrate } = useShouldHydrate();
 
