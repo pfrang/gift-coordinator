@@ -29,7 +29,8 @@ const TableStyle = styled.table`
   table-layout: fixed;
   margin-right: -1rem;
   margin-left: -1rem;
-  width: calc(100% + 2rem);
+  /* width: calc(100% + 2rem); */
+  width: 100%;
 `;
 
 function ItemTable({
@@ -127,8 +128,8 @@ function ItemTable({
   const isCurrentUsersItem = currentUser.email === user.email;
 
   return (
-    <div>
-      <div className="border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1 bg-[#0d1e45ef]">
+    <div className="flex flex-col items-center">
+      <div className="w-full border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1 bg-[#0d1e45ef]">
         <div className="flex items-center py-4 justify-between h-12">
           <h5 className="align-middle text-xs">
             {name}

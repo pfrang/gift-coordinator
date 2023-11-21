@@ -57,7 +57,6 @@ const ExtendedHeaderDiv = styled.div`
   align-items: center;
   text-align: center;
   padding: 0px 8rem;
-  max-width: 100%;
   @media (max-width: 768px) {
     padding: 0px 2rem;
     margin-left: -2rem;
@@ -81,7 +80,8 @@ const TwoColumnLayout = styled.div`
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
   @media (max-width: 768px) {
-    width: calc(100% - 75px);
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    width: 80%;
   }
 `;
 
