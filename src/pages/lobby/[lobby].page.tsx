@@ -57,6 +57,7 @@ const ExtendedHeaderDiv = styled.div`
   align-items: center;
   text-align: center;
   padding: 0px 8rem;
+  max-width: 100%;
   @media (max-width: 768px) {
     padding: 0px 2rem;
     margin-left: -2rem;
@@ -79,9 +80,9 @@ const TwoColumnLayout = styled.div`
   @media (max-width: 1100px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
-  /* @media (max-width: 768px) {
-    width: calc(100% - 50px);
-  } */
+  @media (max-width: 768px) {
+    width: calc(100% - 75px);
+  }
 `;
 
 export default function LobbyPage({ response }: LobbyProps) {
@@ -179,7 +180,7 @@ export default function LobbyPage({ response }: LobbyProps) {
 
   return (
     <div id="root">
-      <PageWrapper>
+      <div className="px-1">
         {/* <InviteModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} /> */}
         <AddItemModal
           editItemIndex={editItemIndex}
@@ -263,7 +264,7 @@ export default function LobbyPage({ response }: LobbyProps) {
               );
             })}
         </TwoColumnLayout>
-      </PageWrapper>
+      </div>
     </div>
   );
 }
