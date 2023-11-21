@@ -6,9 +6,8 @@ import Header from "../header";
 
 const Wrapper = styled.div`
   min-height: 100vh;
-
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  /* grid-template-rows: auto minmax(0, 1fr) auto; */
   background-color: #0d1e45ef;
 `;
 
