@@ -25,13 +25,8 @@ const MediaDiv = styled.div`
   @media (max-width: 1460px) {
     margin: 0px 3rem;
   }
-
   @media (max-width: 1280px) {
     margin: 0px 1rem;
-  }
-
-  @media (max-width: 768px) {
-    margin: 0px 2rem;
   }
 `;
 

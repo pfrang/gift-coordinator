@@ -76,9 +76,9 @@ const TwoColumnLayout = styled.div`
   gap: 3rem;
   align-content: center;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  /* @media (max-width: 1100px) {
+  @media (max-width: 1100px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
-  } */
+  }
   /* @media (max-width: 768px) {
     width: calc(100% - 50px);
   } */
