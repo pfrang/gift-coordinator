@@ -20,10 +20,6 @@ interface ItemTableProps {
   user: User;
 }
 
-const Wrapper = styled.div`
-  background-color: #0d1e45ef;
-`;
-
 const TableStyle = styled.table`
   display: table;
   table-layout: fixed;
@@ -131,7 +127,7 @@ function ItemTable({
     <div className="flex flex-col items-center">
       <div className="w-full border-2 border-blue-700 rounded-md shadow-md shadow-xl px-4 py-1 bg-[#0d1e45ef]">
         <div className="flex items-center py-4 justify-between h-12">
-          <h5 className="align-middle text-xs">
+          <h5 className="align-middle text-xs whitespace-normal">
             {name}
             {`'s Wish List !`}
           </h5>

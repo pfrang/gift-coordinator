@@ -6,7 +6,7 @@ import Header from "../header";
 
 const Wrapper = styled.div`
   height: 100dvh;
-  overflow: auto;
+  /* overflow: auto; */
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   background-color: #0d1e45ef;

@@ -48,16 +48,18 @@ const PageWrapper = styled.div`
 `;
 
 const ExtendedHeaderDiv = styled.div`
-  margin-left: -8rem;
-  margin-right: -8rem;
+  /* margin-left: -8rem;
+  margin-right: -8rem; */
+  /* padding-left: -1rem; */
+  margin-left: -0.25rem;
   background-color: #0d1e45ef;
   height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding: 0px 8rem;
-  @media (max-width: 768px) {
+  /* padding: 0px 8rem; */
+  /* @media (max-width: 768px) {
     padding: 0px 2rem;
     margin-left: -2rem;
     margin-right: -2rem;
@@ -66,7 +68,7 @@ const ExtendedHeaderDiv = styled.div`
     padding: 0px 1rem;
     margin-left: -1rem;
     margin-right: -1rem;
-  }
+  } */
 `;
 
 const TwoColumnLayout = styled.div`
@@ -75,13 +77,16 @@ const TwoColumnLayout = styled.div`
   padding-bottom: 2.5rem;
   gap: 3rem;
   align-content: center;
+
   grid-template-columns: repeat(2, minmax(0, 1fr));
   @media (max-width: 1100px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
   @media (max-width: 768px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    width: 80%;
+    display: flex;
+    justify-content: center;
+    /* grid-template-columns: repeat(1, minmax(0, 1fr));
+    width: 80%; */
   }
 `;
 
@@ -231,7 +236,7 @@ export default function LobbyPage({ response }: LobbyProps) {
               </div>
             )}
           </div>
-          {currentUser.email && <h4>{editVal}</h4>}
+          {/* {currentUser.email && <h4>{editVal}</h4>} */}
           {/* <InviteModalButton setShowModal={openModal}>
             Invite friend
           </InviteModalButton> */}

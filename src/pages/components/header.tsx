@@ -19,26 +19,25 @@ const MediaDiv = styled.div`
   display: flex;
   height: 100%;
   justify-content: space-between;
+  align-items: center;
   vertical-align: bottom;
   width: 100%;
-  margin: 0px 8rem;
+  padding: 0px 8rem;
   @media (max-width: 1460px) {
-    margin: 0px 3rem;
+    padding: 0px 3rem;
   }
   @media (max-width: 1280px) {
-    margin: 0px 1rem;
+    padding: 0px 1rem;
+  }
+  @media (max-width: 780px) {
+    padding: 0px 0px;
   }
 `;
 
 function Header(props) {
   const { currentUser } = useCurrentUser();
 
-  const arr = [
-    "Home",
-    "About",
-    "Profile",
-    currentUser.email ? "Logout" : "Login",
-  ];
+  const arr = ["Profile", currentUser.email ? "Logout" : "Login"];
   const router = useRouter();
   const lobbyId = router.asPath.split("/").pop().replace("?", "");
 
@@ -47,10 +46,12 @@ function Header(props) {
       <MediaDiv>
         <div className="mt-auto">
           <Link href="/">
-            <h2 className="rounded-sm cursor-pointer text-xl py-2">GiftMe</h2>
+            <h2 className="rounded-sm cursor-pointer text-xl phone:text-sm py-2">
+              GiftMe
+            </h2>
           </Link>
         </div>
-        <nav className="mt-auto mr-20">
+        <nav>
           <ul className="flex items-center gap-3 relative">
             {arr.map((menu, index) => {
               return <MenuItems items={menu} key={index} />;

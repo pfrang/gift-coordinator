@@ -19,7 +19,7 @@ const ItemsTable = styled.div`
   height: 200px;
   overflow: hidden;
   border: 2px solid #aeabab;
-  width: 800px;
+  width: 100%;
   position: relative;
 `;
 
