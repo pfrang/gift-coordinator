@@ -85,6 +85,7 @@ const TwoColumnLayout = styled.div`
   @media (max-width: 768px) {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     /* grid-template-columns: repeat(1, minmax(0, 1fr));
     width: 80%; */
   }
