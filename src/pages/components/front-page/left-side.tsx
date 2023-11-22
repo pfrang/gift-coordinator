@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   grid-template-rows: 1fr 1fr;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    display: block;
   }
 `;
 
@@ -50,7 +51,7 @@ function LeftSide(props) {
       <GridRow2>
         <div className="flex h-full justify-center">
           <ButtonsWrapper>
-            <div className="border-2 p-4 border-blue-700 rounded-md shadow-md flex flex-col justify-between">
+            <div className="h-fit border-2 p-4 border-blue-700 rounded-md shadow-md flex flex-col justify-between">
               <div className="flex flex-col gap-2">
                 <h4 className="text-md">Opprett lobby her</h4>
                 <p className="text-xs">
@@ -78,13 +79,12 @@ function LeftSide(props) {
                 </ButtonTextAndArrowWrapper>
               </div>
             </div>
-            <div className="border-2 p-4 border-pink-700 rounded-md shadow-md flex flex-col justify-between">
+            <div className="h-fit border-2 p-4 border-pink-700 rounded-md shadow-md flex flex-col justify-between">
               <div className="flex flex-col gap-2">
                 <h4 className="text-md">Hvordan fungerer det?</h4>
                 <p className="text-xs">
                   Trykk på knappen under for å se en kortfattet film om hvordan
-                  man lager lobby, inviterer venner, reserverer gjenstander fra
-                  andre og hvordan det vil se ut for de andre.
+                  man lager lobby
                 </p>
               </div>
               <div className="cursor-pointer rounded-sm shadow-md bg-pink-700 hover:bg-pink-800">

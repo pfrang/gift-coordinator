@@ -19,7 +19,7 @@ const ContentWrapper = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    margin: 0px 2rem;
+    margin: 0px 0px;
   }
 `;
 

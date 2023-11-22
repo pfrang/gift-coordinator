@@ -3,7 +3,7 @@ import "../styles/checkmark-btn.scss";
 import type { AppProps } from "next/app";
 import Modal from "react-modal";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import Layout from "./components/styling-divs/layout";
 import { useShouldHydrate } from "./utils/should-hydrate";
@@ -13,7 +13,6 @@ import { useShouldHydrate } from "./utils/should-hydrate";
 // config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
-  const requireAuthentication = pageProps.requireAuthentication;
   useEffect(() => {
     Modal?.setAppElement("#root");
   }, []);

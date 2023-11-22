@@ -8,6 +8,9 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
   width: 100%;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ImageContainer = styled.div`
