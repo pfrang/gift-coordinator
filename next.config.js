@@ -30,7 +30,7 @@ module.exports = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "frame-ancestors 'self'; style-src 'self' 'unsafe-inline'",
+            value: "frame-ancestors 'self' https://my-profile-page-phi.vercel.app/; style-src 'self' 'unsafe-inline'",
           },
           {
             key: "Permissions-Policy",
