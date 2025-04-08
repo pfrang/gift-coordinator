@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useSession } from "next-auth/react";
@@ -272,32 +273,22 @@ function AddItemModal({
               </div>
               <div>
                 <label htmlFor="link">
-                  <p>Link</p>
+                  <div className="flex justify-between">
+                    <p>Link</p>
+                    <a  href={linkItem} target="_blank" rel="noopener noreferrer">
+                    <Image src="/svg/hyperlink.svg" alt="link" width={32} height={32} />
+                    </a>
+                  </div>
                 </label>
-                {isOwner ? (
-                  <input
-                    onChange={(e) => setLinkItem(e.target.value)}
-                    className="p-1 border-2 w-full"
-                    type="text"
-                    name="link"
-                    id=""
-                    value={linkItem}
-                    disabled={!isOwner}
-                    placeholder="Valgfritt"
-                  />
-                ) : (
-                  <a target="_blank" href={`${linkItem}`}>
-                    <input
-                      onChange={(e) => setLinkItem(e.target.value)}
-                      className="p-1 border-2 w-full cursor-pointer hover:bg-slate-700 hover:text-white"
-                      type="text"
-                      name="link"
-                      id=""
-                      value={linkItem}
-                      disabled={!isOwner}
-                    />
-                  </a>
-                )}
+                <input
+                  onChange={(e) => setLinkItem(e.target.value)}
+                  className={`p-1 border-2 w-full ${!isOwner && 'bg-gray-500'}`}
+                  type="text"
+                  name="link"
+                  id=""
+                  value={linkItem}
+                  disabled={!isOwner}
+                />
               </div>
             </div>
             {isOwner && (
