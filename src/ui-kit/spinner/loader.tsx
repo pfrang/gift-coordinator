@@ -1,7 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-// import Logo from "./logo.svg";
-import Logo from "./test";
+import Logo from "./logo.svg";
 
 export const Wrapper = styled.div`
   width: 100%;

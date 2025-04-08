@@ -20,7 +20,7 @@ interface ItemTableProps {
   user: User;
 }
 
-const TableStyle = styled.table`
+const TableStyle = styled.table<{ id?: string; children?: React.ReactNode }>`
   display: table;
   table-layout: fixed;
   margin-right: -1rem;

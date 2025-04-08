@@ -1,6 +1,9 @@
 import styled, { keyframes } from "styled-components";
 
-const StyledSpinner = styled.svg`
+const StyledSpinner = styled.svg<{
+  viewBox?: string;
+  children?: React.ReactNode;
+}>`
   animation: rotate 2s linear infinite;
   margin: -25px 0 0 -25px;
   width: 50px;

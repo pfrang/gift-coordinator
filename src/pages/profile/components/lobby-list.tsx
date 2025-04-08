@@ -22,7 +22,7 @@ function LobbyList({ lobbies }) {
     }
   `;
 
-  const ItemTable = styled.div`
+  const ItemTable = styled.div<{ onClick?: any; key?: any; children?: React.ReactNode }>`
     padding: 5px;
     width: 100%;
     border-bottom: 2px solid black;

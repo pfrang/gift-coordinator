@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = styled.button`
+const Button = styled.button<{ onClick?: any; children?: React.ReactNode }>`
   font-size: 0.75rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
